@@ -99,31 +99,12 @@ const menu = (
     <div className=" flex justify-between items-center shadow-xl mb-[24px] p-[16px] rounded-md !bg-primaryBg"> 
     {/* <Toaster /> */}
      <div className="text-white">
-      <p className="text-header text-whiteText font-medium">Webcome !</p>
+      <p className="text-header text-whiteText font-medium">Welcome !</p>
       {/* <h1>{profile?.data?.attributes?.name}</h1> */}
       <h1 className="text-whiteText">{"absayed"}</h1>
      </div>
 
-      <div className="flex gap-5">
-        {/* <Dropdown overlay={menu} placement="bottomRight" arrow> */}
-        <div
-          onClick={(e) => navigate("/dashboard/notification")}
-          className="relative flex items-center"
-        >
-          <Badge style={{ backgroundColor: "red", marginTop:'10px', marginRight:'5px' }} count={2}>
-            <IoIosNotificationsOutline
-              style={{ cursor: "pointer" }}
-              className={` bg-primary w-[52px] h-[52px] text-[#Ffffffff] border-2 border-[#e7e0e0] rounded-full p-2 `}
-            />
-          </Badge>
-        </div>
-        {/* </Dropdown> */}
-        {/* <div
-          onClick={() => navigate("/dashboard/profile")}
-          className="flex items-center cursor-pointer mr-[30px] bg-primary text-white rounded-full p-1"
-        >
-          <FaRegUser className="text-[#Ffff] border-2 border-[#Fffff] rounded-full p-2 w-[52px] h-[52px]" />
-        </div> */}
+      <div className="flex gap-5"> 
         <div>
         <Dropdown className="px-2" overlay={menu} trigger={['click']} onVisibleChange={handleMenuVisibility}>
     <a className="flex items-center text-white cursor-pointer text-whiteText">

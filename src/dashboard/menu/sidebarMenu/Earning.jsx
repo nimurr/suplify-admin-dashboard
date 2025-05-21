@@ -1,232 +1,79 @@
-import { Input, Modal, DatePicker, Space, Table, Button } from "antd";
-import { BsInfoCircle } from "react-icons/bs";
-import { useState } from "react";
-import users from './../../../../public/image/users.jpg'
-import { CloseOutlined } from "@ant-design/icons";
-import styles from './style.module.css'
- 
- 
-const { Search } = Input;
- 
-const dataSource = [
-    {
-      key: '1', 
-      customerName: 'Bashar Islam',
-      date: '16 Apr 2024',
-      Amount:'45',
-      Type: 'player',
-    },
-    {
-      key: '2', 
-      customerName: 'Bashar Islam',
-      date: '16 Apr 2024',
-      Amount:'45',
-      Type: 'player',
-    },
-    {
-      key: '3', 
-      customerName: 'Bashar Islam',
-      date: '16 Apr 2024',
-      Amount:'45',
-      Type: 'player',
-    },
-     
-]
-const Earning = () => {
- 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+import React from 'react';
 
- 
-// const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
- 
-  const columns = [
-    {
-      title: "#SI",
-      dataIndex: "si",
-      key: "si",
-      render: (text,_,index) => index + 1,
-    },
-    {
-      title: "User Name",
-      dataIndex: "customerName",
-      key: "name",
-      render: (_, record) => (
-        <div className="flex gap-2 items-center">
-          <img
-            className="w-[34px] h-[34px] rounded-full"
-            src={users}
-            alt=""
-          />
-          {/* <p className="font-medium">{record?.customerName}</p> */}
-          <p className="font-medium">AbSayed</p>
-        </div>
-      ),
-    },
-   
-    {
-      title: "Type",
-      dataIndex: "Type",
-      key: "type",
-      render: (_, record) => (
-        <p>{(record?.Type) ?  record?.Type : "Apple Or Facebook User"}</p>
-      )
-    },
-    {
-      title: 'Amount',
-      dataIndex: 'Amount',
-      key: 'phone',
-    },
-    {
-      title: "Date",
-      key: "date",
-      dataIndex: "date",
-      render: (_, record) => (
-        // <p>{record?.createdAt?.split("T")[0] ? record?.createdAt?.split("T")[0] : "N/A"}</p>
-        <p>34/04/24</p>
-      )
-    },
-    
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-         
-            <BsInfoCircle  onClick={() => handleView(record)}  size={18} className="text-[red] cursor-pointer" />
-          
-          {/* <a><RxCross2 size={18} className='text-[red]'/></a> */}
-        </Space>
-      ),
-    },
-  ];
-  
-  const handleView = () => {
-    // setUser(value);
-    // console.log(value)
-    setIsModalOpen(true);
-  };
-//   const onChange = (date, dateString) => {
-//     console.log(date, dateString);
-//   };
-//   console.log(user);
-//   const handleChangePage = (page) => {
-//     setCurrentPage(page);
-//     console.log(page);
-//   };
-const onSearch = (value, _e, info) => console.log(info?.source, value);
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
+const earningsData = [
+  {
+    title: "Today earning",
+    count: 1,
+    amount: 190,
+    highlight: true,
+  },
+  {
+    title: "Last week earning",
+    count: 3,
+    dateRange: "1 Jan - 6 Jan",
+    amount: 100,
+  },
+  {
+    title: "This month earning",
+    count: 7,
+    month: "January",
+    amount: 105,
+  },
+  {
+    title: "Previous month earning",
+    count: 10,
+    month: "February",
+    amount: 113,
+  },
+  {
+    title: "Total earning",
+    count: 110,
+    amount: 2500,
+    isTotal: true,
+  },
+];
+
+const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTotal }) => {
   return (
-    <div className="">
-       
-      <div className="rounded-t-lg mt-[24px]">
-        <div className="flex py-[22px] justify-between items-center">
-          <div>
-          <p className="text-header">Earning</p>
-          </div>
-          <div>
-          <Space direction="vertical">
-    <DatePicker onChange={onChange} />
-   
-  </Space>
-          <Search style={{
-            width:"200px",
-            marginLeft:'4px'
-          }} placeholder="input search text" onSearch={onSearch} enterButton />
-          </div>
-         
-          
-        </div>
-        <Table
-        pagination={{
-          total: dataSource.length,
-          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-          defaultPageSize: 1,
-          showSizeChanger: false,
-          itemRender: (current, type, originalElement) => {
-            if (type === 'prev') {
-              return <Button className={styles.paginationButton}>Back</Button>;
-            }
-            if (type === 'next') {
-              return <Button className={styles.paginationButton}>Next</Button>;
-            }
-            return originalElement;
-          },
-          className: styles.paginationCenter,
-        }}
-          columns={columns}
-          dataSource={dataSource}
-        />
-      </div>
-      <Modal
-        open={isModalOpen}
-        onOk={() => setIsModalOpen(false)}
-        onCancel={() => setIsModalOpen(false)}
-        footer={[]}
-        closeIcon={
-          <CloseOutlined
-            style={{
-              color: "white", // Icon color
-              backgroundColor: "#de0a26", // Background color of the close icon
-              borderRadius: "10%", // Rounded background
-              padding: "10px", // Padding inside the background
-            }}
-          />
-        }
-      >
+    <div
+      className={`p-4 rounded-lg shadow-sm flex justify-between items-center ${
+        highlight ? "bg-pink-50" : "bg-white"
+      }`}
+      style={{ minWidth: isTotal ? "18rem" : "14rem" }}
+    >
       <div>
-        <div className="flex justify-center items-center gap-2 flex-col border-b border-b-gray-300">
-          <p className="text-[26px] mb-[16px] font-medium">Transaction Details</p>
-        </div>
-        <div  className="p-[20px]">
-        <div className="flex justify-between border-b py-[16px]">
-            <p>Full Name:</p>
-            <p>
-              {/* {user?.name ? user?.name : "N/A"} */}
-              absayed
-            </p>
-          </div>
-        
-         
-          <div className="flex justify-between border-b py-[16px] ">
-            <p>Email:</p>
-            <p>
-              {/* {user?.email ? user?.email : "N/A"} */}
-              ab@gmail.com
-            </p>
-          </div>
-          <div className="flex justify-between border-b py-[16px]">
-            <p>Phone:</p>
-            <p>
-              {/* {user?.phone ? user?.phone : "N/A"} */}
-              +45269875
-            </p>
-          </div>
-          <div className="flex justify-between border-b py-[16px]">
-            <p>Date:</p>
-            <p>
-              {/* {user?.createdAt  ? user?.createdAt?.split("T")[0] : "N/A"} */}
-              23-11-24
-            </p>
-          </div>
-          <div className="flex justify-between items-center pt-[16px]">
-            <p>address:</p>
-            <p className="px-[15px] py-[10px] rounded-lg">
-              {/* Regular P550 */}
-              UK
-            </p>
-          </div>
-
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="px-2 py-2 bg-slate-100 border-2 rounded-e-md w-[50%]">Downloard</button>
-          <button className="px-2 py-2 bg-[#193664] text-white rounded-s-md w-[50%]">Print</button>
-        </div>
+        <p className="text-sm text-gray-500">
+          {title}
+        </p>
+        <p className="font-semibold text-lg">
+          {count}
+        </p>
+        {(dateRange || month) && (
+          <p className="text-xs text-gray-400 mt-1">
+            {dateRange || month}
+          </p>
+        )}
       </div>
-      </Modal>
+      <div className="text-right">
+        <p className="text-sm text-gray-500 mb-1">Earn</p>
+        <p className={`font-bold text-lg ${isTotal ? "text-xl" : ""}`}>
+          ${amount}
+        </p>
+      </div>
     </div>
   );
 };
 
-export default Earning;
+const EarningsDashboard = () => {
+  return (
+    <div className=" mx-auto p-6 grid grid-cols-3 gap-4">
+      {earningsData.map((item, index) => (
+        <div className='border py-4 rounded-lg'> 
+          <EarningsCard key={index} {...item} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default EarningsDashboard;

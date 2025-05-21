@@ -24,6 +24,8 @@ import Earning from "../dashboard/menu/sidebarMenu/Earning";
 import Settings from "../dashboard/menu/sidebarMenu/Settings";
 import Store from "../dashboard/menu/sidebarMenu/Store";
 import ViewProfile from "../dashboard/menu/sidebarMenu/ViewProfile";
+import ViewStore from "../dashboard/menu/sidebarMenu/ViewStore";
+import SupplementCreateForm from "../dashboard/menu/sidebarMenu/CreateSuppliment";
 
 
 export const router = createBrowserRouter([
@@ -68,6 +70,14 @@ export const router = createBrowserRouter([
             {
                 path: "store",
                 element: <Store />
+            },
+            {
+                path: "store/view-store",
+                element: <ViewStore />
+            },
+            {
+                path: "store/view-store/create-suppliment",
+                element: <SupplementCreateForm />
             },
             {
                 path:"user",

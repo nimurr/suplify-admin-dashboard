@@ -28,7 +28,7 @@ const PrivacyPolicy = () => {
     <div className="h-[575px]">
       <div className="mt-8 mx-6">
         <Link to='/dashboard/settings' className="flex items-center gap-2">
-          <FaCircleArrowLeft className="text-primaryBg w-8 h-8" />
+          <FaCircleArrowLeft className="text-[#CC2124] w-8 h-8" />
           <p className="font-semibold text-[30px]">Privacy Policy</p>
         </Link>
         <div className='mt-4'>
@@ -39,7 +39,7 @@ const PrivacyPolicy = () => {
         <div className="text-right mt-16"> 
           <button 
             onClick={() => navigate(`/dashboard/settings/editprivacypolicy`)} 
-            className="h-[44px] w-[260px] !text-white !bg-primaryBg rounded-[8px]"
+            className="h-[44px] w-[260px] text-[#FFFFFF] !bg-[#CC2124] rounded-[8px]"
           >
             Edit
           </button>

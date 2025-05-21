@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Input, Card, Typography } from "antd";
-import { CheckCircleOutlined, EyeOutlined, DownloadOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -38,10 +39,14 @@ export default function ViewProfile() {
     link.download = user.document.name;
     link.click();
   };
-
+const navigate = useNavigate()
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+      <div className="flex item-center gap-2">
+
+      <ArrowLeftOutlined onClick={() => navigate('/dashboard/user')} className="text-[28px] cursor-pointer"></ArrowLeftOutlined>
       <Title level={4} className="mb-6">User Profile</Title>
+      </div>
 
       <Card className="mb-6 flex items-center space-x-4">
         <div className="relative">

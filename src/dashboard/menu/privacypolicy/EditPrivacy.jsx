@@ -72,7 +72,7 @@ const [content, setContent] = useState("");
     <div className="mt-8 mx-6">
   
         <Link to ='/dashboard/settings/privacypolicy' className="flex items-center gap-2">
-      <FaCircleArrowLeft className=" text-primaryBg w-8 h-8" />
+      <FaCircleArrowLeft className=" text-[#CC2124] w-8 h-8" />
         <p className=" font-semibold text-[30px]">Edit Privacy Policy</p>
       </Link>
       <Form
@@ -99,7 +99,7 @@ const [content, setContent] = useState("");
           <Form.Item>
             <Button 
               htmlType="submit"
-              className=" h-[44px] w-[260px] !text-white !bg-primaryBg rounded-[8px]"
+              className=" h-[44px] w-[260px] !text-[#FFFFFF] !bg-[#CC2124] rounded-[8px]"
             >
               Update Privacy
             </Button>

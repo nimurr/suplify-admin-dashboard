@@ -1,7 +1,7 @@
  
 
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from '../../public/image/logo.png'
+import logo from '../../public/image/logod.png'
 // import logo from '../../public/image/logo.png'
 import { FaDollarSign, FaPersonRunning, FaSackDollar, FaUser, FaUsers, FaUsersLine } from "react-icons/fa6";
 import { MdCategory, MdOutlineMedicalServices, MdSubscriptions } from "react-icons/md";
