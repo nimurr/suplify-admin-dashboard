@@ -69,7 +69,7 @@ const UpdatePassword = () => {
         </div>
         <div className="mt-[150px]">
         <div className="flex items-center gap-2">
-         <MdOutlineArrowBackIos className="text-2xl" />
+         <MdOutlineArrowBackIos onClick={() => navigate('/verifyotp')} className="text-2xl cursor-pointer"/>
 
           <h1 className="text-[#222222] font-medium text-xl md:text-2xl">
             Update Pssword!
@@ -118,7 +118,7 @@ const UpdatePassword = () => {
             // loading={isLoading}
               type="primary"
               htmlType="submit"
-             className="block w-full h-[52px] px-2 py-4 mt-2 !text-white !bg-primaryBg"
+              className="block w-full h-[52px] px-2 py-4 mt-2 !text-[#FFFFFF] !bg-[#CC2124]"
             >
               Update Password
             </Button>

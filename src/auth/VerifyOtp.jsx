@@ -23,6 +23,7 @@ const VerifyOtp = () => {
     //  }
 
     const sendOtp = async() => { 
+        navigate(`/updatepassword`)
         console.log(otp);
         // navigate(`/updatepassword`)
         // try{
@@ -45,7 +46,7 @@ const VerifyOtp = () => {
 
     return (
         <div className='w-full max-w-[1296px] shadow-xl mt-12 sm:mt-24 mx-auto rounded-[8px] p-4 sm:p-10'>
-            <Toaster position='top-center' reverseOrder = {false} />
+            {/* <Toaster position='top-center' reverseOrder = {false} /> */}
             
             <div className="flex flex-col sm:flex-row md:justify-around justify-between items-center gap-4 sm:gap-10">
                 <div className='w-full sm:w-[480px] flex justify-center sm:justify-start'>
@@ -94,7 +95,7 @@ const VerifyOtp = () => {
                         {/* <p className="text-red-500 font-medium">{error}</p> */}
                      
                         <Button  onClick={sendOtp} 
-                         className="block w-full h-[52px] px-2 py-4 mt-2 !text-white !bg-primaryBg">
+                          className="block w-full h-[52px] px-2 py-4 mt-2 !text-[#FFFFFF] !bg-[#CC2124]">
                             Verify
                         </Button>
                     

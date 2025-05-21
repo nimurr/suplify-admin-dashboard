@@ -15,7 +15,7 @@ const ForgotPassword = () => {
  
   const handleForgotPassword = async(values) => {
     console.log("Received values:", values);
-    // navigate(`/verifyotp`);
+    navigate(`/verifyotp`);
     // try{
     //   const res = await forgotpassword(values).unwrap()
     //   // console.log(res);
@@ -114,7 +114,7 @@ const ForgotPassword = () => {
             //   loading = {isLoading}
                 type="primary"
                 htmlType="submit"
-          className="block w-full h-[52px] px-2 py-4 mt-2 !text-white !bg-primaryBg"
+          className="block w-full h-[52px] px-2 py-4 mt-2 !text-[#FFFFFF] !bg-[#CC2124]"
               >
                 Send OTP
               </Button>
