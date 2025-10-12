@@ -116,7 +116,6 @@ export const router = createBrowserRouter([
                 path:'settings/editabout',
                 element:<EditAbout />
             },
-             
         ]
     }
 ])
