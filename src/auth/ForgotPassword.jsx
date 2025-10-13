@@ -46,7 +46,7 @@ const ForgotPassword = () => {
       <div className="flex flex-col md:flex-row justify-around gap-4 px-6 md:px-10 py-8 md:py-4">
         
         {/* Image Section */}
-        <div className="hidden md:block mt-4 md:mt-[80px] w-full md:w-[490px] h-[300px] md:h-[460px] mx-auto md:mx-0">
+        <div className="hidden lg:block mt-4 md:mt-[80px] w-full md:w-[490px] h-[300px] md:h-[460px] mx-auto md:mx-0">
           <img src={character} alt="Forgot Password" className="w-full h-full object-cover" />
         </div>
 
