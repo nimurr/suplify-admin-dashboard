@@ -8,7 +8,7 @@ import EarningsDashboard from '../menu/sidebarMenu/Earning';
  
 
 const DashboardHome = () => {
- 
+
     return (
         <div>
             <EarningsDashboard />

@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "home",
-                element: <DashboardHome />
+                element: <DashboardHome /> 
             },
             {
                 path: "notification",
