@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { BiLock } from 'react-icons/bi';
- 
+import { useAdminLoginMutation } from '../redux/features/auth/login';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Login = () => {
     const [checkboxError, setCheckboxError] = useState('');
@@ -12,7 +14,7 @@ const Login = () => {
     const navigate = useNavigate()
     const fcmToken = "Your-demo-fcm-token"; // Hardcoded demo FCM token
     const [error, setError] = useState('')
- 
+
 
     const handleCheckboxChange = (e) => {
         setIsChecked(e.target.checked);
@@ -21,48 +23,49 @@ const Login = () => {
         }
     };
 
-    const onFinish = async(values) => {
+    const [adminLogin] = useAdminLoginMutation()
+
+    const onFinish = async (values) => {
 
         if (!isChecked) {
             setCheckboxError('You must agree to the terms');
             return;
         }
         console.log(values);
-        navigate('/dashboard/home')
 
-        // // Include the fcmToken in the submitted values
-        // const formData = {
-        //     ...values,
-        //     fcmToken: fcmToken // Add fcmToken to the submission
-        // };
-        
-        // try{
-        //     const res = await adminLogin(formData).unwrap();
-        //     // console.log(res);
-        //     if(res?.code == 200){
-        //         toast.success(res?.message)
-        //          localStorage.setItem('user',JSON.stringify(res?.data?.attributes))
-        //          localStorage.setItem('token', res?.data?.attributes?.tokens?.access?.token)
+        // Include the fcmToken in the submitted values
+        const formData = {
+            ...values,
+            fcmToken: fcmToken // Add fcmToken to the submission
+        };
 
-                
-        //     }
-        //     setTimeout(() => {
-                
-        //         navigate('/dashboard/home')
-        //     }, 1000);
-            
-        // }catch(error){
-        //     console.log(error);
-        //     setError(error?.data?.message)
-            
-        // }
-       
+        try {
+            const res = await adminLogin(formData).unwrap();
+            // console.log(res);
+            if (res?.code == 200) {
+                toast.success(res?.message)
+                localStorage.setItem('user', JSON.stringify(res?.data?.attributes))
+                localStorage.setItem('token', res?.data?.attributes?.tokens?.access?.token)
+
+
+            }
+            // setTimeout(() => {
+
+            //     navigate('/dashboard/home')
+            // }, 1000);
+
+        } catch (error) {
+            console.log(error);
+            setError(error?.data?.message)
+            toast.error(error?.data?.message)
+        }
+
 
     };
 
     return (
         <div className="mt-12 h-auto md:h-[680px] shadow-xl w-[80%] md:w-[1096px] mx-auto bg-white rounded-[8px]">
-        
+            <Toaster />
             <div className="flex flex-col-reverse md:flex-row justify-around gap-4 px-6 md:px-10 mt-4 md:mt-8 py-4">
                 <div className="h-[200px] hidden md:block md:h-[488px] mt-4 md:mt-[100px]">
                     <img src={signin} alt="Signin" className="w-full h-full object-cover" />
@@ -115,7 +118,7 @@ const Login = () => {
                                 <Checkbox className="text-black" checked={isChecked} onChange={handleCheckboxChange}>
                                     Remember me
                                 </Checkbox>
-                                {checkboxError && <p className="text-red-500 font-medium">{checkboxError}</p>}
+                                {checkboxError && <p className="text-red-500 font-medium text-[#e92525] mt-2">{checkboxError}</p>}
                             </Form.Item>
                             <div className="mb-4 flex justify-between items-center">
                                 <Link to="/forgotpassword">

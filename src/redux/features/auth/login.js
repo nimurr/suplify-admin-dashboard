@@ -12,4 +12,4 @@ const adminLogin = apiSlice.injectEndpoints({
     })
 })
 
-  export const {useAdminLoginMutation} = adminLogin;
+export const { useAdminLoginMutation } = adminLogin;
