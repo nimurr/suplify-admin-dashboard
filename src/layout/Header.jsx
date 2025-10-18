@@ -96,12 +96,12 @@ const menu = (
 
 
   return (
-    <div className=" flex justify-between items-center shadow-xl mb-[24px] p-[16px] rounded-md !bg-primaryBg"> 
+    <div className=" flex justify-between items-center border border-[#dddddd] mb-[24px] p-[16px] rounded-md !bg-primaryBg"> 
     {/* <Toaster /> */}
      <div className="text-white">
-      <p className="text-header text-whiteText font-medium">Welcome !</p>
+      <p className="text-header text-2xl text-whiteText font-medium">Welcome 👋</p>
       {/* <h1>{profile?.data?.attributes?.name}</h1> */}
-      <h1 className="text-whiteText">{"absayed"}</h1>
+      <h1 className="text-whiteText capitalize">{"absayed"}</h1>
      </div>
 
       <div className="flex gap-5"> 

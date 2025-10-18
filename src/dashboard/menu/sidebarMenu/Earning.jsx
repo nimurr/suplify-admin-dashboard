@@ -36,16 +36,15 @@ const earningsData = [
 const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTotal }) => {
   return (
     <div
-      className={`p-4 rounded-lg shadow-sm flex justify-between items-center ${
-        highlight ? "bg-pink-50" : "bg-white"
-      }`}
+      className={`p-4 rounded-lg flex justify-between items-center ${highlight ? "bg-pink-50" : "bg-white"
+        }`}
       style={{ minWidth: isTotal ? "18rem" : "14rem" }}
     >
       <div>
         <p className="text-sm text-gray-500">
           {title}
         </p>
-        <p className="font-semibold text-lg">
+        <p className="font-semibold text-2xl">
           {count}
         </p>
         {(dateRange || month) && (
@@ -56,7 +55,7 @@ const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTot
       </div>
       <div className="text-right">
         <p className="text-sm text-gray-500 mb-1">Earn</p>
-        <p className={`font-bold text-lg ${isTotal ? "text-xl" : ""}`}>
+        <p className={`font-bold text-4xl ${isTotal ? "text-xl" : ""}`}>
           ${amount}
         </p>
       </div>
@@ -66,9 +65,9 @@ const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTot
 
 const EarningsDashboard = () => {
   return (
-    <div className=" mx-auto p-6 grid grid-cols-3 gap-4">
+    <div className=" mx-auto grid grid-cols-3 gap-4">
       {earningsData.map((item, index) => (
-        <div className='border py-4 rounded-lg'> 
+        <div className=' py-4 bg-[#F7F7F7] rounded-lg'>
           <EarningsCard key={index} {...item} />
         </div>
       ))}

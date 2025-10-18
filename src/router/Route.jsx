@@ -107,7 +107,7 @@ export const router = createBrowserRouter([
                 element: <User />
             },
             {
-                path: "user/view-user",
+                path: "user/view-user/:id",
                 element: <ViewProfile />
             },
 

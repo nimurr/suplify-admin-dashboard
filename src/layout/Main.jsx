@@ -8,11 +8,11 @@ import Header from "./Header";
 const Main = () => {
   return (
     <div>
-      <div className="flex p-4 min-h-screen">
-        <div className="fixed z-30 w-[200px] left-3">
+      <div className="flex  min-h-screen">
+        <div className="fixed z-30 w-[80px] sm:w-[120px] md:w-[200px] lg:w-[250px] xl:w-[300px] h-screen overflow-y-auto md:left-3">
           <Sidebar />
         </div>
-        <div className="flex flex-col flex-1 overflow-hidden">
+        <div className="flex flex-col flex-1 p-4 overflow-hidden">
 
           <div className=" fixed xl:ml-[310px] lg:ml-[250px] md:ml-[200px] sm:ml-[120px] ml-[90px] w-[75%] mx-auto z-30  lg:w-[calc(98%-300px)]">
             <Header />

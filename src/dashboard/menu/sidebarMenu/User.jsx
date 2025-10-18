@@ -1,242 +1,4 @@
-// import { Button, DatePicker, Input, Modal, Space, Table } from "antd";
-// import { BsInfoCircle } from "react-icons/bs";
-// import { useState } from "react";
-// import users from './../../../../public/image/users.jpg'
-// import { CloseOutlined } from "@ant-design/icons";
-// import styles from './style.module.css'
- 
-// const { Search } = Input;
- 
-// const dataSource = [
-//     {
-//       key: '1',
-      
-//       customerName: 'Bashar Islam',
-//       email: 'abc@email.com',
-//       address: 'Dhaka Bangladesh',
-//       date: '16 Apr 2024',
-//       phone:'4536656'
-//     },
-//     {
-//       key: '2',
-//       applicationId: '12345678',
-//       customerName: 'Bashar Islam',
-//       email: 'abc@email.com',
-//       address: 'Dhaka Bangladesh',
-//       date: '16 Apr 2024',
-//       phone:'4536656'
-//     },
-//     {
-//       key: '3',
-//       applicationId: '12345678',
-//       customerName: 'Bashar Islam',
-//       email: 'abc@email.com',
-//       address: 'Dhaka Bangladesh',
-//       date: '16 Apr 2024',
-//       phone:'4536656'
-//     },
-// ]
-// const User = () => {
- 
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-
- 
-// // const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
- 
-//   const columns = [
-//     {
-//       title: "#SI",
-//       dataIndex: "si",
-//       key: "si",
-//       render: (text,_,index) => index + 1,
-//     },
-//     {
-//       title: "User Name",
-//       dataIndex: "name",
-//       key: "name",
-//       render: (_, record) => (
-//         <div className="flex gap-2 items-center">
-           
-//           <p className="font-medium">Absayed</p>
-//         </div>
-//       ),
-//     },
-   
-//     {
-//       title: "Email",
-//       dataIndex: "email",
-//       key: "email",
-//       render: (_, record) => (
-//         <p>{(record?.email) ?  record?.email : "Apple Or Facebook User"}</p>
-//       )
-//     },
-//     {
-//       title: 'Phone',
-//       dataIndex: 'phone',
-//       key: 'phone',
-//     },
-//     {
-//       title: "Date",
-//       key: "date",
-//       dataIndex: "date",
-//       render: (_, record) => (
-//         // <p>{record?.createdAt?.split("T")[0] ? record?.createdAt?.split("T")[0] : "N/A"}</p>
-//         <p>34/04/24</p>
-//       )
-//     },
-    
-//     {
-//       title: "Action",
-//       key: "action",
-//       render: (_, record) => (
-//         <Space size="middle">
-         
-//            <button onClick={() => Navigate('')} className=" text-[#4096FF]">view</button>
-          
-//           {/* <a><RxCross2 size={18} className='text-[red]'/></a> */}
-//         </Space>
-//       ),
-//     },
-//   ];
-  
-//   const handleView = () => {
-//     // setUser(value);
-//     // console.log(value)
-//     setIsModalOpen(true);
-//   };
-// //   const onChange = (date, dateString) => {
-// //     console.log(date, dateString);
-// //   };
-// //   console.log(user);
-// //   const handleChangePage = (page) => {
-// //     setCurrentPage(page);
-// //     console.log(page);
-// //   };
-// const onSearch = (value, _e, info) => console.log(info?.source, value);
-// const onChange = (date, dateString) => {
-//   console.log(date, dateString);
-// };
-//   return (
-//     <div className="">
-       
-//       <div className="rounded-t-lg mt-[24px]">
-//         <div className="flex py-[22px] justify-between items-center">
-//           <div>
-
-//           <p className="text-header">Agency</p>
-//           </div>
-          
-//           <div>
-//           <Space direction="vertical">
-//     <DatePicker onChange={onChange} />
-   
-//   </Space>
-//           <Search style={{
-//             width:"200px",
-//             marginLeft:'4px'
-//           }} placeholder="input search text" onSearch={onSearch} enterButton />
-//           </div>
-//         </div>
-//         <Table
-//        pagination={{
-//         total: dataSource.length,
-//         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-//         defaultPageSize: 2,
-//         showSizeChanger: false,
-//         itemRender: (current, type, originalElement) => {
-//           if (type === 'prev') {
-//             return <Button className={styles.paginationButton}>Back</Button>;
-//           }
-//           if (type === 'next') {
-//             return <Button className={styles.paginationButton}>Next</Button>;
-//           }
-//           return originalElement;
-//         },
-//         className: styles.paginationCenter,
-//       }}
-//           columns={columns}
-//           dataSource={dataSource}
-//           className={styles.customTable}
-//           // Add this line to style the table headers
-//           components={{
-//             header: {
-//               cell: props => <th {...props} className={styles.tableHeader} />
-//             }
-//           }}
-//         />
-//       </div>
-//       <Modal
-//         open={isModalOpen}
-//         onOk={() => setIsModalOpen(false)}
-//         onCancel={() => setIsModalOpen(false)}
-//         footer={[]}
-//         closeIcon={
-//           <CloseOutlined
-//             style={{
-//               color: "white", // Icon color
-//               backgroundColor: "#de0a26", // Background color of the close icon
-//               borderRadius: "10%", // Rounded background
-//               padding: "10px", // Padding inside the background
-//             }}
-//           />
-//         }
-//       >
-     
-//       <div>
-//         <div  className="flex justify-center py-4 items-center gap-2 flex-col border-b border-b-gray-300">
-//            <h1 className="text-xl font-medium">Agency Details</h1>
-//         </div>
-//         <div className="p-[20px]">
-//         <div className="flex justify-between border-b py-[16px]">
-//             <p>Full Name:</p>
-//             <p>
-//               {/* {user?.name ? user?.name : "N/A"} */}
-//               absayed
-//             </p>
-//           </div>
-        
-         
-//           <div className="flex justify-between border-b py-[16px] ">
-//             <p>Email:</p>
-//             <p>
-//               {/* {user?.email ? user?.email : "N/A"} */}
-//               ab@gmail.com
-//             </p>
-//           </div>
-//           <div className="flex justify-between border-b py-[16px]">
-//             <p>Phone:</p>
-//             <p>
-//               {/* {user?.phone ? user?.phone : "N/A"} */}
-//               +45269875
-//             </p>
-//           </div>
-//           <div className="flex justify-between border-b py-[16px]">
-//             <p>Date:</p>
-//             <p>
-//               {/* {user?.createdAt  ? user?.createdAt?.split("T")[0] : "N/A"} */}
-//               23-11-24
-//             </p>
-//           </div>
-//           <div className="flex justify-between items-center pt-[16px]">
-//             <p>address:</p>
-//             <p className="px-[15px] py-[10px] rounded-lg">
-//               {/* Regular P550 */}
-//               UK
-//             </p>
-//           </div>
-
-//         </div>
-//       </div>
-//       </Modal>
-//     </div>
-//   );
-// };
-
-// export default User;
-
-
 import React, { useState } from 'react';
-import { Table, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
 
 const initialData = [
@@ -286,69 +48,100 @@ const UserManagement = () => {
     order: 'ascend',
   });
 
-  const handleChange = (pagination, filters, sorter) => {
-    setPagination(pagination);
-    setSortedInfo(sorter);
+  const handleChange = (e, columnKey) => {
+    const newOrder = sortedInfo.order === 'ascend' ? 'descend' : 'ascend';
+    setSortedInfo({
+      columnKey,
+      order: newOrder,
+    });
   };
 
   const columns = [
-    {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-      width: 80,
-    },
-    {
-      title: 'User Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text, record) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar src={record.avatar} size={32} style={{ marginRight: 8 }} />
-          {text}
-        </div>
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      ellipsis: true,
-    },
-    {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
-      sorter: (a, b) => a.role.localeCompare(b.role),
-      sortOrder: sortedInfo.columnKey === 'role' ? sortedInfo.order : null,
-      width: 150,
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Link to={`view-user`} rel="noopener noreferrer">
-          View
-        </Link>
-      ),
-      width: 100,
-    },
+    { title: 'Id', key: 'id' },
+    { title: 'User Name', key: 'name' },
+    { title: 'Email', key: 'email' },
+    { title: 'Role', key: 'role' },
+    { title: 'Action', key: 'action' },
   ];
 
+  // Handle Pagination
+  const currentData = data.slice(
+    (pagination.current - 1) * pagination.pageSize,
+    pagination.current * pagination.pageSize
+  );
+
+  // Sorting
+  const sortedData = currentData.sort((a, b) => {
+    if (sortedInfo.order === 'ascend') {
+      return a[sortedInfo.columnKey] > b[sortedInfo.columnKey] ? 1 : -1;
+    }
+    return a[sortedInfo.columnKey] < b[sortedInfo.columnKey] ? 1 : -1;
+  });
+
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      pagination={{
-        current: pagination.current,
-        pageSize: pagination.pageSize,
-        total: data.length,
-        showSizeChanger: false,
-      }}
-      onChange={handleChange}
-      rowKey="key"
-      bordered
-    />
+    <div>
+      <h1 className="text-xl font-semibold mb-6">User Management</h1>
+      <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
+        <thead className='bg-[#d80000] text-primaryBg'>
+          <tr>
+            {columns.map((col) => (
+              <th
+                key={col.key}
+                className="px-4 py-3 text-left"
+                onClick={(e) => handleChange(e, col.key)}
+                style={{ cursor: 'pointer' }}
+              >
+                {col.title}
+                {col.key === sortedInfo.columnKey && (
+                  <span>{sortedInfo.order === 'ascend' ? '↑' : '↓'}</span>
+                )}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {sortedData.map((record) => (
+            <tr key={record.key}>
+              <td className="px-4 py-2">{record.id}</td>
+              <td className="px-4 py-2">
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <img src={record.avatar} alt="Avatar" className="w-8 h-8 rounded-full mr-2" />
+                  {record.name}
+                </div>
+              </td>
+              <td className="px-4 py-2">{record.email}</td>
+              <td className="px-4 py-2">{record.role}</td>
+              <td className="px-4 py-2">
+                <Link to={`view-user/${record.id}`} className="text-blue-500">
+                  View
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Pagination Controls */}
+      <div className="mt-4 flex items-center justify-end">
+        <button
+          onClick={() => setPagination((prev) => ({ ...prev, current: prev.current - 1 }))}
+          disabled={pagination.current === 1}
+          className="px-4 py-2 bg-[#d80000] text-primaryBg rounded mr-2 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span className='font-semibold'>
+          Page {pagination.current} of {Math.ceil(data.length / pagination.pageSize)}
+        </span>
+        <button
+          onClick={() => setPagination((prev) => ({ ...prev, current: prev.current + 1 }))}
+          disabled={pagination.current === Math.ceil(data.length / pagination.pageSize)}
+          className="px-4 py-2 bg-[#d80000] text-primaryBg rounded ml-2 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+    </div>
   );
 };
 
