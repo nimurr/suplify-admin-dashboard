@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.gradient-text {
+  /* 1. Apply the linear gradient as a background image */
+  background-image: linear-gradient(to right, #8400ffe5, #ff0909d3);
+
+  /* 2. Clip the background to the text area */
+  -webkit-background-clip: text;
+  /* For Webkit browsers like Chrome, Safari */
+  background-clip: text;
+
+  /* 3. Make the text color transparent to reveal the background gradient */
+  -webkit-text-fill-color: transparent;
+  /* For Webkit browsers */
+  color: transparent;
+  /* Standard property for other browsers */
+
+  /* Optional: Enhance visibility with bold and larger text */
+  font-weight: bold;
+  font-size: 2em;
+}
