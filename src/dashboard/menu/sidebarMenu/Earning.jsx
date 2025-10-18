@@ -36,12 +36,12 @@ const earningsData = [
 const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTotal }) => {
   return (
     <div
-      className={`p-4 rounded-lg flex justify-between items-center ${highlight ? "bg-pink-50" : "bg-white"
+      className={`md:py-10 p-5 font-[arial] rounded-lg text-primaryBg  flex justify-between items-center ${highlight ? "bg-pink-50" : "bg-white"
         }`}
       style={{ minWidth: isTotal ? "18rem" : "14rem" }}
     >
       <div>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 font-medium">
           {title}
         </p>
         <p className="font-semibold text-2xl">
@@ -54,8 +54,8 @@ const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTot
         )}
       </div>
       <div className="text-right">
-        <p className="text-sm text-gray-500 mb-1">Earn</p>
-        <p className={`font-bold text-4xl ${isTotal ? "text-xl" : ""}`}>
+        <p className=" text-gray-500 mb-1 text-xl font-semibold">Earn</p>
+        <p className={`font-bold text-5xl ${isTotal ? "text-xl" : ""}`}>
           ${amount}
         </p>
       </div>
@@ -67,7 +67,7 @@ const EarningsDashboard = () => {
   return (
     <div className=" mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-4">
       {earningsData.map((item, index) => (
-        <div className=' py-4 bg-[#F7F7F7] rounded-lg'>
+        <div className=' py-4 bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] rounded-lg'>
           <EarningsCard key={index} {...item} />
         </div>
       ))}

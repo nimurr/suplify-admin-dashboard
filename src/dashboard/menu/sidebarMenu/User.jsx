@@ -82,7 +82,7 @@ const UserManagement = () => {
     <div>
       <h1 className="text-xl font-semibold mb-6">User Management</h1>
       <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
-        <thead className='bg-[#d80000] text-primaryBg'>
+        <thead className='bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg'>
           <tr>
             {columns.map((col) => (
               <th
@@ -126,7 +126,7 @@ const UserManagement = () => {
         <button
           onClick={() => setPagination((prev) => ({ ...prev, current: prev.current - 1 }))}
           disabled={pagination.current === 1}
-          className="px-4 py-2 bg-[#d80000] text-primaryBg rounded mr-2 disabled:opacity-50"
+          className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded mr-2 disabled:opacity-50"
         >
           Previous
         </button>
@@ -136,7 +136,7 @@ const UserManagement = () => {
         <button
           onClick={() => setPagination((prev) => ({ ...prev, current: prev.current + 1 }))}
           disabled={pagination.current === Math.ceil(data.length / pagination.pageSize)}
-          className="px-4 py-2 bg-[#d80000] text-primaryBg rounded ml-2 disabled:opacity-50"
+          className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded ml-2 disabled:opacity-50"
         >
           Next
         </button>

@@ -75,7 +75,7 @@ const StoreTable = () => {
 
       {/* Raw HTML Table */}
       <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
-        <thead className='bg-[#d00000] text-primaryBg'>
+        <thead className='bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg'>
           <tr>
             <th className="px-4 text-left py-2">Id</th>
             <th className="px-4 text-left py-2">Category</th>
@@ -102,7 +102,7 @@ const StoreTable = () => {
         <button
           onClick={() => handlePaginationChange('prev')}
           disabled={pagination.current === 1}
-          className="px-4 py-2 bg-[#d00000] text-primaryBg rounded mr-2 disabled:opacity-50"
+          className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded mr-2 disabled:opacity-50"
         >
           Previous
         </button>
@@ -112,7 +112,7 @@ const StoreTable = () => {
         <button
           onClick={() => handlePaginationChange('next')}
           disabled={pagination.current === Math.ceil(dataSource.length / pagination.pageSize)}
-          className="px-4 py-2 bg-[#d00000] text-primaryBg rounded ml-2 disabled:opacity-50"
+          className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded ml-2 disabled:opacity-50"
         >
           Next
         </button>

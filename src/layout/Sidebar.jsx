@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import logo from '../../public/image/logod.png'
 // import logo from '../../public/image/logo.png'
 import { FaDollarSign, FaPersonRunning, FaSackDollar, FaUser, FaUsers, FaUsersLine } from "react-icons/fa6";
-import { MdCategory, MdOutlineMedicalServices, MdSubscriptions } from "react-icons/md";
+import { MdCategory, MdOutlineMedicalServices, MdOutlineStorefront, MdSubscriptions } from "react-icons/md";
 import { BiMenu, BiSolidDashboard } from "react-icons/bi";
 import { HiLogout } from "react-icons/hi";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
@@ -61,7 +61,7 @@ const Sidebar = () => {
               to="home"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-[#ffcece]  text-[#d30000] m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
                   : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
@@ -73,8 +73,8 @@ const Sidebar = () => {
               to="user"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
-                  : "flex bg-[#f5f5f5]  cursor-pointer justify-start items-center text-[15px] font-medium p-[10px]  m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
               <FaUsers className="h-7 w-7 lg:h-5 lg:w-5" />
@@ -85,8 +85,8 @@ const Sidebar = () => {
               to="order"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
-                  : "flex bg-[#f5f5f5]  cursor-pointer justify-start items-center text-[15px] font-medium p-[10px]  m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
               <LuShoppingCart className="h-7 w-7 lg:h-5 lg:w-5" />
@@ -97,8 +97,8 @@ const Sidebar = () => {
               to="withdraw-request"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
-                  : "flex bg-[#f5f5f5]  cursor-pointer justify-start items-center text-[15px] font-medium p-[10px]  m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
               <CiCreditCard1 className="h-7 w-7 lg:h-5 lg:w-5" />
@@ -108,8 +108,8 @@ const Sidebar = () => {
               to="booked-lab-test"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
-                  : "flex bg-[#f5f5f5]  cursor-pointer justify-start items-center text-[15px] font-medium p-[10px]  m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
               <IoBookmarkOutline className="h-7 w-7 lg:h-5 lg:w-5" />
@@ -120,19 +120,19 @@ const Sidebar = () => {
               to="store"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
-                  : "flex bg-[#f5f5f5]  cursor-pointer justify-start items-center text-[15px] font-medium p-[10px]  m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
-              <FaSackDollar className="h-7 w-7 lg:h-5 lg:w-5" />
+              <MdOutlineStorefront className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 md:block">Store</span>
             </NavLink>
             <NavLink
               to="settings"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer  items-center text-[15px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
-                  : "flex bg-[#f5f5f5]  cursor-pointer justify-start items-center text-[15px] font-medium p-[10px]  m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
               <CiSettings className="h-8 w-8 lg:h-5 lg:w-5" />

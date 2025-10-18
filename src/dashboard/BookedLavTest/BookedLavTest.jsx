@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { IoEyeOutline } from 'react-icons/io5';
 import { Modal, Button } from 'antd';
 import { useGetBookedLavTestQuery } from '../../redux/features/BookedLavTest/BookedLavTest';
-
+import moment from 'moment';
 
 const BookedLavTest = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedTest, setSelectedTest] = useState(null);
+    const [selectStatus, setSelectStatus] = useState(null);  // To store the selected status
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 5,
+    });
 
-    const { data, isLoading } = useGetBookedLavTestQuery()
-    console.log(data);
-
-    const labTests = [
-        { id: 1231, testName: 'Product', date: '2021-12-01', address: 'Online', transactionId: '1234567', paymentStatus: '$123', bookingStatus: 'Processing', city: 'New York', state: 'NY', zipCode: '10001', startTime: '10:00 AM', endTime: '11:00 AM' },
-        { id: 1232, testName: 'Product', date: '2021-12-02', address: 'Online', transactionId: '1234568', paymentStatus: '$123', bookingStatus: 'Delivered', city: 'Los Angeles', state: 'CA', zipCode: '90001', startTime: '12:00 PM', endTime: '01:00 PM' },
-        // Add more test data as needed
-    ];
+    // Fetching data from the API
+    const { data, isLoading } = useGetBookedLavTestQuery();
+    const fullData = data?.data?.attributes?.results; // Assuming data structure from your response
 
     const showModal = (test) => {
         setSelectedTest(test);
@@ -27,42 +27,62 @@ const BookedLavTest = () => {
         setSelectedTest(null);
     };
 
+    const handleStatusChange = (e) => {
+        setSelectStatus(e.target.value);
+        console.log(`Selected Status: ${e.target.value}`);
+    };
+
+    // Pagination logic: slice the data to show only the items for the current page
+    const currentData = fullData?.slice(
+        (pagination.current - 1) * pagination.pageSize,
+        pagination.current * pagination.pageSize
+    );
+
+    // Handle change of page
+    const handlePaginationChange = (direction) => {
+        setPagination((prev) => {
+            const newPage = direction === 'next' ? prev.current + 1 : prev.current - 1;
+            return {
+                ...prev,
+                current: newPage,
+            };
+        });
+    };
+
     return (
-        <div >
+        <div>
             <h1 className="text-xl font-semibold mb-6">Booked Lab Test</h1>
 
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+            <div className="overflow-x-auto bg-white border border-[#f0f0f0] rounded-lg">
                 <table className="min-w-full table-auto border-collapse">
-                    <thead className="bg-[#d10000] text-primaryBg">
+                    <thead className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
                         <tr>
                             <th className="py-3 px-4 text-sm font-semibold">#Latest Booking id</th>
                             <th className="py-3 px-4 text-sm font-semibold">Test Name</th>
-                            <th className="py-3 px-4 text-sm font-semibold">Date</th>
+                            <th className="py-3 px-4 text-sm font-semibold">Appointment Date</th>
                             <th className="py-3 px-4 text-sm font-semibold">Address</th>
                             <th className="py-3 px-4 text-sm font-semibold">Transaction Id</th>
-                            <th className="py-3 px-4 text-sm font-semibold">Payment</th>
+                            <th className="py-3 px-4 text-sm font-semibold">Payment Status</th>
                             <th className="py-3 px-4 text-sm font-semibold">Booking Status</th>
                             <th className="py-3 px-4 text-sm font-semibold">Action</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white">
-                        {labTests.map((test, index) => (
+                        {currentData?.map((test, index) => (
                             <tr key={index} className="border-b border-[#ececec] hover:bg-[#fff4f4]">
-                                <td className="py-3 px-4 text-gray-700 text-sm">{test.id}</td>
-                                <td className="py-3 px-4 text-gray-700 text-sm">{test.testName}</td>
-                                <td className="py-3 px-4 text-gray-700 text-sm">{test.date}</td>
+                                <td className="py-3 px-4 text-gray-700 text-sm">{test._LabTestBookingId}</td>
+                                <td className="py-3 px-4 text-gray-700 text-sm">{test.category}</td>
+                                <td className="py-3 px-4 text-gray-700 text-sm">{moment(test.appointmentDate).format('dddd, MMMM Do YYYY')}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test.address}</td>
-                                <td className="py-3 px-4 text-gray-700 text-sm">{test.transactionId}</td>
+                                <td className="py-3 px-4 text-gray-700 text-sm">{test.paymentTransactionId}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test.paymentStatus}</td>
                                 <td className="py-3 px-4 text-sm font-medium">
                                     <span
                                         className={
-                                            test.bookingStatus === 'Delivered'
-                                                ? 'text-green-600'
-                                                : 'text-orange-500'
+                                            test.status === 'completed' ? 'text-green-600' : 'text-orange-500'
                                         }
                                     >
-                                        {test.bookingStatus}
+                                        {test.status}
                                     </span>
                                 </td>
                                 <td className="py-3 px-4 text-center">
@@ -75,6 +95,28 @@ const BookedLavTest = () => {
                         ))}
                     </tbody>
                 </table>
+                <h2 className='font-semibold text-center py-5'>{!fullData && "Not Available !!"}</h2>
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-end items-center mt-4">
+                <button
+                    onClick={() => handlePaginationChange('prev')}
+                    disabled={pagination.current === 1}
+                    className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded mr-2 disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>
+                    Page {pagination.current} of {Math.ceil(fullData?.length / pagination.pageSize)}
+                </span>
+                <button
+                    onClick={() => handlePaginationChange('next')}
+                    disabled={pagination.current === Math.ceil(fullData?.length / pagination.pageSize)}
+                    className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded ml-2 disabled:opacity-50"
+                >
+                    Next
+                </button>
             </div>
 
             {/* Modal for Test Details */}
@@ -85,29 +127,46 @@ const BookedLavTest = () => {
                 width={500}
             >
                 {selectedTest && (
-                    <div className='mt-8'>
+                    <div className="mt-8">
                         <div className="mb-4 space-y-3">
-                            <div className='space-y-2 '>
-                                <p className='flex items-center gap-2 justify-between'><strong>Lab test booking ID:</strong> {selectedTest.id}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>Test name:</strong> {selectedTest.testName}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>Appointment date:</strong> {selectedTest.date}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>Start time:</strong> {selectedTest.startTime}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>End time:</strong> {selectedTest.endTime}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>Address:</strong> {selectedTest.address}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>City:</strong> {selectedTest.city}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>State:</strong> {selectedTest.state}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>Zip code:</strong> {selectedTest.zipCode}</p>
-                                <p className='flex items-center gap-2 justify-between'><strong>Transaction ID:</strong> {selectedTest.transactionId}</p>
+                            <div className="space-y-2">
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Lab test booking ID:</strong> {selectedTest._LabTestBookingId}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Appointment date:</strong> {moment(selectedTest.appointmentDate).format('dddd, MMMM Do YYYY')}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Start time:</strong> {new Date(selectedTest.startTime).toLocaleTimeString()}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>End time:</strong> {new Date(selectedTest.endTime).toLocaleTimeString()}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Address:</strong> {selectedTest.address}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>City:</strong> {selectedTest.city}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>State:</strong> {selectedTest.state}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Zip code:</strong> {selectedTest.zipCode}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Transaction ID:</strong> {selectedTest.paymentTransactionId}
+                                </p>
                             </div>
 
-                            <div className='flex items-start gap-5'>
-                                <Button type="dashed" danger>
-                                    Booking Status
-                                </Button>
-                                <Button type="dashed" danger>
-                                    Payment Status
-                                </Button>
-                                <select className='border border-[#eee] bg-[#e88c31] text-primaryBg outline-none focus:right-0 px-8 py-1.5 rounded-lg' name="" id="">
+                            <div className="flex items-start justify-between flex-wrap gap-5">
+                                <h2><strong>Status</strong></h2>
+                                <select
+                                    defaultValue={selectedTest.status}
+                                    onChange={handleStatusChange}  // Handle the change event
+                                    className="border border-[#eee] bg-[#e88c31] text-primaryBg outline-none focus:right-0 px-8 py-1.5 rounded-lg"
+                                    name="status"
+                                >
                                     <option value="Pending">Pending</option>
                                     <option value="Delivered">Delivered</option>
                                     <option value="Cancelled">Cancelled</option>

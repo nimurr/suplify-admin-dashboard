@@ -39,7 +39,7 @@ const Order = () => {
             <div className="overflow-x-auto">
                 <h1 className="font-semibold text-[20px] mb-5">All Orders</h1>
                 <table className="min-w-full border-collapse shadow-md rounded-lg overflow-hidden">
-                    <thead className="bg-[#c50808] text-primaryBg">
+                    <thead className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
                         <tr>
                             <th className="py-3 px-4 text-sm font-semibold">#Order id</th>
                             <th className="py-3 px-4 text-sm font-semibold">Payment Status</th>
@@ -78,13 +78,16 @@ const Order = () => {
                         ))}
                     </tbody>
                 </table>
+                <h2 className='font-semibold text-center py-5'>{
+                    !fullData && "Not Available !!"
+                }</h2>
             </div>
 
             {/* Pagination Controls */}
             <div className="flex justify-end items-center gap-3 mt-4">
                 <button
                     onClick={handlePrevPage}
-                    className="py-2 px-4 bg-[#c50808] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
+                    className="py-2 px-4 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
                     disabled={currentPage === 1}
                 >
                     Previous
@@ -94,7 +97,7 @@ const Order = () => {
                 </div>
                 <button
                     onClick={handleNextPage}
-                    className="py-2 px-4 bg-[#c50808] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
+                    className="py-2 px-4 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
                     disabled={currentPage === totalPages}
                 >
                     Next

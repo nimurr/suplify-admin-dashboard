@@ -5,15 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import url from '../../redux/api/baseUrl';
 
 const WithdrawRequest = () => {
-    const specialists = [
-        { id: 1, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Specialist', bankName: 'City Bank', branchName: 'Branch Name' },
-        { id: 2, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Doctor', bankName: 'City Bank', branchName: 'Branch Name' },
-        { id: 3, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Specialist', bankName: 'City Bank', branchName: 'Branch Name' },
-        { id: 4, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Specialist', bankName: 'City Bank', branchName: 'Branch Name' },
-        { id: 5, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Specialist', bankName: 'City Bank', branchName: 'Branch Name' },
-        { id: 6, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Specialist', bankName: 'City Bank', branchName: 'Branch Name' },
-        { id: 7, name: 'Maria Rodriguez', email: 'Abc@gmail.com', accountType: 'Specialist', bankName: 'City Bank', branchName: 'Branch Name' },
-    ];
+
 
     const { data } = useGetAllWithdrawRequestQuery();
     const fullData = data?.data?.attributes?.results;
@@ -90,7 +82,7 @@ const WithdrawRequest = () => {
                 {/* Specialist List */}
                 <div className="overflow-x-auto bg-white  border border-[#dfdfdf] rounded-lg">
                     <table className="min-w-full table-auto border-collapse">
-                        <thead className="bg-[#d40000] text-primaryBg">
+                        <thead className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
                             <tr>
                                 <th className="py-3 px-4 text-sm text-left font-semibold">Specialist Name</th>
                                 <th className="py-3 px-4 text-sm text-left font-semibold">Account bankAccountNumber</th>
@@ -117,12 +109,15 @@ const WithdrawRequest = () => {
                             ))}
                         </tbody>
                     </table>
+                    <h2 className='font-semibold text-center py-5'>{
+                        !fullData && "Not Available !!"
+                    }</h2>
                 </div>
                 {/* Pagination Controls */}
                 <div className="flex justify-end items-center gap-3 mt-6">
                     <button
                         onClick={handlePrevPage}
-                        className="py-2 px-4 bg-[#d30101] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
+                        className="py-2 px-4 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
                         disabled={currentPage === 1}
                     >
                         Previous
@@ -132,7 +127,7 @@ const WithdrawRequest = () => {
                     </div>
                     <button
                         onClick={handleNextPage}
-                        className="py-2 px-4 bg-[#d30101] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
+                        className="py-2 px-4 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded hover:bg-gray-400 disabled:opacity-50"
                         disabled={currentPage === totalPages}
                     >
                         Next
