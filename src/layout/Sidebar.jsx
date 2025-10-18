@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import { SiMagento } from "react-icons/si";
 import { BsExclude } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
+import { LuShoppingCart } from "react-icons/lu";
 
 const Sidebar = () => {
 
@@ -77,6 +78,18 @@ const Sidebar = () => {
             >
               <FaUsers className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 sm:block">Users Management</span>
+            </NavLink>
+
+            <NavLink
+              to="order"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#D1D1D1] text-[#193664] m-[6px] rounded-lg"
+                  : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
+              }
+            >
+              <LuShoppingCart className="h-7 w-7 lg:h-5 lg:w-5"/>
+              <span className="hidden ml-2 sm:block">Order</span>
             </NavLink>
 
             <NavLink

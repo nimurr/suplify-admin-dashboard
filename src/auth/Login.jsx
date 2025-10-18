@@ -47,12 +47,11 @@ const Login = () => {
                 localStorage.setItem('user', JSON.stringify(res?.data?.attributes))
                 localStorage.setItem('token', res?.data?.attributes?.tokens?.access?.token)
 
-
+                setTimeout(() => {
+    
+                    navigate('/dashboard/home')
+                }, 500);
             }
-            // setTimeout(() => {
-
-            //     navigate('/dashboard/home')
-            // }, 1000);
 
         } catch (error) {
             console.log(error);

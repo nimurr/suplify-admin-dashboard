@@ -26,6 +26,7 @@ import Store from "../dashboard/menu/sidebarMenu/Store";
 import ViewProfile from "../dashboard/menu/sidebarMenu/ViewProfile";
 import ViewStore from "../dashboard/menu/sidebarMenu/ViewStore";
 import SupplementCreateForm from "../dashboard/menu/sidebarMenu/CreateSuppliment";
+import Order from "../dashboard/Order/Order";
 
 
 export const router = createBrowserRouter([
@@ -53,7 +54,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "home",
-                element: <DashboardHome /> 
+                element: <DashboardHome />
             },
             {
                 path: "notification",
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
             {
                 path: "editprofile",
                 element: <EditProfiel />
+            },
+            {
+                path: "order",
+                element: <Order />
             },
             {
                 path: "store",
