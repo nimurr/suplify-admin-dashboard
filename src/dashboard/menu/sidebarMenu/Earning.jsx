@@ -65,7 +65,7 @@ const EarningsCard = ({ title, count, dateRange, month, amount, highlight, isTot
 
 const EarningsDashboard = () => {
   return (
-    <div className=" mx-auto grid grid-cols-3 gap-4">
+    <div className=" mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-4">
       {earningsData.map((item, index) => (
         <div className=' py-4 bg-[#F7F7F7] rounded-lg'>
           <EarningsCard key={index} {...item} />

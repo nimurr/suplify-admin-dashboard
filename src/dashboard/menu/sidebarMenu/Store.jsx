@@ -1,5 +1,4 @@
-import React from 'react';
-import { Table } from 'antd';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const dataSource = [
@@ -33,39 +32,93 @@ const dataSource = [
     category: 'Lab test',
     item: 60,
   },
-];
-
-const columns = [
   {
-    title: 'Id',
-    dataIndex: 'id',
-    key: 'id',
-    width: 80,
+    key: '6',
+    id: '06',
+    category: 'Healthcare',
+    item: 40,
   },
   {
-    title: 'Category',
-    dataIndex: 'category',
-    key: 'category',
-    render: (text) => <strong>{text}</strong>,
-  },
-  {
-    title: 'Item',
-    dataIndex: 'item',
-    key: 'item',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: () =>  (
-     <Link to="view-store">
-     view
-     </Link>
-    ),
+    key: '7',
+    id: '07',
+    category: 'Beauty',
+    item: 15,
   },
 ];
 
 const StoreTable = () => {
-  return <Table dataSource={dataSource} columns={columns} pagination={false} />;
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+  });
+
+  // Pagination logic: slice the data to show only the items for the current page
+  const currentData = dataSource.slice(
+    (pagination.current - 1) * pagination.pageSize,
+    pagination.current * pagination.pageSize
+  );
+
+  // Handle pagination change
+  const handlePaginationChange = (direction) => {
+    setPagination((prev) => {
+      const newPage = direction === 'next' ? prev.current + 1 : prev.current - 1;
+      return {
+        ...prev,
+        current: newPage,
+      };
+    });
+  };
+
+  return (
+    <div>
+      <h1 className="text-xl font-semibold mb-6">Store Management</h1>
+
+      {/* Raw HTML Table */}
+      <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
+        <thead className='bg-[#d00000] text-primaryBg'>
+          <tr>
+            <th className="px-4 text-left py-2">Id</th>
+            <th className="px-4 text-left py-2">Category</th>
+            <th className="px-4 text-left py-2">Item</th>
+            <th className="px-4 text-left py-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.map((record) => (
+            <tr className='border-b border-[#ccc]' key={record.key}>
+              <td className="px-4 py-2">{record.id}</td>
+              <td className="px-4 py-2"><strong>{record.category}</strong></td>
+              <td className="px-4 py-2">{record.item}</td>
+              <td className="px-4 py-2">
+                <Link to="view-store" className="text-blue-500">View</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Pagination Controls */}
+      <div className="mt-4 flex items-center justify-end">
+        <button
+          onClick={() => handlePaginationChange('prev')}
+          disabled={pagination.current === 1}
+          className="px-4 py-2 bg-[#d00000] text-primaryBg rounded mr-2 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span className='font-semibold'>
+          Page {pagination.current} of {Math.ceil(dataSource.length / pagination.pageSize)}
+        </span>
+        <button
+          onClick={() => handlePaginationChange('next')}
+          disabled={pagination.current === Math.ceil(dataSource.length / pagination.pageSize)}
+          className="px-4 py-2 bg-[#d00000] text-primaryBg rounded ml-2 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default StoreTable;
