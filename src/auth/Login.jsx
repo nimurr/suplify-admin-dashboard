@@ -41,14 +41,13 @@ const Login = () => {
 
         try {
             const res = await adminLogin(formData).unwrap();
-            // console.log(res);
+            console.log(res);
             if (res?.code == 200) {
                 toast.success(res?.message)
-                localStorage.setItem('user', JSON.stringify(res?.data?.attributes))
-                localStorage.setItem('token', res?.data?.attributes?.tokens?.access?.token)
+                localStorage.setItem('user', JSON.stringify(res?.data?.attributes?.userWithoutPassword))
+                localStorage.setItem('token', res?.data?.attributes?.tokens?.accessToken)
 
                 setTimeout(() => {
-    
                     navigate('/dashboard/home')
                 }, 500);
             }
@@ -56,7 +55,7 @@ const Login = () => {
         } catch (error) {
             console.log(error);
             setError(error?.data?.message)
-            toast.error(error?.data?.message)
+            toast.error(error?.data?.message || 'Something went wrong')
         }
 
 

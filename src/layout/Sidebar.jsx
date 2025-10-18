@@ -1,4 +1,4 @@
- 
+
 
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from '../../public/image/logod.png'
@@ -10,7 +10,7 @@ import { HiLogout } from "react-icons/hi";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { PiGitPullRequestDuotone } from "react-icons/pi";
 import { RiSecurePaymentFill } from "react-icons/ri";
-import { CiSettings } from "react-icons/ci";
+import { CiCreditCard1, CiSettings } from "react-icons/ci";
 import Swal from "sweetalert2";
 import { SiMagento } from "react-icons/si";
 import { BsExclude } from "react-icons/bs";
@@ -51,7 +51,7 @@ const Sidebar = () => {
       <div>
         <div className="p-[10px] grid justify-items-stretch  sm:p-[16px]">
           <img className="h-16 rounded-lg justify-self-center" src={logo} alt="Logo" />
-         
+
           {/* <hr className="w-full mt-4 text-[#54D496] hidden sm:block" /> */}
         </div>
         <div className="ml-5 mt-8">
@@ -60,11 +60,11 @@ const Sidebar = () => {
               to="home"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#D1D1D1] text-[#193664] m-[6px] rounded-lg"
-                  : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px] m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
+                  : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
               }
             >
-              <BiSolidDashboard className="h-7 w-7 lg:h-5 lg:w-5"/>
+              <BiSolidDashboard className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 sm:block">Dashboard</span>
             </NavLink>
 
@@ -72,8 +72,8 @@ const Sidebar = () => {
               to="user"
               className={({ isActive }) =>
                 isActive
-                  ? "flex p-[10px] m-[6px] cursor-pointer items-center font-medium bg-[#D1D1D1] text-[#193664] rounded-lg"
-                  : "flex   p-[10px] m-[6px] cursor-pointer items-center font-medium  rounded-lg"
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
+                  : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
               }
             >
               <FaUsers className="h-7 w-7 lg:h-5 lg:w-5" />
@@ -84,28 +84,40 @@ const Sidebar = () => {
               to="order"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#D1D1D1] text-[#193664] m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
                   : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
               }
             >
-              <LuShoppingCart className="h-7 w-7 lg:h-5 lg:w-5"/>
+              <LuShoppingCart className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 sm:block">Order</span>
+            </NavLink>
+
+            <NavLink
+              to="withdraw-request"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
+                  : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
+              }
+            >
+              <CiCreditCard1 className="h-7 w-7 lg:h-5 lg:w-5" />
+              <span className="hidden ml-2 sm:block">Withdraw request</span>
             </NavLink>
 
             <NavLink
               to="store"
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#D1D1D1] text-[#193664] m-[6px] rounded-lg"
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
                   : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
               }
             >
-              <FaSackDollar className="h-7 w-7 lg:h-5 lg:w-5"/>
+              <FaSackDollar className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 sm:block">Store</span>
             </NavLink>
 
-           
-{/* 
+
+            {/* 
             <NavLink
               to="trainer"
               className={({ isActive }) =>
@@ -147,8 +159,8 @@ const Sidebar = () => {
               to="settings"
               className={({ isActive }) =>
                 isActive
-                  ? "flex p-[10px] m-[6px] cursor-pointer items-center text-[18px] font-medium bg-[#D1D1D1] text-[#193664] rounded-lg"
-                  : "flex   p-[10px] m-[6px] cursor-pointer items-center text-[18px] font-medium   rounded-lg"
+                  ? "flex cursor-pointer items-center text-[18px] font-medium p-[10px] bg-[#ffcece] text-[#d30000] m-[6px] rounded-lg"
+                  : "flex   cursor-pointer items-center text-[18px] font-medium p-[10px]  m-[6px] rounded-lg"
               }
             >
               <CiSettings className="h-8 w-8 lg:h-5 lg:w-5" />

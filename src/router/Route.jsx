@@ -27,6 +27,8 @@ import ViewProfile from "../dashboard/menu/sidebarMenu/ViewProfile";
 import ViewStore from "../dashboard/menu/sidebarMenu/ViewStore";
 import SupplementCreateForm from "../dashboard/menu/sidebarMenu/CreateSuppliment";
 import Order from "../dashboard/Order/Order";
+import OrderDetails from "../dashboard/Order/OrderDetails";
+import WithdrawRequest from "../dashboard/WithdrawRequest/WithdrawRequest";
 
 
 export const router = createBrowserRouter([
@@ -72,6 +74,17 @@ export const router = createBrowserRouter([
                 path: "order",
                 element: <Order />
             },
+            {
+                path: "order/:id",
+                element: <OrderDetails />
+            },
+            {
+                path: "withdraw-request",
+                element: <WithdrawRequest />
+            },
+
+
+
             {
                 path: "store",
                 element: <Store />
