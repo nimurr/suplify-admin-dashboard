@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { IoPersonOutline } from 'react-icons/io5';
-import { useGetAllWithdrawRequestQuery } from '../../redux/features/withdrawRequest/withdrawRequest';
+import { useGetAllWithdrawRequestQuery, useProofOfpaymentMutation } from '../../redux/features/withdrawRequest/withdrawRequest';
+import toast, { Toaster } from 'react-hot-toast';
+import url from '../../redux/api/baseUrl';
 
 const WithdrawRequest = () => {
     const specialists = [
@@ -29,6 +31,7 @@ const WithdrawRequest = () => {
     // Total pages calculation
     const totalPages = Math.ceil(fullData?.length / itemsPerPage);
 
+
     // Handlers for pagination buttons
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -42,8 +45,45 @@ const WithdrawRequest = () => {
         }
     };
 
+    const [selectedSpecialist, setSelectedSpecialist] = useState(null);
+
+
+
+    const [paymentProof, { isLoading }] = useProofOfpaymentMutation();
+
+
+    const handleSumitPay = async (e) => {
+        e.preventDefault();
+
+        // Access the file input using the 'files' property
+        const image = e.target.image.files[0]; // Grabbing the first selected file
+        const formData = new FormData();
+
+        if (image) {
+            formData.append('proofOfPayment', image);
+        }
+        else {
+            return toast.error('Please select an image');
+        }
+
+        try {
+
+            const res = await paymentProof({ data: formData, id: selectedSpecialist?._WithdrawalRequstId }).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                toast.success(res?.message);
+            }
+
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
+
+    };
     return (
         <div>
+            <Toaster />
             <h1 className="text-xl font-semibold mb-6">Withdraw Request</h1>
 
             <div className="space-y-5">
@@ -61,11 +101,11 @@ const WithdrawRequest = () => {
                         </thead>
                         <tbody className="bg-white">
                             {currentSpecialists?.map((specialist, index) => (
-                                <tr key={index} className="border-t cursor-pointer border-b border-[#dfdfdf] hover:bg-gray-100">
-                                    <td className="py-5 px-4 text-gray-700 text-sm flex items-center">
-                                        <img className='w-16 h-16 rounded-full' src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png" alt="" />
+                                <tr onClick={() => setSelectedSpecialist(specialist)} key={index} className="border-t cursor-pointer border-b border-[#dfdfdf] hover:bg-gray-100">
+                                    <td className="py-5 px-4 text-gray-700 text-sm flex gap-2 items-center">
+                                        <img className='w-14 h-14 rounded-full' src={url + specialist?.userId?.profileImage?.imageUrl} alt="" />
                                         <div>
-                                            <p className='font-semibold'>{specialist.bankAccountHolderName}</p>
+                                            <p className='font-semibold'>{specialist?.userId?.name}</p>
                                             <span>{specialist.bankAccountType}</span>
                                         </div>
                                     </td>
@@ -100,27 +140,45 @@ const WithdrawRequest = () => {
                 </div>
 
                 {/* Payment Summary Section */}
-                <div className='flex items-center justify-end'>
-                    <div className="bg-[#eef7ff] border border-[#dfdfdf] max-w-[500px] w-full  rounded-lg p-6">
-                        <h2 className="text-lg font-semibold mb-4">Payment Summary</h2>
-                        <div className="text-sm space-y-2 mb-2">
-                            <p>Total balance of specialist: <span className="font-semibold">$500</span></p>
-                            <p>Requested amount: <span className="font-semibold">$300</span></p>
-                        </div>
+                {
+                    selectedSpecialist &&
+                    <div className='flex items-center justify-end capitalize'>
+                        <div className="bg-[#eef7ff] border border-[#dfdfdf] max-w-[500px] w-full  rounded-lg p-6">
+                            <h2 className="text-lg font-semibold mb-4">Payment Summary</h2>
+                            <div className="text-sm space-y-2 mb-2">
+                                <p>Total balance of specialist: <span className="font-semibold">${selectedSpecialist?.walletId?.amount || 0}</span></p>
+                                <p>Requested amount: <span className="font-semibold">${selectedSpecialist?.requestedAmount || 0}</span></p>
+                                {
+                                    selectedSpecialist?.status &&
+                                    <p>Status: <span className="font-semibold text-[#01d313]">{selectedSpecialist?.status}</span></p>
+                                }
+                            </div>
 
-                        {/* Upload receipt */}
-                        <div className="my-6">
-                            <label className="block text-sm font-semibold mb-2">Upload receipt</label>
-                            <input
-                                type="file"
-                                className="w-full text-sm text-gray-600 file:border file:border-gray-300 file:py-2 file:px-4 file:rounded-lg file:text-sm file:bg-gray-50"
-                            />
-                        </div>
+                            {/* Upload receipt */}
+                            <form onSubmit={handleSumitPay} className="my-6">
+                                {
+                                    selectedSpecialist?.proofOfPayment[0] ?
+                                        <img src={selectedSpecialist?.proofOfPayment[0]?.attachment} alt="" />
+                                        :
+                                        <div>
+                                            <label className="block text-sm font-semibold mb-2">Upload receipt</label>
+                                            <input
+                                                type="file"
+                                                name="image" // Make sure to add the name attribute here
+                                                className="w-full text-sm text-gray-600 file:border file:border-gray-300 file:py-2 file:px-4 file:rounded-lg file:text-sm file:bg-gray-50"
+                                            />
+                                        </div>
+                                }
+                                <button disabled={selectedSpecialist?.proofOfPayment[0]} className="w-full bg-[#d30101] text-primaryBg py-2 mt-3 rounded-lg disabled:opacity-50">
+                                    Pay Now
+                                </button>
+                            </form>
 
-                        {/* Pay Now Button */}
-                        <button className="w-full bg-[#d30101] text-primaryBg py-2 rounded-lg">Pay Now</button>
+                            {/* Pay Now Button */}
+                        </div>
                     </div>
-                </div>
+                }
+
             </div>
 
 
