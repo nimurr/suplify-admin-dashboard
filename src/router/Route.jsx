@@ -29,6 +29,7 @@ import SupplementCreateForm from "../dashboard/menu/sidebarMenu/CreateSuppliment
 import Order from "../dashboard/Order/Order";
 import OrderDetails from "../dashboard/Order/OrderDetails";
 import WithdrawRequest from "../dashboard/WithdrawRequest/WithdrawRequest";
+import BookedLavTest from "../dashboard/BookedLavTest/BookedLavTest";
 
 
 export const router = createBrowserRouter([
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
             {
                 path: "withdraw-request",
                 element: <WithdrawRequest />
+            },
+            {
+                path: "booked-lab-test",
+                element: <BookedLavTest />
             },
 
 
