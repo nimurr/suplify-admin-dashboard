@@ -74,7 +74,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div>
+    <div >
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
         <div
           className={`md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center`}
@@ -129,63 +129,64 @@ const UserManagement = () => {
           onChange={handleSearch} // Trigger search on change
         />
       </div>
-
-      <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
-        <thead className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
-          <tr>
-            {columns.map((col) => (
-              <th
-                key={col.key}
-                className="px-4 py-3 text-left"
-                onClick={(e) => handleChange(e, col.key)}
-                style={{ cursor: 'pointer' }}
-              >
-                {col.title}
-                {col.key === sortedInfo.columnKey && (
-                  <span>{sortedInfo.order === 'ascend' ? '↑' : '↓'}</span>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData?.map((record, index) => (
-            <tr key={record.key}>
-              <td className="px-4 py-2">{++index}</td>
-              <td className="px-4 py-2">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <img
-                    src={record.avatar}
-                    alt="Avatar"
-                    className="w-8 h-8 rounded-full mr-2"
-                  />
-                  {record.name}
-                </div>
-              </td>
-              <td
-                className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'
-                  } ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
-              >
-                {record.approvalStatus}
-              </td>
-              <td className="px-4 py-2">{record.email}</td>
-              <td className="px-4 py-2">{record.subscriptionType}</td>
-              <td className="px-4 py-2">
-                <Link to={`view-user/${record.id}`} className="text-blue-500">
-                  View
-                </Link>
-              </td>
-            </tr>
-          ))}
-          {isLoading && (
+      <div className='w-ful overflow-x-auto'>
+        <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
+          <thead className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
             <tr>
-              <td colSpan={7} className="text-center py-4">
-                Loading...
-              </td>
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className="px-4 py-3 text-left"
+                  onClick={(e) => handleChange(e, col.key)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {col.title}
+                  {col.key === sortedInfo.columnKey && (
+                    <span>{sortedInfo.order === 'ascend' ? '↑' : '↓'}</span>
+                  )}
+                </th>
+              ))}
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sortedData?.map((record, index) => (
+              <tr key={record.key}>
+                <td className="px-4 py-2">{++index}</td>
+                <td className="px-4 py-2">
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img
+                      src={record.avatar}
+                      alt="Avatar"
+                      className="w-8 h-8 rounded-full mr-2"
+                    />
+                    {record.name}
+                  </div>
+                </td>
+                <td
+                  className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'
+                    } ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
+                >
+                  {record.approvalStatus}
+                </td>
+                <td className="px-4 py-2">{record.email}</td>
+                <td className="px-4 py-2">{record.subscriptionType}</td>
+                <td className="px-4 py-2">
+                  <Link to={`view-user/${record.id}`} className="text-blue-500">
+                    View
+                  </Link>
+                </td>
+              </tr>
+            ))}
+            {isLoading && (
+              <tr>
+                <td colSpan={7} className="text-center py-4">
+                  Loading...
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Pagination Controls */}
       <div className="mt-4 flex items-center justify-end">
