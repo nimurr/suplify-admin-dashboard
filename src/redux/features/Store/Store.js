@@ -10,11 +10,20 @@ export const storeApi = apiSlice.injectEndpoints({
             query: (category) => `/products/paginate?category=${category}`,
             providesTags: ['AllSuppliments']
         }),
+        createSuppliment: builder.mutation({
+            query: (supplimentData) => ({
+                url: '/products/create',
+                method: 'POST',
+                body: supplimentData,
+            }),
+            invalidatesTags: ['AllSuppliments', 'StoreItems']
+        }),
     }),
 });
 
 
 export const {
     useGetStoreItemsQuery,
-    useGetAllSupplimentsQuery
+    useGetAllSupplimentsQuery,
+    useCreateSupplimentMutation
 } = storeApi;

@@ -1,33 +1,40 @@
 import { useState } from 'react';
 import { ArrowLeft, Upload } from 'lucide-react';
-import { CheckCircleOutlined, EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+import { useCreateSupplimentMutation } from '../../../redux/features/Store/Store';
+
 export default function SupplementCreateForm() {
-  const navigate = useNavigate()
+  const { id } = Object.fromEntries(new URLSearchParams(window.location.search)); // Extract the `id` from URL params
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: '',
-    price: '',
-    description: 'Description for this item is very important for the user, they have to know in details of the item',
-    photo: null
+    attachments: '', // For storing file path or file object
+    price: null,
+    description: '',
+    category: id || '', // Use the `id` from URL or set an empty string if not available
   });
 
   const [photoPreview, setPhotoPreview] = useState(null);
 
+  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
+  // Handle photo file change
   const handlePhotoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setFormData({
         ...formData,
-        photo: file
+        attachments: file, // Store the file in the formData state
       });
 
       // Create preview URL
@@ -39,23 +46,41 @@ export default function SupplementCreateForm() {
     }
   };
 
-  const handleSubmit = () => {
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here
+  const [createSuppliment] = useCreateSupplimentMutation(); // Placeholder for the mutation hook
+
+  // Handle form submission
+  const handleSubmit = async () => {
+    try {
+      const res = await createSuppliment(formData).unwrap();
+      console.log(res);
+      if (res.code === 200) {
+        toast.success('Supplement created successfully!');
+        navigate(`/dashboard/store/view-store?id=${formData.category}`);
+        formData.name = '';
+        formData.price = null;
+        formData.description = '';
+        formData.attachments = '';
+      }
+
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('Failed to create supplement. Please try again.');
+    }
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm">
-      <h1 className="text-xl font-medium mb-4 flex items-center gap-2">
-        <FaArrowLeft onClick={() => navigate('/dashboard/store/view-store')} className="text-[28px] cursor-pointer"></FaArrowLeft>
+    <div className="max-w-2xl mx-auto bg-white px-8 py-5 rounded-lg shadow-sm">
+      <Toaster />
+      <h1 className="text-xl font-medium mb-10 flex items-center gap-2">
+        <FaArrowLeft onClick={() => navigate(`/dashboard/store/view-store?id=${id}`)} className="text-[28px] cursor-pointer" />
         Healthy Supplement
       </h1>
 
-      <div className='border border-[#eee] p-3 rounded-lg'>
+      <div className="border border-[#eee] p-3 rounded-lg">
+        {/* Photo (Attachment) Upload */}
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-medium mb-2">
-            Photo
-          </label>
+          <label className="block text-gray-700 text-sm font-medium mb-2">Photo</label>
 
           <div className="flex items-start">
             <div className="mr-4">
@@ -83,16 +108,15 @@ export default function SupplementCreateForm() {
               >
                 Upload Photo
               </button>
-              <p className="text-xs text-gray-500 mt-1">
-                PNG, JPG or PDF up to 10MB
-              </p>
+              <p className="text-xs text-gray-500 mt-1">PNG, JPG or PDF up to 10MB</p>
             </div>
           </div>
         </div>
 
+        {/* Name */}
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">
-            Name <span className="text-red-500">*</span>
+            Name <span className="text-[red]">*</span>
           </label>
           <input
             type="text"
@@ -105,9 +129,10 @@ export default function SupplementCreateForm() {
           />
         </div>
 
+        {/* Price */}
         <div className="mb-4">
           <label htmlFor="price" className="block text-gray-700 text-sm font-medium mb-2">
-            Price <span className="text-red-500">*</span>
+            Price <span className="text-[red]">*</span>
           </label>
           <input
             type="text"
@@ -120,13 +145,15 @@ export default function SupplementCreateForm() {
           />
         </div>
 
+        {/* Description */}
         <div className="mb-8">
           <label htmlFor="description" className="block text-gray-700 text-sm font-medium mb-2">
-            Description <span className="text-red-500">*</span>
+            Description <span className="text-[red]">*</span>
           </label>
           <textarea
             id="description"
             name="description"
+            placeholder='Enter Your Description Here...'
             rows="4"
             value={formData.description}
             onChange={handleInputChange}
@@ -134,6 +161,7 @@ export default function SupplementCreateForm() {
           ></textarea>
         </div>
 
+        {/* Submit Button */}
         <button
           onClick={handleSubmit}
           className="px-8 py-2 w-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg font-medium rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
