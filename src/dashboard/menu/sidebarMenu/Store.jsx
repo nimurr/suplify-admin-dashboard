@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { IoEyeOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useGetStoreItemsQuery } from '../../../redux/features/Store/Store';
 
 const dataSource = [
   {
@@ -49,11 +51,14 @@ const dataSource = [
 const StoreTable = () => {
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
 
+  const { data } = useGetStoreItemsQuery();
+  const storeData = data?.data?.attributes?.counts || [];
+
   // Pagination logic: slice the data to show only the items for the current page
-  const currentData = dataSource.slice(
+  const currentData = storeData?.slice(
     (pagination.current - 1) * pagination.pageSize,
     pagination.current * pagination.pageSize
   );
@@ -77,20 +82,22 @@ const StoreTable = () => {
       <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <thead className='bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg'>
           <tr>
-            <th className="px-4 text-left py-2">Id</th>
-            <th className="px-4 text-left py-2">Category</th>
-            <th className="px-4 text-left py-2">Item</th>
-            <th className="px-4 text-left py-2">Action</th>
+            <th className="px-4 text-center py-5">SL</th>
+            <th className="px-4 text-center py-5">Category</th>
+            <th className="px-4 text-center py-5">Item</th>
+            <th className="px-4 text-center py-5">Action</th>
           </tr>
         </thead>
         <tbody>
-          {currentData.map((record) => (
+          {currentData?.map((record, idx) => (
             <tr className='border-b border-[#ccc]' key={record.key}>
-              <td className="px-4 py-2">{record.id}</td>
-              <td className="px-4 py-2"><strong>{record.category}</strong></td>
-              <td className="px-4 py-2">{record.item}</td>
-              <td className="px-4 py-2">
-                <Link to="view-store" className="text-blue-500">View</Link>
+              <td className="px-4 text-center py-5">{++idx}</td>
+              <td className="px-4 capitalize text-center py-5"><strong>{record._id}</strong></td>
+              <td className="px-4 text-center py-5">{record.count}</td>
+              <td className="px-4 text-center py-5">
+                <Link to={`view-store?id=${record._id}`} className="text-blue-500 text-center flex items-center justify-center gap-1">
+                  <IoEyeOutline className='text-2xl ' />
+                </Link>
               </td>
             </tr>
           ))}

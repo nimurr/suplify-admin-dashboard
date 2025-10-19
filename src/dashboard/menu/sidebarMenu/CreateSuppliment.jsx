@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { ArrowLeft, Upload } from 'lucide-react';
 import { CheckCircleOutlined, EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa6';
 export default function SupplementCreateForm() {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     price: '',
     description: 'Description for this item is very important for the user, they have to know in details of the item',
     photo: null
   });
-  
+
   const [photoPreview, setPhotoPreview] = useState(null);
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -20,7 +21,7 @@ export default function SupplementCreateForm() {
       [name]: value
     });
   };
-  
+
   const handlePhotoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -28,7 +29,7 @@ export default function SupplementCreateForm() {
         ...formData,
         photo: file
       });
-      
+
       // Create preview URL
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -37,48 +38,48 @@ export default function SupplementCreateForm() {
       reader.readAsDataURL(file);
     }
   };
-  
+
   const handleSubmit = () => {
     console.log('Form submitted:', formData);
     // Add your form submission logic here
   };
-  
+
   return (
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm">
-      <h1 className="text-2xl font-medium mb-4">
-      <ArrowLeftOutlined onClick={() => navigate('/dashboard/store/view-store')} className="text-[28px] cursor-pointer"></ArrowLeftOutlined>
-         Healthy Supplement</h1>
-      <hr className="border-gray-200 mb-6" />
-      
-      <div>
+      <h1 className="text-xl font-medium mb-4 flex items-center gap-2">
+        <FaArrowLeft onClick={() => navigate('/dashboard/store/view-store')} className="text-[28px] cursor-pointer"></FaArrowLeft>
+        Healthy Supplement
+      </h1>
+
+      <div className='border border-[#eee] p-3 rounded-lg'>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-medium mb-2">
             Photo
           </label>
-          
+
           <div className="flex items-start">
             <div className="mr-4">
               <label className="cursor-pointer">
-                <div className="w-40 h-40 border border-dashed border-gray-300 rounded flex flex-col items-center justify-center bg-gray-50">
+                <div className="w-40 h-40 border border-dashed border-[#cfcfcf] rounded flex flex-col items-center justify-center bg-gray-50">
                   {photoPreview ? (
                     <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
                   ) : (
                     <Upload className="text-gray-400 mb-2" size={24} />
                   )}
                 </div>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
                   onChange={handlePhotoChange}
                 />
               </label>
             </div>
-            
+
             <div>
-              <button 
+              <button
                 type="button"
-                className="px-4 py-2 border border-gray-300 rounded bg-white text-sm text-gray-700 hover:bg-gray-50"
+                className="px-4 py-2 border border-[#eee] rounded bg-white text-sm text-gray-700 hover:bg-gray-50"
               >
                 Upload Photo
               </button>
@@ -88,7 +89,7 @@ export default function SupplementCreateForm() {
             </div>
           </div>
         </div>
-        
+
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">
             Name <span className="text-red-500">*</span>
@@ -100,10 +101,10 @@ export default function SupplementCreateForm() {
             placeholder="Type Name"
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
-        
+
         <div className="mb-4">
           <label htmlFor="price" className="block text-gray-700 text-sm font-medium mb-2">
             Price <span className="text-red-500">*</span>
@@ -115,10 +116,10 @@ export default function SupplementCreateForm() {
             placeholder="$ 250"
             value={formData.price}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
-        
+
         <div className="mb-8">
           <label htmlFor="description" className="block text-gray-700 text-sm font-medium mb-2">
             Description <span className="text-red-500">*</span>
@@ -129,13 +130,13 @@ export default function SupplementCreateForm() {
             rows="4"
             value={formData.description}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
           ></textarea>
         </div>
-        
+
         <button
           onClick={handleSubmit}
-          className="px-8 py-2 bg-red-600 text-white font-medium rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+          className="px-8 py-2 w-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg font-medium rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
         >
           Create
         </button>
