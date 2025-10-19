@@ -79,7 +79,7 @@ export default function ViewStore() {
     <div className="border border-[#eee] rounded-lg ">
 
       {/* Creating multiple bottle silhouettes */}
-      <img className='w-full h-auto' src="/public/image/fitness1.png" alt="" />
+      <img className='w-full h-60 ' src={product.attachments[0]?.attachment} alt="" />
 
       {/* Product info */}
       <div className="p-4 flex flex-col flex-grow">
@@ -90,8 +90,7 @@ export default function ViewStore() {
             <ShoppingCart size={16} />
           </button>
         </div>
-        <p className="text-xs text-gray-500 line-clamp-3">{product.description}</p>
-        <a href="#" className="text-xs text-blue-600 mt-1">Learn more</a>
+        <p className="text-xs text-gray-500 line-clamp-3">{product.description?.length > 100 ? product.description.slice(0, 100) + "  learn more..." : product.description}</p>
       </div>
     </div>
   );
@@ -110,7 +109,7 @@ export default function ViewStore() {
 
 
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start gap-4">
         {fullData?.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}

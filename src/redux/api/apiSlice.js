@@ -8,14 +8,14 @@ export const apiSlice = createApi({
     baseUrl: "https://newsheakh6731.sobhoy.com/api/v1",
     prepareHeaders: (headers, { getState }) => {
       const token = localStorage.getItem("token");
-    //   console.log("9 baseApi", token);
+      //   console.log("9 baseApi", token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  tagTypes: ["Promotion", "Product", "Users", "Coupon", "About" , "Order"],  
+  tagTypes: ["Promotion", "Product", "Users", "Coupon", "About", "Order", "AllSuppliments"],
 
   endpoints: () => ({}),
 });

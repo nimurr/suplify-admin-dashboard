@@ -50,8 +50,16 @@ export default function SupplementCreateForm() {
 
   // Handle form submission
   const handleSubmit = async () => {
+    const formData2 = new FormData();
+    formData2.append('name', formData.name);
+    formData2.append('price', formData.price);
+    formData2.append('description', formData.description);
+    formData2.append('category', formData.category);
+    formData2.append('attachments', formData.attachments);
+
+
     try {
-      const res = await createSuppliment(formData).unwrap();
+      const res = await createSuppliment(formData2).unwrap();
       console.log(res);
       if (res.code === 200) {
         toast.success('Supplement created successfully!');
