@@ -46,8 +46,8 @@ const Header = () => {
           title: "Logged Out!",
           text: "User has been logged out successfully.",
           icon: "success",
-          timer: 2000 ,
-          
+          timer: 2000,
+
         });
         navigate('/');
       }
@@ -82,14 +82,14 @@ const Header = () => {
 
   const menu = (
     <Menu className={`transition ease-in-out duration-300 transform ${menuVisible ? 'custom-dropdown-menu-visible' : 'custom-dropdown-menu'}`}>
-      <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] " key="1">
-        <Link to="/dashboard/profile" className="  ">Profile</Link>
+      <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] hover:text-[white]" key="1">
+        <Link to="/dashboard/profile" className=" hover:!text-[white]">Profile</Link>
       </Menu.Item>
-      <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] " key="2">
-        <p onClick={openModal} className="  hover:!text-white">Change Password</p>
+      <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] hover:!text-[white]" key="2">
+        <p onClick={openModal} className="  hover:!text-[white]">Change Password</p>
       </Menu.Item>
-      <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] " key="3">
-        <p onClick={handleLogOut} className=" hover:!text-white">Logout</p>
+      <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] hover:!text-[white]" key="3">
+        <p onClick={handleLogOut} className=" hover:!text-[white]">Logout</p>
       </Menu.Item>
     </Menu>
   );
