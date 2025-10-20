@@ -2,38 +2,38 @@ import { Image, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import user from '../../../../public/image/randomuser.jpg';
- 
+
 
 const Profile = () => {
   const navigate = useNavigate();
- 
+
   // console.log(profile);
-  
+
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mt-10 mb-16">
+      <div className="flex justify-between items-center my-5">
         <h1 className="text-2xl md:text-3xl font-medium">Profile Information</h1>
         <div
           onClick={() => navigate(`/dashboard/editprofile`)}
-          className="flex gap-2 items-center py-3 px-6 rounded-lg cursor-pointer bg-[#193664] text-white"
+          className="flex gap-2 items-center py-3 px-6 rounded-lg cursor-pointer bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f]  text-[white]"
         >
           <FaEdit size={17} />
           <p>Edit Profile</p>
         </div>
       </div>
 
-      <div className="lg:flex md:flex gap-4 shadow-md bg-white p-4 rounded-xl">
-        <div className="lg:w-1/3 flex flex-col border border-dotted p-4 justify-center items-center gap-8">
-        <div className="rounded-full  overflow-hidden h-[180px] w-[180px] mx-auto">
-              {/* <Image src={url + profile?.data?.attributes?.image} /> */}
-              <Image src={"https://randomuser.me/api/portraits/men/57.jpg"} />
-            </div>
-           
+      <div className="lg:flex md:flex gap-4 border border-[#eee] bg-white p-4 rounded-xl">
+        <div className="lg:w-1/3 flex flex-col border border-dotted border-[#d3d3d3] p-4 justify-center items-center gap-8">
+          <div className="rounded-full border-2 border-[#979797] overflow-hidden h-[180px] w-[180px] mx-auto">
+            {/* <Image src={url + profile?.data?.attributes?.image} /> */}
+            <img className="w-full" src={"https://randomuser.me/api/portraits/men/57.jpg"} />
+          </div>
+
           <div className="flex flex-col justify-center items-center text-center">
             {/* <p className="text-lg md:text-xl">{profile?.data?.attributes?.role}</p> */}
             <p className="text-lg md:text-xl">{"admin"}</p>
-            <h1 className="text-2xl md:text-3xl font-medium">{"absayed"}</h1>
+            <h1 className="text-2xl md:text-3xl font-medium capitalize">{"absayed"}</h1>
           </div>
         </div>
 
@@ -48,7 +48,7 @@ const Profile = () => {
                   placeholder="First name"
                   // value={profile?.data?.attributes?.name}
                   value={"absayed"}
-                  className="p-4 cursor-pointer text-lg md:text-xl bg-[#ebf5f5] text-black rounded w-full mt-3 outline-none focus:bg-[#69C0BE] hover:bg-[#e1f1f1]"
+                  className="p-4 text-lg md:text-xl bg-[#8400ff13] text-black rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
                   type="text"
                   readOnly
                 />
@@ -62,7 +62,7 @@ const Profile = () => {
               <Input
                 placeholder="Email"
                 value={"ab@gmail.com"}
-                className="p-4 text-lg md:text-xl bg-[#ebf5f5] rounded w-full mt-3 outline-none focus:bg-[#69C0BE] hover:bg-[#69C0BE]"
+                className="p-4 text-lg md:text-xl bg-[#8400ff13] rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
                 type="text"
                 readOnly
               />
@@ -75,7 +75,7 @@ const Profile = () => {
               <Input
                 placeholder="Phone"
                 value={"454565465"}
-                className="p-4 text-lg md:text-xl bg-[#ebf5f5] rounded w-full mt-3 outline-none focus:bg-[#69C0BE] hover:bg-[#69C0BE]"
+                className="p-4 text-lg md:text-xl bg-[#8400ff13] rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
                 type="text"
                 readOnly
               />

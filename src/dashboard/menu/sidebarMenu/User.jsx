@@ -24,6 +24,11 @@ const UserManagement = () => {
     }));
   }, [data]);
 
+
+  setTimeout(() => {
+    setData(fullData?.results);
+  }, 1000);
+
   // Handle Sorting
   const [sortedInfo, setSortedInfo] = useState({
     columnKey: 'role',

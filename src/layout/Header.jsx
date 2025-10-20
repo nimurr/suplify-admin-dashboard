@@ -46,7 +46,8 @@ const Header = () => {
           title: "Logged Out!",
           text: "User has been logged out successfully.",
           icon: "success",
-          timer: 2000
+          timer: 2000 ,
+          
         });
         navigate('/');
       }
@@ -125,8 +126,8 @@ const Header = () => {
           onCancel={() => setIsModalOpen(false)}
           footer={null}
         >
-          <div className="flex flex-col w-[80%] mx-auto ">
-            <h2 className="text-[28px] text-left font-semibold mb-4">Change Password</h2>
+          <div className="flex flex-col w-[90%] mx-auto ">
+            <h2 className="text-[28px] text-left font-semibold mb-2">Change Password</h2>
             <p className="  mb-8 text-gray-600">Your password must be 8-10 character long.</p>
             <Form
               name="changePassword"
@@ -142,10 +143,10 @@ const Header = () => {
                 <Input.Password
                   style={{
                     height: "40px",
-                    background: "#E6F9EF",
+                    background: "#8400ff13",
                     outline: "none",
 
-                    border: '1px solid green'
+                    border: '1px solid #8400ff8e'
                   }}
                   placeholder="Old Password"
                   prefix={<LockOutlined />}
@@ -163,10 +164,10 @@ const Header = () => {
                 <Input.Password
                   style={{
                     height: "40px",
-                    background: "#E6F9EF",
+                    background: "#8400ff13",
                     outline: "none",
 
-                    border: '1px solid green'
+                    border: '1px solid #8400ff8e'
                   }}
                   placeholder="New Password"
                   prefix={<LockOutlined />}
@@ -201,10 +202,10 @@ const Header = () => {
                 <Input.Password
                   style={{
                     height: "40px",
-                    background: "#E6F9EF",
+                    background: "#8400ff13",
                     outline: "none",
 
-                    border: '1px solid green'
+                    border: '1px solid #8400ff8e'
                   }}
                   placeholder="Confirm Password"
                   prefix={<LockOutlined />}
@@ -215,13 +216,13 @@ const Header = () => {
               </Form.Item>
               {/* <p className="text-red-500 font-medium">{error}</p> */}
               <Form.Item>
-                <Button
+                <button
                   type="primary"
                   htmlType="submit"
-                  className="w-full h-10 py-3 !bg-[#69C0BE] !text-black text-[16px] rounded-md"
+                  className="w-full py-3 bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg  !text-black text-[16px] rounded-md"
                 >
                   Change Password
-                </Button>
+                </button>
               </Form.Item>
             </Form>
           </div>
