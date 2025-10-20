@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetAllUsersQuery } from '../../../redux/features/users/users';
+import url from '../../../redux/api/baseUrl';
 
 const UserManagement = () => {
   const { data: users, isLoading } = useGetAllUsersQuery();
@@ -16,6 +17,7 @@ const UserManagement = () => {
   const [search, setSearch] = useState(""); // State for search input
 
   useEffect(() => {
+    setData(fullData?.results);
     setPagination((prev) => ({
       ...prev,
       current: 1,
@@ -148,43 +150,44 @@ const UserManagement = () => {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {sortedData?.map((record, index) => (
-              <tr key={record.key}>
-                <td className="px-4 py-2">{++index}</td>
-                <td className="px-4 py-2">
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img
-                      src={record.avatar}
-                      alt="Avatar"
-                      className="w-8 h-8 rounded-full mr-2"
-                    />
-                    {record.name}
-                  </div>
-                </td>
-                <td
-                  className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'
-                    } ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
-                >
-                  {record.approvalStatus}
-                </td>
-                <td className="px-4 py-2">{record.email}</td>
-                <td className="px-4 py-2">{record.subscriptionType}</td>
-                <td className="px-4 py-2">
-                  <Link to={`view-user/${record.id}`} className="text-blue-500">
-                    View
-                  </Link>
-                </td>
-              </tr>
-            ))}
-            {isLoading && (
-              <tr>
-                <td colSpan={7} className="text-center py-4">
-                  Loading...
-                </td>
-              </tr>
-            )}
-          </tbody>
+
+          {isLoading ? (
+            <tr>
+              <td colSpan={7} className="text-center py-4">
+                Loading...
+              </td>
+            </tr>) : (
+            <tbody>
+              {sortedData?.map((record, index) => (
+                <tr key={record.key}>
+                  <td className="px-4 py-2">{++index}</td>
+                  <td className="px-4 py-2">
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <img
+                        src={url + record.profileImage?.imageUrl}
+                        alt="Avatar"
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      {record.name}
+                    </div>
+                  </td>
+                  <td
+                    className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'
+                      } ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
+                  >
+                    {record.approvalStatus}
+                  </td>
+                  <td className="px-4 py-2">{record.email}</td>
+                  <td className="px-4 py-2">{record.subscriptionType}</td>
+                  <td className="px-4 py-2">
+                    <Link to={`view-user/${record._id}`} className="text-blue-500">
+                      View
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
 

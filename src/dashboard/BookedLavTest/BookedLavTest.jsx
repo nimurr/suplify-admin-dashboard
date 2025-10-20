@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { IoEyeOutline } from 'react-icons/io5';
 import { Modal, Button } from 'antd';
-import { useGetBookedLavTestQuery } from '../../redux/features/BookedLavTest/BookedLavTest';
+import { useGetBookedLavTestQuery, useUpdateBookedLavTestMutation } from '../../redux/features/BookedLavTest/BookedLavTest';
 import moment from 'moment';
+import toast, { Toaster } from 'react-hot-toast';
 
 const BookedLavTest = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,6 +18,9 @@ const BookedLavTest = () => {
     const { data, isLoading } = useGetBookedLavTestQuery();
     const fullData = data?.data?.attributes?.results; // Assuming data structure from your response
 
+    const [updateStatus] = useUpdateBookedLavTestMutation();
+
+
     const showModal = (test) => {
         setSelectedTest(test);
         setIsModalVisible(true);
@@ -27,9 +31,23 @@ const BookedLavTest = () => {
         setSelectedTest(null);
     };
 
-    const handleStatusChange = (e) => {
-        setSelectStatus(e.target.value);
-        console.log(`Selected Status: ${e.target.value}`);
+    const handleStatusChange = async (e) => {
+
+
+        try {
+            const res = await updateStatus({ data: { status: e.target.value }, id: selectedTest._LabTestBookingId });
+            console.log("Status updated successfully:", res);
+            if (res.data?.code === 200) {
+                toast.success("Status updated successfully");
+                // modal close and data refetch
+                setIsModalVisible(false);
+            }
+
+        } catch (error) {
+            console.error("Error updating status:", error);
+        }
+
+
     };
 
     // Pagination logic: slice the data to show only the items for the current page
@@ -51,6 +69,7 @@ const BookedLavTest = () => {
 
     return (
         <div>
+            <Toaster />
             <h1 className="text-xl font-semibold mb-6">Booked Lab Test</h1>
 
             <div className="overflow-x-auto bg-white border border-[#f0f0f0] rounded-lg">
@@ -79,7 +98,9 @@ const BookedLavTest = () => {
                                 <td className="py-3 px-4 text-sm font-medium">
                                     <span
                                         className={
-                                            test.status === 'completed' ? 'text-green-600' : 'text-orange-500'
+                                            test.status === 'Delivered' && 'text-[green]'
+                                            || test.status === 'Pending' && 'text-[orange]'
+                                            || test.status === 'Canceled' && 'text-[red]'
                                         }
                                     >
                                         {test.status}
@@ -169,7 +190,7 @@ const BookedLavTest = () => {
                                 >
                                     <option value="Pending">Pending</option>
                                     <option value="Delivered">Delivered</option>
-                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="Canceled">Canceled</option>
                                 </select>
                             </div>
                         </div>
