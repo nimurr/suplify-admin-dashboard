@@ -30,6 +30,7 @@ import Order from "../dashboard/Order/Order";
 import OrderDetails from "../dashboard/Order/OrderDetails";
 import WithdrawRequest from "../dashboard/WithdrawRequest/WithdrawRequest";
 import BookedLavTest from "../dashboard/BookedLavTest/BookedLavTest";
+import OnboardingVideo from "../dashboard/OnboardingVideo/OnboardingVideo";
 
 
 export const router = createBrowserRouter([
@@ -109,6 +110,11 @@ export const router = createBrowserRouter([
             {
                 path: "user/view-user/:id",
                 element: <ViewProfile />
+            },
+
+            {
+                path: "onboarding-video",
+                element: <OnboardingVideo />
             },
 
             {

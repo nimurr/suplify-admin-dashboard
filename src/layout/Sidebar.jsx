@@ -9,7 +9,7 @@ import { BiMenu, BiSolidDashboard } from "react-icons/bi";
 import { HiLogout } from "react-icons/hi";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { PiGitPullRequestDuotone } from "react-icons/pi";
-import { RiSecurePaymentFill } from "react-icons/ri";
+import { RiSecurePaymentFill, RiVideoDownloadLine } from "react-icons/ri";
 import { CiCreditCard1, CiSettings } from "react-icons/ci";
 import Swal from "sweetalert2";
 import { SiMagento } from "react-icons/si";
@@ -126,6 +126,18 @@ const Sidebar = () => {
             >
               <MdOutlineStorefront className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 md:block">Store</span>
+            </NavLink>
+
+            <NavLink
+              to="onboarding-video"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
+              }
+            >
+              <RiVideoDownloadLine className="h-7 w-7 lg:h-5 lg:w-5" />
+              <span className="hidden ml-2 md:block">Onboarding Video</span>
             </NavLink>
             <NavLink
               to="settings"

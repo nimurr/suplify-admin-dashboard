@@ -41,13 +41,14 @@ export default function ViewProfile() {
   };
 
   const handleViewFile = () => {
-    window.open(user.document.url, "_blank");
+    window.open(fullUserData.fullUserData?.attachments[0]?.attachment, "_blank");
+
   };
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = user.document.url;
-    link.download = user.document.name;
+    link.href = fullUserData.fullUserData?.attachments[0]?.attachment;
+    link.download = fullUserData.fullUserData?.attachments[0]?.attachment.split("/").pop();
     link.click();
   };
 
@@ -71,10 +72,14 @@ export default function ViewProfile() {
               className="w-24 h-24 rounded-full object-cover"
             />
           }
-          <CheckCircleOutlined
-            className="absolute top-1 left-1 text-white text-xl text-[white] bg-[green] rounded-full"
+          {
+            fullUserData?.profileId?.approvalStatus === 'approved' && (
+              <CheckCircleOutlined
+                className="absolute top-1 left-1 text-white text-xl text-[white] bg-[green] rounded-full"
+              />
+            )
+          }
 
-          />
         </div>
         <Text strong className="text-xl text-[white]">{fullUserData.name}</Text>
       </Card>
@@ -89,21 +94,26 @@ export default function ViewProfile() {
           fullUserData.profileId?.attachments && fullUserData.profileId?.attachments.length > 0 ? (
             <div>
               <Text className="text-[#666] mb-5" strong>Upload document *</Text>
-              <div className="text-[#666]">{fullUserData.profileId.attachments[0].originalName} ({(fullUserData.profileId.attachments[0].size / 1024).toFixed(2)}kb)</div>
+              <div className="text-[#666]">{fullUserData.fullUserData?.attachments[0]?.attachment} ({(fullUserData.profileId.attachments[0].size / 1024).toFixed(2)}kb)</div>
             </div>
           ) : (
             <div>
               <Text className="text-[#666] mb-5" strong>Upload document *</Text>
-              <div className="text-[#666]">No document uploaded</div>
+              <div className="text-[#666]">{
+                fullUserData?.profileId?.approvalStatus === 'approved' ? 'Document Approved' : 'No document uploaded'
+              }</div>
             </div>
           )
         }
-        <div className="flex space-x-4">
-          <button className="py-3 px-8 rounded-lg bg-[red] text-[white]" danger onClick={handleDecline}>Decline</button>
-          <button className="py-3 px-8 rounded-lg bg-[blue] text-[white]" type="primary" onClick={handleVerify}>Click to verify</button>
-        </div>
+        {
+          fullUserData?.profileId?.approvalStatus !== 'approved' && (
+            <div className="flex space-x-4">
+              <button className="py-3 px-8 rounded-lg bg-[red] text-[white]" danger onClick={handleDecline}>Decline</button>
+              <button className="py-3 px-8 rounded-lg bg-[blue] text-[white]" type="primary" onClick={handleVerify}>Click to verify</button>
+            </div>
+          )
+        }
       </div>
-
       <div className="flex space-x-4 mt-4 justify-end">
         <Button className="h-10 px-10" icon={<EyeOutlined />} onClick={handleViewFile}>View File</Button>
         <Button className="h-10 px-10" icon={<DownloadOutlined />} onClick={handleDownload}>Download</Button>
