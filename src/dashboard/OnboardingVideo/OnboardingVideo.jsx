@@ -96,7 +96,7 @@ const OnboardingVideo = () => {
                 <button
                     type="button"
                     onClick={handleModalOpen}
-                    className="bg-[#da0101] flex items-center justify-center gap-2 hover:bg-blue-600 text-primaryBg font-semibold py-2 px-4 rounded-lg shadow-lg"
+                    className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex items-center justify-center gap-2 hover:bg-blue-600 font-semibold py-3 px-8 rounded-lg shadow-lg"
                 >
                     <MdOutlineCloudUpload /> Upload Video / Edit
                 </button>
