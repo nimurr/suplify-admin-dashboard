@@ -125,7 +125,8 @@ const OnboardingVideo = () => {
                 footer={null} // No default footer, we will provide custom buttons
                 className="p-4 rounded-lg shadow-lg"
             >
-                <div className="flex flex-col space-y-4 mt-10">
+                <div className="flex flex-col space-y-4 mt-5 ">
+                    <h2 className='text-2xl font-semibold mb-5 text-center'>Upload Video / Edit </h2>
                     <div>
                         <label className="text-sm font-medium text-gray-700 mb-2 block">Video URL</label>
                         <Input
