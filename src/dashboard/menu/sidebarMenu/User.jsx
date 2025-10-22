@@ -16,18 +16,12 @@ const UserManagement = () => {
 
   const [search, setSearch] = useState(""); // State for search input
 
+  // Set the data initially only once when the component mounts
   useEffect(() => {
-    setData(fullData?.results);
-    setPagination((prev) => ({
-      ...prev,
-      current: 1,
-    }));
-  }, [data]);
-
-
-  setTimeout(() => {
-    setData(fullData?.results);
-  }, 1000);
+    if (fullData?.results) {
+      setData(fullData?.results);
+    }
+  }, [fullData]); // This will run once when `fullData` changes (like when first loaded)
 
   // Handle Sorting
   const [sortedInfo, setSortedInfo] = useState({
@@ -80,12 +74,19 @@ const UserManagement = () => {
     setData(filteredData); // Set the filtered data in the state
   };
 
+  // Handle Pagination Controls
+  const handlePagination = (direction) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: direction === 'next' ? prev.current + 1 : prev.current - 1,
+    }));
+  };
+
   return (
-    <div >
+    <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
-        <div
-          className={`md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center`}
-        >
+        {/* Dashboard Stats */}
+        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
           <div>
             <p className="text-lg text-gray-500 font-medium mb-2"> Total Users </p>
             <p className="text-4xl text-gray-500 font-medium">
@@ -94,9 +95,7 @@ const UserManagement = () => {
           </div>
         </div>
 
-        <div
-          className={`md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center`}
-        >
+        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
           <div>
             <p className="text-lg text-gray-500 font-medium mb-2"> Total Doctors </p>
             <p className="text-4xl text-gray-500 font-medium">
@@ -104,9 +103,8 @@ const UserManagement = () => {
             </p>
           </div>
         </div>
-        <div
-          className={`md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center`}
-        >
+
+        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
           <div>
             <p className="text-lg text-gray-500 font-medium mb-2"> Total Patients </p>
             <p className="text-4xl text-gray-500 font-medium">
@@ -114,9 +112,8 @@ const UserManagement = () => {
             </p>
           </div>
         </div>
-        <div
-          className={`md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center`}
-        >
+
+        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
           <div>
             <p className="text-lg text-gray-500 font-medium mb-2"> Total Specialists </p>
             <p className="text-4xl text-gray-500 font-medium">
@@ -126,6 +123,7 @@ const UserManagement = () => {
         </div>
       </div>
 
+      {/* Search Bar */}
       <div className="my-5 flex items-center gap-2 justify-between flex-wrap">
         <h1 className="text-xl font-semibold">User Management</h1>
         <input
@@ -136,7 +134,9 @@ const UserManagement = () => {
           onChange={handleSearch} // Trigger search on change
         />
       </div>
-      <div className='w-ful overflow-x-auto'>
+
+      {/* Table */}
+      <div className="w-full overflow-x-auto">
         <table border="1" className="w-full table-auto border-collapse rounded-lg overflow-hidden">
           <thead className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
             <tr>
@@ -161,7 +161,8 @@ const UserManagement = () => {
               <td colSpan={7} className="text-center py-4">
                 Loading...
               </td>
-            </tr>) : (
+            </tr>
+          ) : (
             <tbody>
               {sortedData?.map((record, index) => (
                 <tr key={record.key}>
@@ -177,8 +178,7 @@ const UserManagement = () => {
                     </div>
                   </td>
                   <td
-                    className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'
-                      } ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
+                    className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'} ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
                   >
                     {record.approvalStatus}
                   </td>
@@ -199,9 +199,7 @@ const UserManagement = () => {
       {/* Pagination Controls */}
       <div className="mt-4 flex items-center justify-end">
         <button
-          onClick={() =>
-            setPagination((prev) => ({ ...prev, current: prev.current - 1 }))
-          }
+          onClick={() => handlePagination('prev')}
           disabled={pagination.current === 1}
           className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded mr-2 disabled:opacity-50"
         >
@@ -211,9 +209,7 @@ const UserManagement = () => {
           Page {pagination.current} of {Math.ceil(data?.length / pagination.pageSize)}
         </span>
         <button
-          onClick={() =>
-            setPagination((prev) => ({ ...prev, current: prev.current + 1 }))
-          }
+          onClick={() => handlePagination('next')}
           disabled={pagination.current === Math.ceil(data?.length / pagination.pageSize)}
           className="px-4 py-2 bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg rounded ml-2 disabled:opacity-50"
         >

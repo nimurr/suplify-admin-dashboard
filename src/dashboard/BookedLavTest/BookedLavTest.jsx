@@ -116,7 +116,11 @@ const BookedLavTest = () => {
                         ))}
                     </tbody>
                 </table>
-                <h2 className='font-semibold text-center py-5'>{!fullData && "Not Available !!"}</h2>
+                {isLoading ? (
+                    <div className='text-center flex items-center justify-center py-2'>
+                        <span className='text-center py-3'>Loading...</span>
+                    </div>
+                ) : null}
             </div>
 
             {/* Pagination Controls */}

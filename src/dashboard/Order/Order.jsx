@@ -5,7 +5,7 @@ import { useGetAllOrderQuery } from '../../redux/features/Order/order';
 
 const Order = () => {
 
-    const { data } = useGetAllOrderQuery();
+    const { data, isLoading } = useGetAllOrderQuery();
     const fullData = data?.data?.attributes?.results;
     console.log(fullData);
 
@@ -52,6 +52,7 @@ const Order = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white">
+
                         {currentOrders?.map((order, index) => (
                             <tr key={index} className="border-b border-[#ececec] hover:bg-[#fff4f4]">
                                 <td className="py-3 px-4 text-gray-700 text-sm">{order._orderId || 'N/A'}</td>
@@ -78,9 +79,12 @@ const Order = () => {
                         ))}
                     </tbody>
                 </table>
-                <h2 className='font-semibold text-center py-5'>{
-                    !fullData && "Not Available !!"
-                }</h2>
+                {isLoading ? (
+                    <div className='text-center flex items-center justify-center py-2'>
+                        <span className='text-center py-3'>Loading...</span>
+                    </div>
+                ) : null}
+               
             </div>
 
             {/* Pagination Controls */}

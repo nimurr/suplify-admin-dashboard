@@ -54,7 +54,7 @@ const StoreTable = () => {
     pageSize: 10,
   });
 
-  const { data } = useGetStoreItemsQuery();
+  const { data, isLoading } = useGetStoreItemsQuery();
   const storeData = data?.data?.attributes?.counts || [];
 
   // Pagination logic: slice the data to show only the items for the current page
@@ -103,6 +103,11 @@ const StoreTable = () => {
           ))}
         </tbody>
       </table>
+      {isLoading ? (
+        <div className='text-center flex items-center justify-center py-2'>
+          <span className='text-center py-3'>Loading...</span>
+        </div>
+      ) : null}
 
       {/* Pagination Controls */}
       <div className="mt-4 flex items-center justify-end">

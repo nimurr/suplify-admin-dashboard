@@ -7,7 +7,7 @@ import url from '../../redux/api/baseUrl';
 const WithdrawRequest = () => {
 
 
-    const { data } = useGetAllWithdrawRequestQuery();
+    const { data, isLoading } = useGetAllWithdrawRequestQuery();
     const fullData = data?.data?.attributes?.results;
     console.log(fullData);
 
@@ -41,7 +41,7 @@ const WithdrawRequest = () => {
 
 
 
-    const [paymentProof, { isLoading }] = useProofOfpaymentMutation();
+    const [paymentProof,] = useProofOfpaymentMutation();
 
 
     const handleSumitPay = async (e) => {
@@ -109,9 +109,11 @@ const WithdrawRequest = () => {
                             ))}
                         </tbody>
                     </table>
-                    <h2 className='font-semibold text-center py-5'>{
-                        !fullData && "Not Available !!"
-                    }</h2>
+                    {isLoading ? (
+                        <div className='text-center flex items-center justify-center py-2'>
+                            <span className='text-center py-3'>Loading...</span>
+                        </div>
+                    ) : null}
                 </div>
                 {/* Pagination Controls */}
                 <div className="flex justify-end items-center gap-3 mt-6">
