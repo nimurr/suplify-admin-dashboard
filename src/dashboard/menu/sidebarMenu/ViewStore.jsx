@@ -83,7 +83,6 @@ export default function ViewStore() {
           <button onClick={() => navigate(`create-suppliment?id=${id}`)} className='bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg py-2 px-8 rounded-lg font-semibold flex items-center gap-1'> <AiOutlinePlusCircle className='text-xl' />Create New</button>
         </div>
 
-
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start gap-4">
         {fullData?.map(product => (

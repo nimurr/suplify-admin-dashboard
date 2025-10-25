@@ -10,19 +10,7 @@ const { Title, Text } = Typography;
 
 export default function ViewProfile() {
   // Example user data, replace with real data or props
-  const user = {
-    fullName: "Mahmudur Rahman Talukder",
-    firstName: "Mahmudur Rahman Talukder",
-    email: "mahmudur.talukder@gmail.com",
-    profilePic: "/public/image/users.jpg", // Replace with user image url
-    document: {
-      name: "doc 1.pdf",
-      size: "30.4kb",
-      url: "/documents/doc1.pdf", // Replace with file URL
-    },
-  };
   const { id } = useParams();
-
   const { data, isLoading } = useGetUserProfileQuery(id);
   const fullUserData = data?.data?.attributes?.results[0] || {};
   console.log(fullUserData);
