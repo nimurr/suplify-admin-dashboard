@@ -15,10 +15,43 @@ export const userApi = apiSlice.injectEndpoints({
             }),
         }),
 
+        getYourSpecialist: builder.query({
+            query: (userId) => ({
+                url: `/specialist-patients/specialist/${userId}`,
+                method: 'GET',
+            }),
+        }),
+        getDoctors: builder.query({
+            query: (userId) => ({
+                url: `/doctor-patients/doctor/${userId}`,
+                method: 'GET',
+            }),
+        }),
+
+        assginSpecialist: builder.mutation({
+            query: (data) => ({
+                url: '/specialist-patients',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+
+        assignDoctor: builder.mutation({
+            query: (data) => ({
+                url: '/doctor-patients',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+
     })
 })
 export const {
     useGetAllUsersQuery,
     useGetUserProfileQuery,
+    useGetYourSpecialistQuery,
+    useGetDoctorsQuery,
+    useAssginSpecialistMutation,
+    useAssignDoctorMutation
 
 } = userApi

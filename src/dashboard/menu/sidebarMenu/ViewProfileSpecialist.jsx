@@ -1,110 +1,207 @@
 import React, { useState } from 'react';
-import { Modal, Button, Tabs, Card, Select, Space } from 'antd';
+import { Modal, Button, Tabs, Card, Select, Space, message } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
+import { useAssginSpecialistMutation, useAssignDoctorMutation, useGetDoctorsQuery, useGetUserProfileQuery, useGetYourSpecialistQuery } from '../../../redux/features/users/users';
+import { useParams } from 'react-router-dom';
+import url from '../../../redux/api/baseUrl';
 
 const { TabPane } = Tabs;
 
 const ViewProfileSpecialist = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isSpecialistModalVisible, setIsSpecialistModalVisible] = useState(false);
+    const [isDoctorModalVisible, setIsDoctorModalVisible] = useState(false);
     const [selectedSpecialist, setSelectedSpecialist] = useState(null);
+    const [selectedDoctor, setSelectedDoctor] = useState(null);
+    const [selectedSpecialistId, setSelectedSpecialistId] = useState(null);
+    const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+    const { id } = useParams();
+    const { data: userProfile } = useGetUserProfileQuery(id);
+    const user = userProfile?.data?.attributes?.results[0];
 
-    const specialists = [
-        { id: 1, name: "Sakib Ahmed" },
-        { id: 2, name: "John Doe" },
-        { id: 3, name: "Jane Smith" },
-        // Add more specialists here
-    ];
+    const { data: specialistsData } = useGetYourSpecialistQuery(id);
+    const userSpecialists = specialistsData?.data?.attributes;
+
+    const { data: doctorsData } = useGetDoctorsQuery(id);
+    const userDoctors = doctorsData?.data?.attributes?.results;
 
     const handleAssignSpecialist = () => {
-        setIsModalVisible(true);
+        setIsSpecialistModalVisible(true);
     };
 
-    const handleOk = () => {
-        // Logic to assign the selected specialist
-        console.log('Assigned specialist:', selectedSpecialist);
-        setIsModalVisible(false);
+    const handleAssignDoctor = () => {
+        setIsDoctorModalVisible(true);
+    };
+
+    const [assingSpecialist] = useAssginSpecialistMutation();
+
+    const handleSpecialistOk = async () => {
+        // Ensure a specialist is selected
+        if (!selectedSpecialistId) {
+            message.error('Please select a specialist');
+            return;
+        }
+
+        const data = {
+            patientId: id,
+            specialistId: selectedSpecialistId,
+        };
+
+        try {
+            const res = await assingSpecialist(data).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                setIsSpecialistModalVisible(false);
+                message.success(res?.message);
+            }
+
+        } catch (error) {
+            message.error('Failed to assign specialist');
+        }
+    };
+
+    const [assignDoctor] = useAssignDoctorMutation()
+
+    const handleDoctorOk = async () => {
+        // Ensure a doctor is selected
+        if (!selectedDoctorId) {
+            message.error('Please select a doctor');
+            return;
+        }
+
+        const data = {
+            patientId: id,
+            doctorId: selectedDoctorId,
+        };
+
+        try {
+            const res = await assignDoctor(data).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                setIsDoctorModalVisible(false);
+                message.success(res?.message);
+            }
+        } catch (error) {
+            message.error('Failed to assign doctor');
+        }
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setIsSpecialistModalVisible(false);
+        setIsDoctorModalVisible(false);
     };
 
     return (
-        <div className='flex gap-5 items-start'>
-            {/* Tabs */}
-            <div className='min-w-[250px] md:min-w-[300px] border border-[#eee] rounded-xl p-3 relative'>
-                <span className='px-4 py-2 bg-[#d30808] absolute top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>Vise</span>
-                <img className='w-full rounded-xl' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbzZurv0Bg_50ttI_Yp5IalJCvKguLnL_7YRFFB5LgrhUM65Us21QZKjnfMJ1At2k03Og" alt="" />
+        <div className='flex flex-row xl:flex-nowrap flex-wrap gap-5 items-start'>
+            {/* Profile Section */}
+            <div className='min-w-[250px] md:min-w-[300px] border order-1 xl:order-1 border-[#eee] rounded-xl p-3 relative'>
+                <span className='px-4 py-2 bg-[#d30808] absolute capitalize top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>{user?.subscriptionType}</span>
+                <img className='w-full rounded-xl' src={url + user?.profileImage?.imageUrl} alt="" />
                 <div className='p-2 text-center mt-2'>
-                    <h2 className='font-semibold'>Sakib Ahmed</h2>
-                    <p>abusyedvy@gmail.com</p>
+                    <h2 className='font-semibold capitalize'>{user?.name}</h2>
+                    <p>{user?.email}</p>
                 </div>
             </div>
-            <Tabs defaultActiveKey="1" className='w-full'>
+
+            {/* Tabs for Specialists and Doctors */}
+            <Tabs defaultActiveKey="1" className='w-full order-3 xl:order-2'>
                 <TabPane tab="Your Specialists" key="1">
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                        <Card
-                            style={{ width: 250 }}
-                            cover={<img alt="specialist" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbzZurv0Bg_50ttI_Yp5IalJCvKguLnL_7YRFFB5LgrhUM65Us21QZKjnfMJ1At2k03Og" />}
-                        >
-                            <Card.Meta title="Sakib Ahmed" description="Doctor" />
-                            <p>Description for this item is very important for the user...</p>
-                            <p>Protocol Name +2</p>
-                        </Card>
-                        <Card
-                            style={{ width: 250 }}
-                            cover={<img alt="specialist" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbzZurv0Bg_50ttI_Yp5IalJCvKguLnL_7YRFFB5LgrhUM65Us21QZKjnfMJ1At2k03Og" />}
-                        >
-                            <Card.Meta title="John Doe" description="Doctor" />
-                            <p>Description for this item is very important for the user...</p>
-                            <p>Protocol Name +2</p>
-                        </Card>
-                        {/* Add more specialists as needed */}
+                        {userSpecialists?.map((specialist) => (
+                            <Card
+                                style={{ width: 250 }}
+                                cover={<img alt="specialist" src={url + specialist?.profileImage?.imageUrl} />}
+                            >
+                                <Card.Meta className='capitalize' title={specialist?.name} />
+                                <p>{specialist?.profile?.description}</p>
+                                <div className='flex items-center flex-wrap'>
+                                    {specialist?.profile?.protocolNames?.map((protocol) => (
+                                        <p className='px-4 py-2 border border-[#eee]'>{protocol}</p>
+                                    ))}
+                                </div>
+                            </Card>
+                        ))}
                     </div>
                 </TabPane>
                 <TabPane tab="Doctor" key="2">
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                        <Card
-                            style={{ width: 250 }}
-                            cover={<img alt="doctor" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbzZurv0Bg_50ttI_Yp5IalJCvKguLnL_7YRFFB5LgrhUM65Us21QZKjnfMJ1At2k03Og" />}
-                        >
-                            <Card.Meta title="Sakib Ahmed" description="Doctor" />
-                            <p>Description for this item is very important for the user...</p>
-                            <p>Protocol Name +2</p>
-                        </Card>
-                        {/* Add more doctor profiles as needed */}
+                        {userDoctors?.map((doctor) => (
+                            <Card
+                                style={{ width: 250 }}
+                                cover={<img alt="doctor" src={url + doctor?.profileImage?.imageUrl} />}
+                            >
+                                <Card.Meta className='capitalize' title={doctor?.name} />
+                                <p>{doctor?.profile?.description}</p>
+                                <div className='flex items-center flex-wrap'>
+                                    {doctor?.profile?.protocolNames?.map((protocol) => (
+                                        <p className='px-4 py-2 rounded-full border border-[#eee]'>{protocol}</p>
+                                    ))}
+                                </div>
+                            </Card>
+                        ))}
                     </div>
                 </TabPane>
             </Tabs>
 
-
             {/* Assign New Specialist Button */}
             <Button
                 type="primary"
-                icon={<UserAddOutlined />}
+                icon={<UserAddOutlined className='text-xl' />}
                 onClick={handleAssignSpecialist}
-                className='h-14 px-8 bg-[#b80707] hover:!bg-[#d30808] text-white rounded-lg flex items-center gap-2'
+                className='h-14 px-4 bg-gradient-to-br from-[#be70f8] to-[#f76776] text-primaryBg order-2 xl:order-3 rounded-lg flex items-center gap-2 hover:!bg-gradient-to-br border-none'
             >
                 Assign New Specialist
             </Button>
 
-            {/* Modal to Select Specialist */}
+            {/* Assign New Doctor Button */}
+            <Button
+                type="primary"
+                icon={<UserAddOutlined className='text-xl' />}
+                onClick={handleAssignDoctor}
+                className='h-14 px-4 bg-gradient-to-br from-[#be70f8] to-[#f76776] text-primaryBg order-2 xl:order-3 rounded-lg flex items-center gap-2 hover:!bg-gradient-to-br border-none'
+            >
+                Assign New Doctor
+            </Button>
+
+            {/* Modal for Assigning Specialist */}
             <Modal
                 title="Assign New Specialist"
-                visible={isModalVisible}
-                onOk={handleOk}
+                visible={isSpecialistModalVisible}
+                onOk={handleSpecialistOk}
                 onCancel={handleCancel}
             >
                 <Space direction="vertical" style={{ width: '100%' }}>
                     <Select
                         placeholder="Select a specialist"
-                        onChange={(value) => setSelectedSpecialist(value)}
-                        value={selectedSpecialist}
+                        onChange={(value) => setSelectedSpecialistId(value)}
+                        value={selectedSpecialistId}
                         className='w-full h-10 my-5'
                     >
-                        {specialists.map((specialist) => (
-                            <Select.Option key={specialist.id} value={specialist.name}>
+                        {userSpecialists?.map((specialist) => (
+                            <Select.Option key={specialist._id} value={specialist._id}>
                                 {specialist.name}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </Space>
+            </Modal>
+
+            {/* Modal for Assigning Doctor */}
+            <Modal
+                title="Assign New Doctor"
+                visible={isDoctorModalVisible}
+                onOk={handleDoctorOk}
+                onCancel={handleCancel}
+            >
+                <Space direction="vertical" style={{ width: '100%' }}>
+                    <Select
+                        placeholder="Select a doctor"
+                        onChange={(value) => setSelectedDoctorId(value)}
+                        value={selectedDoctorId}
+                        className='w-full h-10 my-5'
+                    >
+                        {userDoctors?.map((doctor) => (
+                            <Select.Option key={doctor._id} value={doctor._id}>
+                                {doctor.name}
                             </Select.Option>
                         ))}
                     </Select>
