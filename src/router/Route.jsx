@@ -32,6 +32,7 @@ import WithdrawRequest from "../dashboard/WithdrawRequest/WithdrawRequest";
 import BookedLavTest from "../dashboard/BookedLavTest/BookedLavTest";
 import OnboardingVideo from "../dashboard/OnboardingVideo/OnboardingVideo";
 import ViewProfileSpecialist from "../dashboard/menu/sidebarMenu/ViewProfileSpecialist";
+import Subscription from "../dashboard/Subscription/Subscription";
 
 
 export const router = createBrowserRouter([
@@ -114,12 +115,16 @@ export const router = createBrowserRouter([
             },
             {
                 path: "user/specialist/:id",
-                element: <ViewProfileSpecialist  />
+                element: <ViewProfileSpecialist />
             },
 
             {
                 path: "onboarding-video",
                 element: <OnboardingVideo />
+            },
+            {
+                path: "subscription",
+                element: <Subscription />
             },
 
             {
