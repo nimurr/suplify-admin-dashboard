@@ -3,16 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import user from '../../../../public/image/randomuser.jpg';
 import { useGetProfileQuery } from "../../../redux/features/auth/profile/editProfile";
+import url from "../../../redux/api/baseUrl";
 
 
 const Profile = () => {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
-
-
   const { data } = useGetProfileQuery({ id: user?._id });
-  console.log(data);
+  const profile = data?.data?.attributes;
+  console.log(profile);
 
   // console.log(profile);
 
@@ -34,13 +34,13 @@ const Profile = () => {
         <div className="lg:w-1/3 flex flex-col border border-dotted border-[#d3d3d3] p-4 justify-center items-center gap-8">
           <div className="rounded-full border-2 border-[#979797] overflow-hidden h-[180px] w-[180px] mx-auto">
             {/* <Image src={url + profile?.data?.attributes?.image} /> */}
-            <img className="w-full" src={"https://randomuser.me/api/portraits/men/57.jpg"} />
+            <img className="w-full" src={url + profile?.profileImage?.imageUrl} />
           </div>
 
           <div className="flex flex-col justify-center items-center text-center">
             {/* <p className="text-lg md:text-xl">{profile?.data?.attributes?.role}</p> */}
-            <p className="text-lg md:text-xl">{"admin"}</p>
-            <h1 className="text-2xl md:text-3xl font-medium capitalize">{"absayed"}</h1>
+            <p className="text-lg md:text-xl">{profile?.role}</p>
+            <h1 className="text-2xl md:text-3xl font-medium capitalize">{profile?.name}</h1>
           </div>
         </div>
 
@@ -54,7 +54,7 @@ const Profile = () => {
                 <Input
                   placeholder="First name"
                   // value={profile?.data?.attributes?.name}
-                  value={"absayed"}
+                  value={profile?.name}
                   className="p-4 text-lg md:text-xl bg-[#8400ff13] text-black rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
                   type="text"
                   readOnly
@@ -68,7 +68,7 @@ const Profile = () => {
               </label>
               <Input
                 placeholder="Email"
-                value={"ab@gmail.com"}
+                value={profile?.email}
                 className="p-4 text-lg md:text-xl bg-[#8400ff13] rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
                 type="text"
                 readOnly

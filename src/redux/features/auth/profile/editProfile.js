@@ -7,14 +7,16 @@ const updateProfile = apiSlice.injectEndpoints({
             query: ({ id }) => ({
                 url: `/users/profile/${id}`,
                 method: "GET"
-            })
+            }),
+            providesTags: ["Profile"],
         }),
         updateProfile: builder.mutation({
-            query: (data) => ({
-                url: `/common/self`,
+            query: ({data , id}) => ({
+                url: `/users/profile/${id}`,
                 method: "PUT",
                 body: data
-            })
+            }),
+            invalidatesTags: ["Profile"],
         })
     })
 })
