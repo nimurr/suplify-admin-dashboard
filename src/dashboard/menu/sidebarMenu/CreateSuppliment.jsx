@@ -12,9 +12,10 @@ export default function SupplementCreateForm() {
   const [formData, setFormData] = useState({
     name: '',
     attachments: '', // For storing file path or file object
-    price: null,
+    price: '', // Set initial value as empty string
     description: '',
     category: id || '', // Use the `id` from URL or set an empty string if not available
+    stockQuantity: '', // Set initial value as empty string
   });
 
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -50,27 +51,28 @@ export default function SupplementCreateForm() {
 
   // Handle form submission
   const handleSubmit = async () => {
+    console.log(formData);
+
     const formData2 = new FormData();
     formData2.append('name', formData.name);
     formData2.append('price', formData.price);
     formData2.append('description', formData.description);
     formData2.append('category', formData.category);
     formData2.append('attachments', formData.attachments);
-
+    formData2.append('stockQuantity', formData.stockQuantity);
 
     try {
       const res = await createSuppliment(formData2).unwrap();
       console.log(res);
       if (res.code === 200) {
         toast.success('Supplement created successfully!');
-        navigate(`/dashboard/store/view-store?id=${formData.category}`);
+        // navigate(`/dashboard/store/view-store?id=${formData.category}`);
         formData.name = '';
-        formData.price = null;
+        formData.price = '';
         formData.description = '';
         formData.attachments = '';
+        formData.stockQuantity = '';
       }
-
-
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Failed to create supplement. Please try again.');
@@ -143,7 +145,7 @@ export default function SupplementCreateForm() {
             Price <span className="text-[red]">*</span>
           </label>
           <input
-            type="text"
+            type="number"
             id="price"
             name="price"
             placeholder="$ 250"
@@ -152,6 +154,24 @@ export default function SupplementCreateForm() {
             className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
+
+        {
+          id !== "labTest" &&
+          <div className="mb-4">
+            <label htmlFor="category" className="block text-gray-700 text-sm font-medium mb-2">
+              Stock Quantity <span className="text-[red]">*</span>
+            </label>
+            <input
+              type="number"
+              id="stockQuantity"
+              name="stockQuantity"
+              placeholder="Type Stock Quantity"
+              value={formData.stockQuantity}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+        }
 
         {/* Description */}
         <div className="mb-8">

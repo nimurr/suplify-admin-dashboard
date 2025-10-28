@@ -95,7 +95,7 @@ const WithdrawRequest = () => {
                             {currentSpecialists?.map((specialist, index) => (
                                 <tr onClick={() => setSelectedSpecialist(specialist)} key={index} className="border-t cursor-pointer border-b border-[#dfdfdf] hover:bg-gray-100">
                                     <td className="py-5 px-4 text-gray-700 text-sm flex gap-2 items-center">
-                                        <img className='w-14 h-14 rounded-full' src={url + specialist?.userId?.profileImage?.imageUrl} alt="" />
+                                        <img className='w-14 h-14 rounded-full' src={specialist?.userId?.profileImage?.imageUrl} alt="" />
                                         <div>
                                             <p className='font-semibold'>{specialist?.userId?.name}</p>
                                             <span>{specialist.bankAccountType}</span>
