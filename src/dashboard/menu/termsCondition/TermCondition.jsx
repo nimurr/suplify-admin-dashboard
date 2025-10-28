@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
- 
- 
-// const decodeHtml = (html) => {
-//   const txt = document.createElement("textarea");
-//   txt.innerHTML = html;
-//   return txt.value;
-// };
+import { useGetSettingsQuery } from "../../../redux/features/Setting/settings";
+
+
+const decodeHtml = (html) => {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+};
 
 const TermCondition = () => {
   const [content, setContent] = useState("");
-//  const {data: termcondition} = useTearmConditonQuery()
-//  console.log(termcondition); 
-  const navigate = useNavigate(); 
-//   console.log(termcondition?.data?.attributes?.docs[0]._id);
-  
+  const type = "termsAndConditions"
+  const { data: termcondition } = useGetSettingsQuery(type)
 
-//   useEffect(() => {
-//     if (termcondition?.data?.attributes?.docs?.length) {
-//       // Decode the HTML content before setting it
-//       const decodedContent = decodeHtml(termcondition?.data?.attributes?.docs[0].content);
-//       setContent(decodedContent);
-//     }
-//   }, [termcondition]);
+  const navigate = useNavigate();
+
+  console.log(termcondition?.data?.attributes[0]);
 
 
- 
+  useEffect(() => {
+    if (termcondition?.data?.attributes[0]?.details) {
+      const decodedContent = decodeHtml(termcondition?.data?.attributes[0]?.details);
+      setContent(decodedContent);
+    }
+  }, [termcondition]);
+
+
+
 
 
   return (
-    
+
     <div className=" mt-8 mx-6">
       <Link to="/dashboard/settings" className="flex items-center gap-2">
         <FaCircleArrowLeft className=" text-[#CC2124] w-8 h-8" />
@@ -39,13 +41,13 @@ const TermCondition = () => {
       <div className='mt-4'>
         {/* <p dangerouslySetInnerHTML={{ __html: termCondition?.data?.attributes[0]?.content }}> 
         </p> */}
-          {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
-          <p>termcomditions</p>
-       
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        {/* <p>termcomditions</p> */}
+
       </div>
       <div className=" text-right mt-16">
-        <button onClick={() => navigate(`/dashboard/settings/edittermcondition`)}  
-        className=" h-[44px] w-[260px] !text-[#FFFFFF] !bg-[#CC2124] rounded-[8px]">Edit</button>
+        <button onClick={() => navigate(`/dashboard/settings/edittermcondition`)}
+          className=" h-[44px] w-[260px] !text-[#FFFFFF] !bg-[#CC2124] rounded-[8px]">Edit</button>
       </div>
     </div>
   );
