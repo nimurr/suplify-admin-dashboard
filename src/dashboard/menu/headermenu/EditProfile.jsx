@@ -16,17 +16,17 @@ const EditProfile = () => {
   const [fileList, setFileList] = useState([]);
   const [imageUrl, setImageUrl] = useState();
 
+
   const [user, setUser] = useState({});
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
   }, [])
 
-  console.log(user?._id);
 
   const { data } = useGetProfileQuery({ id: user?._id });
   const profile = data?.data?.attributes;
-  console.log(profile);
+
 
   // Handle image file upload
   const handleUploadChange = ({ fileList: newFileList }) => {
@@ -48,17 +48,20 @@ const EditProfile = () => {
     // Form data processing, can include phone number and uploaded image if needed
     const formData = new FormData();
     formData.append("name", name);
-    if (fileList[0]?.originFileObj) {
-      formData.append("profileImage", fileList[0].originFileObj); // Append the uploaded image
+    if (fileList[0]) {
+      formData.append("profileImage", fileList[0]?.originFileObj); // Append the uploaded image
     }
+
+    console.log(fileList[0]?.originFileObj);
 
     // Further processing can go here, like sending formData to an API.
     try {
       const res = await updateProfile({ data: formData, id: user?._id }).unwrap();
+      console.log(res);
       if (res?.code === 200) {
         toast.success(res?.message);
       }
-      setTimeout(() => navigate('/dashboard/profile'), 1000);
+      // setTimeout(() => navigate('/dashboard/profile'), 1000);
     } catch (error) {
       console.log(error?.data);
       toast.error(error?.data?.message);
