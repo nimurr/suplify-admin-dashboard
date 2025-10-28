@@ -95,7 +95,7 @@ const EditProfile = () => {
                 >
                   <img
                     className="w-44 h-44 rounded-full"
-                    src={imageUrl || url + profile?.profileImage?.imageUrl}
+                    src={imageUrl || profile?.profileImage?.imageUrl}
                     alt="Profile"
                   />
                   <Button

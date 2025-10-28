@@ -9,6 +9,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import './header.css'
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { useGetProfileQuery } from "../redux/features/auth/profile/editProfile";
 
 
 
@@ -75,6 +76,9 @@ const Header = () => {
     // }
   };
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { data } = useGetProfileQuery({ id: user?._id });
+  const profile = data?.data?.attributes;
 
   const handleMenuVisibility = (visible) => {
     setMenuVisible(visible);
@@ -113,7 +117,7 @@ const Header = () => {
         <div className="border border-[#ccc] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg px-2 py-1 rounded-lg">
           <Dropdown className="px-2" overlay={menu} trigger={['click']} onVisibleChange={handleMenuVisibility}>
             <a className="flex items-center text-white cursor-pointer text-whiteText">
-              <Avatar src={'https://randomuser.me/api/portraits/men/57.jpg'} className="mr-2 h-[52px] w-[52px]" />
+              <Avatar src={ profile?.profileImage?.imageUrl} className="mr-2 h-[52px] w-[52px]" />
               {/* <Avatar src={url + profile?.data?.attributes?.image} className="mr-2 h-[52px] w-[52px]" /> */}
               AbSayed <DownOutlined className="ml-1" />
             </a>

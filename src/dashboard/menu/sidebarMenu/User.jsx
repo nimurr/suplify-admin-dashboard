@@ -84,44 +84,70 @@ const UserManagement = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
-        {/* Dashboard Stats */}
-        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
-          <div>
-            <p className="text-lg text-gray-500 font-medium mb-2"> Total Users </p>
-            <p className="text-4xl text-gray-500 font-medium">
-              {fullData?.statistics?.totalUser}
-            </p>
-          </div>
-        </div>
 
-        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
-          <div>
-            <p className="text-lg text-gray-500 font-medium mb-2"> Total Doctors </p>
-            <p className="text-4xl text-gray-500 font-medium">
-              {fullData?.statistics?.totalDoctor}
-            </p>
-          </div>
-        </div>
+      {
+        isLoading ? <div className='grid xl:grid-cols-4 lg:grid-cols-2 gap-3 grid-cols-1'>
+          {
+            [...Array(4)].map((_, index) => (
+              <div class="mx-auto w-full max-w-sm rounded-md border border-[#8400ff2a]  p-4">
+                <div class="flex animate-pulse space-x-4">
+                  <div class="size-10 rounded-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                  <div class="flex-1 space-y-6 py-1">
+                    <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                    <div class="space-y-3">
+                      <div class="grid grid-cols-3 gap-4">
+                        <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                        <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                      </div>
+                      <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div> : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
+            {/* Dashboard Stats */}
+            <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
+              <div>
+                <p className="text-lg text-gray-500 font-medium mb-2"> Total Users </p>
+                <p className="text-4xl text-gray-500 font-medium">
+                  {fullData?.statistics?.totalUser}
+                </p>
+              </div>
+            </div>
 
-        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
-          <div>
-            <p className="text-lg text-gray-500 font-medium mb-2"> Total Patients </p>
-            <p className="text-4xl text-gray-500 font-medium">
-              {fullData?.statistics?.totalPatient}
-            </p>
-          </div>
-        </div>
+            <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
+              <div>
+                <p className="text-lg text-gray-500 font-medium mb-2"> Total Doctors </p>
+                <p className="text-4xl text-gray-500 font-medium">
+                  {fullData?.statistics?.totalDoctor}
+                </p>
+              </div>
+            </div>
 
-        <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
-          <div>
-            <p className="text-lg text-gray-500 font-medium mb-2"> Total Specialists </p>
-            <p className="text-4xl text-gray-500 font-medium">
-              {fullData?.statistics?.totalSpecialist}
-            </p>
+            <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
+              <div>
+                <p className="text-lg text-gray-500 font-medium mb-2"> Total Patients </p>
+                <p className="text-4xl text-gray-500 font-medium">
+                  {fullData?.statistics?.totalPatient}
+                </p>
+              </div>
+            </div>
+
+            <div className="md:py-10 p-5 font-[arial] rounded-lg bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg flex justify-between items-center">
+              <div>
+                <p className="text-lg text-gray-500 font-medium mb-2"> Total Specialists </p>
+                <p className="text-4xl text-gray-500 font-medium">
+                  {fullData?.statistics?.totalSpecialist}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )
+      }
+
 
       {/* Search Bar */}
       <div className="my-5 flex items-center gap-2 justify-between flex-wrap">

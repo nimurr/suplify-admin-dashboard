@@ -34,7 +34,7 @@ const Profile = () => {
         <div className="lg:w-1/3 flex flex-col border border-dotted border-[#d3d3d3] p-4 justify-center items-center gap-8">
           <div className="rounded-full border-2 border-[#979797] overflow-hidden h-[180px] w-[180px] mx-auto">
             {/* <Image src={url + profile?.data?.attributes?.image} /> */}
-            <img className="w-full" src={url + profile?.profileImage?.imageUrl} />
+            <img className="w-full" src={ profile?.profileImage?.imageUrl} />
           </div>
 
           <div className="flex flex-col justify-center items-center text-center">
