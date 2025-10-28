@@ -2,10 +2,17 @@ import { Image, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import user from '../../../../public/image/randomuser.jpg';
+import { useGetProfileQuery } from "../../../redux/features/auth/profile/editProfile";
 
 
 const Profile = () => {
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+
+  const { data } = useGetProfileQuery({ id: user?._id });
+  console.log(data);
 
   // console.log(profile);
 
@@ -62,19 +69,6 @@ const Profile = () => {
               <Input
                 placeholder="Email"
                 value={"ab@gmail.com"}
-                className="p-4 text-lg md:text-xl bg-[#8400ff13] rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
-                type="text"
-                readOnly
-              />
-            </div>
-
-            <div className="flex-1">
-              <label htmlFor="phone" className="text-lg md:text-xl font-medium">
-                Phone Number
-              </label>
-              <Input
-                placeholder="Phone"
-                value={"454565465"}
                 className="p-4 text-lg md:text-xl bg-[#8400ff13] rounded w-full mt-3 outline-none focus:bg-[#8400ff13] hover:bg-[#8400ff36]"
                 type="text"
                 readOnly

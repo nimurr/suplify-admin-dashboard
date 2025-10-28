@@ -3,8 +3,14 @@ import { apiSlice } from "../../../api/apiSlice";
 
 const updateProfile = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        getProfile: builder.query({
+            query: ({ id }) => ({
+                url: `/users/profile/${id}`,
+                method: "GET"
+            })
+        }),
         updateProfile: builder.mutation({
-            query : (data) => ({
+            query: (data) => ({
                 url: `/common/self`,
                 method: "PUT",
                 body: data
@@ -13,4 +19,4 @@ const updateProfile = apiSlice.injectEndpoints({
     })
 })
 
-export const {useUpdateProfileMutation} = updateProfile;
+export const { useGetProfileQuery, useUpdateProfileMutation } = updateProfile;

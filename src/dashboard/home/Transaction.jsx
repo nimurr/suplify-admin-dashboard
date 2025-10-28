@@ -1,160 +1,128 @@
 import React, { useState } from 'react';
-import { Table, Modal } from 'antd';
-import users from '../../../public/image/randomuser.jpg'
-import './transaction.css'
-
+import users from '../../../public/image/randomuser.jpg';
+import './transaction.css';
 import { BsInfoCircle } from 'react-icons/bs';
+import { Modal } from 'antd'; // Import the Modal component from Ant Design
+import { useGetAllTransactionsQuery } from '../../redux/features/withdrawRequest/withdrawRequest';
 
 const Transaction = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null); // Store selected transaction
+  const [currentPage, setCurrentPage] = useState(1); // Track current page
+  const [itemsPerPage] = useState(5); // Number of items per page (you can change this value)
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-const dataSource = [
-  {
-    key: '1',
-    applicationId: '12345678',
-    customerName: 'abSayed',
-    email: 'abc@email.com',
-    address: 'Dhaka Bangladesh',
-    date: '16 Apr 2024',
-  },
-  {
-    key: '2',
-    applicationId: '12345678',
-    customerName: 'Bashar Islam',
-    email: 'abc@email.com',
-    address: 'Dhaka Bangladesh',
-    date: '16 Apr 2024',
-  },
-  {
-    key: '3',
-    applicationId: '12345678',
-    customerName: 'Bashar Islam',
-    email: 'abc@email.com',
-    address: 'Dhaka Bangladesh',
-    date: '16 Apr 2024',
-  },
-  {
-    key: '4',
-    applicationId: '12345678',
-    customerName: 'Bashar Islam',
-    email: 'abc@email.com',
-    address: 'Dhaka Bangladesh',
-    date: '16 Apr 2024',
-  },
-  {
-    key: '5',
-    applicationId: '12345678',
-    customerName: 'Bashar Islam',
-    email: 'abc@email.com',
-    address: 'Dhaka Bangladesh',
-    date: '16 Apr 2024',
-  },
-];
+  // Fetch data from the API
+  const { data } = useGetAllTransactionsQuery();
+  const fullData = data?.data?.attributes?.results || [];
 
-const columns = [
-  {
-    title: '#Application ID',
-    dataIndex: 'applicationId',
-    key: 'applicationId',
-  },
-  {
-    title: 'Customer Name',
-    dataIndex: 'customerName',
-    key: 'customerName',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-        <BsInfoCircle  onClick={() => handleView(record)}  size={18} className="text-[red] cursor-pointer" />
-    ),
-  },
-];
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = fullData.slice(indexOfFirstItem, indexOfLastItem);
 
-const handleView = () => {
-    // setUser(value);
-    // console.log(value)
+  const totalPages = Math.ceil(fullData.length / itemsPerPage);
+
+  const handleView = (transaction) => {
+    setSelectedTransaction(transaction);
     setIsModalOpen(true);
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
-    <div className="table-container">
-        <h1 className='text-header font-medium my-2'>Recent Transaction</h1>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        bordered
-      />
-       <Modal
-        open={isModalOpen}
-        onOk={() => setIsModalOpen(false)}
-        onCancel={() => setIsModalOpen(false)}
-        footer={[]}
-        closeIcon
-      >
-      <div>
-        <div style={{fontFamily:'Aldrich'}} className="flex justify-center items-center gap-2 flex-col border-b border-b-gray-300">
-          <img className="w-[140px] h-[140px] rounded-full my-4"   src={users} alt="" />
-          <p className="text-[16px] mb-[16px]">absayed</p>
-        </div>
-        <div style={{fontFamily:'Aldrich'}} className="p-[20px]">
-        <div className="flex justify-between border-b py-[16px]">
-            <p>Full Name:</p>
-            <p>
-              {/* {user?.name ? user?.name : "N/A"} */}
-              absayed
-            </p>
-          </div>
-        
-         
-          <div className="flex justify-between border-b py-[16px] ">
-            <p>Email:</p>
-            <p>
-              {/* {user?.email ? user?.email : "N/A"} */}
-              ab@gmail.com
-            </p>
-          </div>
-          <div className="flex justify-between border-b py-[16px]">
-            <p>Phone:</p>
-            <p>
-              {/* {user?.phone ? user?.phone : "N/A"} */}
-              +45269875
-            </p>
-          </div>
-          <div className="flex justify-between border-b py-[16px]">
-            <p>Date:</p>
-            <p>
-              {/* {user?.createdAt  ? user?.createdAt?.split("T")[0] : "N/A"} */}
-              23-11-24
-            </p>
-          </div>
-          <div className="flex justify-between items-center pt-[16px]">
-            <p>address:</p>
-            <p className="px-[15px] py-[10px] rounded-lg">
-              {/* Regular P550 */}
-              UK
-            </p>
-          </div>
+    <div className="py-4">
+      <h1 className="text-header text-2xl font-medium my-2">Recent Transaction</h1>
+      <table className="min-w-full table-auto border-collapse border rounded-lg overflow-hidden border-[#eee]">
+        <thead>
+          <tr className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg">
+            <th className="py-4 px-4 border-b border-[#eee] text-left">#Transaction ID</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">Amount</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">Currency</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">Payment Gateway</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">Payment Status</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentData?.map((record) => (
+            <tr key={record._paymentTransactionId}>
+              <td className="py-3 px-4 border-b border-[#eee]">{record._paymentTransactionId}</td>
+              <td className="py-3 px-4 border-b border-[#eee]">{record.amount}</td>
+              <td className="py-3 px-4 border-b border-[#eee]">{record.currency}</td>
+              <td className="py-3 px-4 border-b border-[#eee]">{record.paymentGateway}</td>
+              <td className="py-3 px-4 border-b border-[#eee]">{record.paymentStatus}</td>
+              <td className="py-3 px-4 border-b border-[#eee] text-center">
+                <BsInfoCircle
+                  onClick={() => handleView(record)}
+                  size={18}
+                  className="text-red-500 cursor-pointer"
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-        </div>
+      {/* Pagination Controls */}
+      <div className="flex justify-end items-center py-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2  bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg bg-blue-500 text-white rounded"
+        >
+          Previous
+        </button>
+        <span className="text-lg font-semibold mx-4">{`Page ${currentPage} of ${totalPages}`}</span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2  bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg bg-blue-500 text-white rounded"
+        >
+          Next
+        </button>
       </div>
+
+      {/* Ant Design Modal */}
+      <Modal
+        title="Transaction Details"
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={null}
+      >
+        {selectedTransaction && (
+          <div className="p-[20px]">
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>Amount:</p>
+              <p>{selectedTransaction.amount}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>Currency:</p>
+              <p>{selectedTransaction.currency}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>Payment Gateway:</p>
+              <p>{selectedTransaction.paymentGateway}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>Payment Status:</p>
+              <p>{selectedTransaction.paymentStatus}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>Reference For:</p>
+              <p>{selectedTransaction.referenceFor}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>Reference ID:</p>
+              <p>{selectedTransaction.referenceId}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>User ID:</p>
+              <p>{selectedTransaction.userId}</p>
+            </div>
+          </div>
+        )}
       </Modal>
     </div>
   );

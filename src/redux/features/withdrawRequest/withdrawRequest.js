@@ -11,8 +11,22 @@ const withdrawRequest = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: data
             })
+        }),
+
+        getAllEarnings: builder.query({
+            query: () => ({
+                url: '/payment-transactions/overview/admin',
+                method: 'GET'
+            })
+        }),
+
+        getAllTransactions: builder.query({
+            query: () => ({
+                url: '/payment-transactions/paginate',
+                method: 'GET'
+            })
         })
     })
 })
 
-export const { useGetAllWithdrawRequestQuery, useProofOfpaymentMutation } = withdrawRequest
+export const { useGetAllWithdrawRequestQuery, useProofOfpaymentMutation, useGetAllEarningsQuery , useGetAllTransactionsQuery } = withdrawRequest
