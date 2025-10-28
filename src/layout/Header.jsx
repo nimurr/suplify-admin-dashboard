@@ -10,6 +10,8 @@ import './header.css'
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useGetProfileQuery } from "../redux/features/auth/profile/editProfile";
+import { useChangePasswordMutation } from "../redux/features/auth/changePassword";
+import toast, { Toaster } from "react-hot-toast";
 
 
 
@@ -55,25 +57,34 @@ const Header = () => {
     });
   };
 
+  const [passwordChange] = useChangePasswordMutation();
+
   const changePassword = async (values) => {
     const { confirmPassword, ...ChangePassword } = values;
     console.log("Form values: ", ChangePassword);
 
-    // try{
-    //   const res = await passwordChange(ChangePassword).unwrap();
-    //   if(res?.code == 200){
-    //     setIsModalOpen(false)
-    //     toast.success(res?.message)
-    //   }
-    //   setTimeout(() => { 
-    //     navigate('/dashboard/home')
-    //   }, 1000);
+    const data = {
+      ...ChangePassword,
+      confirmPassword: confirmPassword
+    }
 
-    // }catch(error){
-    //   console.log(error.data);
-    //   setError(error?.data?.message)
+    try {
+      const res = await passwordChange(data).unwrap();
+      console.log(res);
+      if (res?.code == 200) {
+        setIsModalOpen(false)
+        toast.success(res?.message)
+        setTimeout(() => {
+          navigate('/dashboard/home')
+        }, 1000);
+      }
 
-    // }
+    } catch (error) {
+      console.log(error.data);
+      setError(error?.data?.message)
+      toast.error(error?.data?.message)
+
+    }
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -102,7 +113,7 @@ const Header = () => {
 
   return (
     <div className=" flex justify-between items-center border border-[#dddddd] mb-[24px] p-[16px] rounded-md !bg-primaryBg">
-      {/* <Toaster /> */}
+      <Toaster />
       <div className="text-white">
         <p className="gradient-text">
           Welcome
@@ -117,7 +128,7 @@ const Header = () => {
         <div className="border border-[#ccc] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg px-2 py-1 rounded-lg">
           <Dropdown className="px-2" overlay={menu} trigger={['click']} onVisibleChange={handleMenuVisibility}>
             <a className="flex items-center text-white cursor-pointer text-whiteText">
-              <Avatar src={ profile?.profileImage?.imageUrl} className="mr-2 h-[52px] w-[52px]" />
+              <Avatar src={profile?.profileImage?.imageUrl} className="mr-2 h-[52px] w-[52px]" />
               {/* <Avatar src={url + profile?.data?.attributes?.image} className="mr-2 h-[52px] w-[52px]" /> */}
               AbSayed <DownOutlined className="ml-1" />
             </a>
@@ -140,7 +151,7 @@ const Header = () => {
 
             >
               <Form.Item
-                name="oldPassword"
+                name="currentPassword"
                 label="Old Password"
                 rules={[{ required: true, message: "Please enter your old password!" }]}
               >
