@@ -4,16 +4,15 @@ import { FaEdit } from "react-icons/fa";
 import user from '../../../../public/image/randomuser.jpg';
 import { useGetProfileQuery } from "../../../redux/features/auth/profile/editProfile";
 import url from "../../../redux/api/baseUrl";
+import { useState } from "react";
 
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
 
-  if (typeof window !== 'undefined') {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
-  }
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
 
   const { data } = useGetProfileQuery({ id: user?._id });
   const profile = data?.data?.attributes;
