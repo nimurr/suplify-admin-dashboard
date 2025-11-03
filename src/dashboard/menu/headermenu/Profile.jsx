@@ -8,8 +8,13 @@ import url from "../../../redux/api/baseUrl";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  if (typeof window !== 'undefined') {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  }
+
   const { data } = useGetProfileQuery({ id: user?._id });
   const profile = data?.data?.attributes;
   console.log(profile);
@@ -34,7 +39,7 @@ const Profile = () => {
         <div className="lg:w-1/3 flex flex-col border border-dotted border-[#d3d3d3] p-4 justify-center items-center gap-8">
           <div className="rounded-full border-2 border-[#979797] overflow-hidden h-[180px] w-[180px] mx-auto">
             {/* <Image src={url + profile?.data?.attributes?.image} /> */}
-            <img className="w-full" src={ profile?.profileImage?.imageUrl} />
+            <img className="w-full" src={profile?.profileImage?.imageUrl} />
           </div>
 
           <div className="flex flex-col justify-center items-center text-center">

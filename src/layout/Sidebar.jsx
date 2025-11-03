@@ -34,8 +34,10 @@ const Sidebar = () => {
       confirmButtonText: "Yes, log out!"
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
 
         Swal.fire({
           title: "Logged Out!",

@@ -19,8 +19,10 @@ const EditProfile = () => {
 
   const [user, setUser] = useState({});
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
+    if (typeof window !== 'undefined') {
+      const user = JSON.parse(localStorage.getItem("user"));
+      setUser(user);
+    }
   }, [])
 
 

@@ -44,8 +44,10 @@ const Login = () => {
             console.log(res);
             if (res?.code == 200) {
                 toast.success(res?.message)
-                localStorage.setItem('user', JSON.stringify(res?.data?.attributes?.userWithoutPassword))
-                localStorage.setItem('token', res?.data?.attributes?.tokens?.accessToken)
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('user', JSON.stringify(res?.data?.attributes?.userWithoutPassword))
+                    localStorage.setItem('token', res?.data?.attributes?.tokens?.accessToken)
+                }
 
                 setTimeout(() => {
                     navigate('/dashboard/home')
