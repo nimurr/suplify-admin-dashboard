@@ -12,7 +12,6 @@ const Profile = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-
   const { data } = useGetProfileQuery({ id: user?._id });
   const profile = data?.data?.attributes;
   console.log(profile);
