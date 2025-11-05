@@ -18,11 +18,13 @@ const ViewProfileSpecialist = () => {
     const { data: userProfile } = useGetUserProfileQuery(id);
     const user = userProfile?.data?.attributes?.results[0];
 
+
     const { data: specialistsData } = useGetYourSpecialistQuery(id);
-    const userSpecialists = specialistsData?.data?.attributes;
+    const userSpecialists = specialistsData?.data?.attributes?.results;
 
     const { data: doctorsData } = useGetDoctorsQuery(id);
     const userDoctors = doctorsData?.data?.attributes?.results;
+    console.log(userDoctors);
 
     const handleAssignSpecialist = () => {
         setIsSpecialistModalVisible(true);
@@ -93,9 +95,9 @@ const ViewProfileSpecialist = () => {
     return (
         <div className='flex flex-row xl:flex-nowrap flex-wrap gap-5 items-start'>
             {/* Profile Section */}
-            <div className='min-w-[250px] md:min-w-[300px] border order-1 xl:order-1 border-[#eee] rounded-xl p-3 relative'>
+            <div className='min-w-[250px] md:min-w-[250px] border order-1 xl:order-1 border-[#eee] rounded-xl p-3 relative'>
                 <span className='px-4 py-2 bg-[#d30808] absolute capitalize top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>{user?.subscriptionType}</span>
-                <img className='w-full rounded-xl' src={url + user?.profileImage?.imageUrl} alt="" />
+                <img className='w-full rounded-xl' src={user?.profileImage?.imageUrl.includes('amazonaws') ? user?.profileImage?.imageUrl : url + user?.profileImage?.imageUrl} alt="" />
                 <div className='p-2 text-center mt-2'>
                     <h2 className='font-semibold capitalize'>{user?.name}</h2>
                     <p>{user?.email}</p>
@@ -109,13 +111,13 @@ const ViewProfileSpecialist = () => {
                         {userSpecialists?.map((specialist) => (
                             <Card
                                 style={{ width: 250 }}
-                                cover={<img alt="specialist" src={url + specialist?.profileImage?.imageUrl} />}
+                                cover={<img alt="specialist" src={url + specialist?.specialistId?.profileImage?.imageUrl} />}
                             >
                                 <Card.Meta className='capitalize' title={specialist?.name} />
-                                <p>{specialist?.profile?.description}</p>
-                                <div className='flex items-center flex-wrap'>
-                                    {specialist?.profile?.protocolNames?.map((protocol) => (
-                                        <p className='px-4 py-2 border border-[#eee]'>{protocol}</p>
+                                <p>{specialist?.specialistId?.profileId?.description}</p>
+                                <div className='flex items-center flex-wrap gap-2'>
+                                    {specialist?.specialistId?.profileId?.protocolNames?.map((protocol) => (
+                                        <p className='px-4 py-1 border rounded-lg border-[#eee]'>{protocol}</p>
                                     ))}
                                 </div>
                             </Card>
@@ -127,15 +129,15 @@ const ViewProfileSpecialist = () => {
                         {userDoctors?.map((doctor) => (
                             <Card
                                 style={{ width: 250 }}
-                                cover={<img alt="doctor" src={url + doctor?.profileImage?.imageUrl} />}
+                                cover={<img alt="doctor" src={url + doctor?.doctorId?.profileImage?.imageUrl} />}
                             >
-                                <Card.Meta className='capitalize' title={doctor?.name} />
-                                <p>{doctor?.profile?.description}</p>
-                                <div className='flex items-center flex-wrap'>
-                                    {doctor?.profile?.protocolNames?.map((protocol) => (
+                                <Card.Meta className='capitalize' title={doctor?.doctorId?.name} />
+                                <p>{doctor?.doctorId?.profileId?.description}</p>
+                                {/* <div className='flex items-center flex-wrap'>
+                                    {doctor?.doctorId?.profileId?.protocolNames?.map((protocol) => (
                                         <p className='px-4 py-2 rounded-full border border-[#eee]'>{protocol}</p>
                                     ))}
-                                </div>
+                                </div> */}
                             </Card>
                         ))}
                     </div>

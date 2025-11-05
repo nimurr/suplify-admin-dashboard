@@ -211,7 +211,7 @@ const UserManagement = () => {
                   <td className="px-4 py-2">{record.email}</td>
                   <td className="px-4 py-2">{record.subscriptionType}</td>
                   <td className="px-4 py-2">
-                    <Link to={`${record?.role === 'specialist' ? 'specialist' : 'view-user'}/${record._id}`} className="text-blue-500">
+                    <Link to={`${record?.role === 'patient' ? 'specialist' : 'view-user'}/${record._id}`} className="text-blue-500">
                       View
                     </Link>
                   </td>

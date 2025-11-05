@@ -17,13 +17,13 @@ export const userApi = apiSlice.injectEndpoints({
 
         getYourSpecialist: builder.query({
             query: (userId) => ({
-                url: `/specialist-patients/specialist/${userId}`,
+                url: `/specialist-patients/paginate/for-admin?patientId=${userId}`,
                 method: 'GET',
             }),
         }),
         getDoctors: builder.query({
             query: (userId) => ({
-                url: `/doctor-patients/doctor/${userId}`,
+                url: `/doctor-patients/paginate/for-admin?patientId=${userId}`,
                 method: 'GET',
             }),
         }),
