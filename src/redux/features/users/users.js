@@ -3,8 +3,8 @@ import { apiSlice } from "../../api/apiSlice";
 export const userApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
-            query: () => ({
-                url: '/users/paginate?approvalStatus=approved',
+            query: ({ status, subStatus, role }) => ({
+                url: `/users/paginate?approvalStatus=${status}&subscriptionType=${subStatus}&role=${role}`,
                 method: 'GET',
             }),
         }),

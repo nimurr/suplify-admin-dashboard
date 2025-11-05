@@ -82,9 +82,9 @@ export default function SupplementCreateForm() {
   return (
     <div className="max-w-2xl mx-auto bg-white px-8 py-5 rounded-lg shadow-sm">
       <Toaster />
-      <h1 className="text-xl font-medium mb-10 flex items-center gap-2">
+      <h1 className="text-xl capitalize font-medium mb-10 flex items-center gap-2">
         <FaArrowLeft onClick={() => navigate(`/dashboard/store/view-store?id=${id}`)} className="text-[28px] cursor-pointer" />
-        Healthy Supplement
+        Create {id}
       </h1>
 
       <div className="border border-[#eee] p-3 rounded-lg">

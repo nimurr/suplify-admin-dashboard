@@ -76,7 +76,7 @@ export default function ViewStore() {
       <div className="flex item-center justify-between gap-2 my-4">
         <div onClick={() => navigate('/dashboard/store')} className="flex cursor-pointer item-center gap-2">
           <FaArrowLeft className="text-[22px] "></FaArrowLeft>
-          <h1 className="font-semibold">Suppliment</h1>
+          <h1 className="font-semibold capitalize">{id}</h1>
         </div>
 
         <div>

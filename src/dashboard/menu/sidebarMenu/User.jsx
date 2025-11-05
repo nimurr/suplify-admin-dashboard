@@ -4,9 +4,13 @@ import { useGetAllUsersQuery } from '../../../redux/features/users/users';
 import url from '../../../redux/api/baseUrl';
 
 const UserManagement = () => {
-  const { data: users, isLoading } = useGetAllUsersQuery();
+  const [status, setStatus] = useState('');  // State for filtering by status
+  const [subStatus, setSubStatus] = useState('');  // State for filtering by status
+  const [role, setRoleStatus] = useState('');  // State for filtering by status
+
+  const { data: users, isLoading } = useGetAllUsersQuery({ status, subStatus, role });
   const fullData = users?.data?.attributes || [];
-  console.log(fullData?.results);
+  console.log(fullData);
 
   const [data, setData] = useState(fullData?.results);
   const [pagination, setPagination] = useState({
@@ -40,6 +44,7 @@ const UserManagement = () => {
   const columns = [
     { title: 'Id', key: 'id' },
     { title: 'User Name', key: 'name' },
+    { title: 'role', key: 'role' },
     { title: 'approvalStatus', key: 'approvalStatus' },
     { title: 'Email', key: 'email' },
     { title: 'subscription Type', key: 'subscriptionType' },
@@ -82,24 +87,37 @@ const UserManagement = () => {
     }));
   };
 
+  // Handle Status Filtering
+  const handleStatusChange = (e) => {
+    const selectedStatus = e.target.value;
+    setStatus(selectedStatus);  // Update the status filter state
+  };
+  const handleSubStautsChange = (e) => {
+    const selectSubStatus = e.target.value;
+    setSubStatus(selectSubStatus);  // Update the status filter state
+  };
+  const handleRoleChange = (e) => {
+    const selectedRole = e.target.value;
+    setRoleStatus(selectedRole);  // Update the status filter state
+  };
+
   return (
     <div>
-
       {
         isLoading ? <div className='grid xl:grid-cols-4 lg:grid-cols-2 gap-3 grid-cols-1'>
           {
             [...Array(4)].map((_, index) => (
-              <div class="mx-auto w-full max-w-sm rounded-md border border-[#8400ff2a]  p-4">
-                <div class="flex animate-pulse space-x-4">
-                  <div class="size-10 rounded-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
-                  <div class="flex-1 space-y-6 py-1">
-                    <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
-                    <div class="space-y-3">
-                      <div class="grid grid-cols-3 gap-4">
-                        <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
-                        <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+              <div className="mx-auto w-full max-w-sm rounded-md border border-[#8400ff2a] p-4" key={index}>
+                <div className="flex animate-pulse space-x-4">
+                  <div className="size-10 rounded-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                  <div className="flex-1 space-y-6 py-1">
+                    <div className="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                        <div className="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                       </div>
-                      <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                      <div className="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                     </div>
                   </div>
                 </div>
@@ -148,17 +166,55 @@ const UserManagement = () => {
         )
       }
 
-
       {/* Search Bar */}
-      <div className="my-5 flex items-center gap-2 justify-between flex-wrap">
+      <div className="my-5 flex items-center gap-2 justify-between flex-wrap ">
         <h1 className="text-xl font-semibold">User Management</h1>
-        <input
-          type="text"
-          placeholder="Search Here.."
-          className="px-4 min-w-[250px] py-2 rounded-lg border border-[#eee] focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={search} // Bind the search value
-          onChange={handleSearch} // Trigger search on change
-        />
+        <div className='flex items-center gap-2'>
+          {/*patient-admin-specialist-doctor*/}
+          <select
+            onChange={handleRoleChange}
+            value={role}
+            className="px-4 py-2 rounded-lg border border-[#eee] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Role</option>
+            <option value="patient">Patient</option>
+            <option value="admin">Admin</option>
+            <option value="specialist">Specialist</option>
+            <option value="doctor">Doctor</option>
+          </select>
+
+          <select
+            onChange={handleSubStautsChange}
+            value={subStatus}
+            className="px-4 py-2 rounded-lg border border-[#eee] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Sub</option>
+            <option value="none">None</option>
+            <option value="freeTrial">Free Trial</option>
+            <option value="standard">Standard</option>
+            <option value="standardPlus">Standard Plus</option>
+            <option value="vise">Vise</option>
+          </select>
+
+          <select
+            onChange={handleStatusChange}
+            value={status}
+            className="px-4 py-2 rounded-lg border border-[#eee] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+          </select>
+
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search Here.."
+            className="px-4 min-w-[250px] py-2 rounded-lg border border-[#eee] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={search} // Bind the search value
+            onChange={handleSearch} // Trigger search on change
+          />
+        </div>
       </div>
 
       {/* Table */}
@@ -169,7 +225,7 @@ const UserManagement = () => {
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-4 py-3 text-left"
+                  className="px-4 py-3 text-left capitalize font-semibold"
                   onClick={(e) => handleChange(e, col.key)}
                   style={{ cursor: 'pointer' }}
                 >
@@ -203,6 +259,7 @@ const UserManagement = () => {
                       {record.name}
                     </div>
                   </td>
+                  <td className="px-4 py-2 capitalize">{record.role}</td>
                   <td
                     className={`px-4 py-2 capitalize ${record.approvalStatus === 'approved' && 'text-[green]'} ${record.approvalStatus === 'pending' && 'text-[orange]'}`}
                   >
