@@ -71,18 +71,18 @@ export default function ViewProfile() {
           }
 
         </div>
-        <Text strong className="text-xl text-[white]">{fullUserData.name}</Text>
+        <Text strong className="text-xl text-[white] capitalize">{fullUserData.name}</Text>
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <input type="text" className="p-3 border border-[#eee] rounded-lg ring-0 focus:outline-none text-[#666]" value={fullUserData.name} addonBefore="First Name" readOnly />
         <input type="text" className="p-3 border border-[#eee] rounded-lg ring-0 focus:outline-none text-[#666]" value={fullUserData.email} addonBefore="Email" readOnly />
       </div>
-      <h2 className="mb-2 text-[#727272] capitalize">Document Submited By This {fullUserData.role}:-</h2>
+      <h2 className="mb-5 text-[#727272] capitalize">Document Submited By This {fullUserData.role}</h2>
       <div className="flex items-center gap-3 flex-wrap capitalize">
         {
           fullUserData.profileId?.attachments?.map((item, index) => (
-            <Link to={item?.attachment} target="_blank" className="py-3 px-8 rounded-lg flex items-center justify-center gap-2 bg-[blue] capitalize text-[white]">{item?.attachmentType == "image" ? <CiImageOn /> : <GrDocumentText />}{item?.attachmentType}</Link>
+            <Link to={item?.attachment.includes("amazonaws") ? item?.attachment : url + item?.attachment} target="_blank" className="bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg py-3 px-8 rounded-lg flex items-center justify-center gap-2  capitalize ">{item?.attachmentType == "image" ? <CiImageOn /> : <GrDocumentText />}{item?.attachmentType}</Link>
           ))
         }
       </div>
