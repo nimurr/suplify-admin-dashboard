@@ -1,10 +1,12 @@
 import React from "react";
 import { Button, Input, Card, Typography } from "antd";
 import { CheckCircleOutlined, EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useGetUserProfileQuery } from "../../../redux/features/users/users";
 import url from "../../../redux/api/baseUrl";
+import { CiImageOn } from "react-icons/ci";
+import { GrDocumentText } from "react-icons/gr";
 
 const { Title, Text } = Typography;
 
@@ -76,23 +78,16 @@ export default function ViewProfile() {
         <input type="text" className="p-3 border border-[#eee] rounded-lg ring-0 focus:outline-none text-[#666]" value={fullUserData.name} addonBefore="First Name" readOnly />
         <input type="text" className="p-3 border border-[#eee] rounded-lg ring-0 focus:outline-none text-[#666]" value={fullUserData.email} addonBefore="Email" readOnly />
       </div>
-
-      <div className="flex items-center justify-between border border-[#eee] rounded-md p-4">
+      <h2 className="mb-2 text-[#727272] capitalize">Document Submited By This {fullUserData.role}:-</h2>
+      <div className="flex items-center gap-3 flex-wrap capitalize">
         {
-          fullUserData.profileId?.attachments && fullUserData.profileId?.attachments.length > 0 ? (
-            <div>
-              <Text className="text-[#666] mb-5" strong>Upload document *</Text>
-              <div className="text-[#666]">{fullUserData.fullUserData?.attachments[0]?.attachment} ({(fullUserData.profileId.attachments[0].size / 1024).toFixed(2)}kb)</div>
-            </div>
-          ) : (
-            <div>
-              <Text className="text-[#666] mb-5" strong>Upload document *</Text>
-              <div className="text-[#666]">{
-                fullUserData?.profileId?.approvalStatus === 'approved' ? 'Document Approved' : 'No document uploaded'
-              }</div>
-            </div>
-          )
+          fullUserData.profileId?.attachments?.map((item, index) => (
+            <Link to={item?.attachment} target="_blank" className="py-3 px-8 rounded-lg flex items-center justify-center gap-2 bg-[blue] capitalize text-[white]">{item?.attachmentType == "image" ? <CiImageOn /> : <GrDocumentText />}{item?.attachmentType}</Link>
+          ))
         }
+      </div>
+      <div className="flex items-center justify-end rounded-md p-4">
+
         {
           fullUserData?.profileId?.approvalStatus !== 'approved' && (
             <div className="flex space-x-4">
@@ -102,10 +97,10 @@ export default function ViewProfile() {
           )
         }
       </div>
-      <div className="flex space-x-4 mt-4 justify-end">
+      {/* <div className="flex space-x-4 mt-4 justify-end">
         <Button className="h-10 px-10" icon={<EyeOutlined />} onClick={handleViewFile}>View File</Button>
         <Button className="h-10 px-10" icon={<DownloadOutlined />} onClick={handleDownload}>Download</Button>
-      </div>
+      </div> */}
     </div>
   );
 }
