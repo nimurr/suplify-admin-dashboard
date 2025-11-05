@@ -119,13 +119,16 @@ const Header = () => {
     <div className=" flex justify-between items-center border border-[#dddddd] mb-[24px] p-[16px] rounded-md !bg-primaryBg">
       <Toaster />
       <div className="text-white">
-        <p className="gradient-text">
-          Welcome
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="gradient-text">
+            Welcome
+          </p>
+          <span className="text-3xl">👋</span>
+        </div>
 
 
         {/* <h1>{profile?.data?.attributes?.name}</h1> */}
-        <h1 className="text-whiteText capitalize">{"absayed"}</h1>
+        <h1 className="text-whiteText capitalize text-xl font-semibold text-[#535353]">{profile?.name}</h1>
       </div>
 
       <div className="flex gap-5">

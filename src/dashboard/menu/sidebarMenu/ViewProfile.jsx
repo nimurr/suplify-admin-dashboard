@@ -3,10 +3,12 @@ import { Button, Input, Card, Typography } from "antd";
 import { CheckCircleOutlined, EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
-import { useGetUserProfileQuery } from "../../../redux/features/users/users";
+import { useAppRovedAndRejectMutation, useGetUserProfileQuery } from "../../../redux/features/users/users";
 import url from "../../../redux/api/baseUrl";
 import { CiImageOn } from "react-icons/ci";
 import { GrDocumentText } from "react-icons/gr";
+import toast, { Toaster } from "react-hot-toast";
+import { MdVerified } from "react-icons/md";
 
 const { Title, Text } = Typography;
 
@@ -15,19 +17,44 @@ export default function ViewProfile() {
   const { id } = useParams();
   const { data, isLoading } = useGetUserProfileQuery(id);
   const fullUserData = data?.data?.attributes?.results[0] || {};
-  console.log(fullUserData);
 
 
+  const [VerifyUser] = useAppRovedAndRejectMutation();
+  const [AppRovedAndReject] = useAppRovedAndRejectMutation();
+
+  const handleVerify = async () => {
+
+    try {
+
+      const res = await VerifyUser({ id, approvalStatus: "approved" }).unwrap();
+      console.log(res);
+      if (res?.code == 200) {
+        toast.success(res?.message)
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.message);
+    }
 
 
-  const handleVerify = () => {
-    // verification logic here
-    alert("User verified!");
   };
 
-  const handleDecline = () => {
-    // decline logic here
-    alert("User declined!");
+  const handleDecline = async () => {
+
+    try {
+
+      const res = await AppRovedAndReject({ id, approvalStatus: "rejected" }).unwrap();
+      console.log(res);
+      if (res?.code == 200) {
+        toast.success(res?.message)
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
+
   };
 
   const handleViewFile = () => {
@@ -46,6 +73,7 @@ export default function ViewProfile() {
   const navigate = useNavigate()
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg border border-[#eee]">
+      <Toaster />
       <div onClick={() => navigate('/dashboard/user')} className="flex item-center cursor-pointer gap-2 mb-3" >
         <FaArrowLeft className="text-[28px] "></FaArrowLeft>
         <Title level={4} className="mb-6">User Profile</Title>
@@ -62,16 +90,19 @@ export default function ViewProfile() {
               className="w-24 h-24 rounded-full object-cover"
             />
           }
-          {
-            fullUserData?.profileId?.approvalStatus === 'approved' && (
-              <CheckCircleOutlined
-                className="absolute top-1 left-1 text-white text-xl text-[white] bg-[green] rounded-full"
-              />
-            )
-          }
+
 
         </div>
-        <Text strong className="text-xl text-[white] capitalize">{fullUserData.name}</Text>
+        <div className="flex items-center gap-2 mt-5">
+          <Text strong className="text-xl text-[white] capitalize ">{fullUserData.name}</Text>
+          <span> {
+            fullUserData?.profileId?.approvalStatus === 'approved' && (
+              <MdVerified
+                className="text-white text-2xl text-[#196cca]  rounded-full"
+              />
+            )
+          }</span>
+        </div>
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -88,14 +119,11 @@ export default function ViewProfile() {
       </div>
       <div className="flex items-center justify-end rounded-md p-4">
 
-        {
-          fullUserData?.profileId?.approvalStatus !== 'approved' && (
-            <div className="flex space-x-4">
-              <button className="py-3 px-8 rounded-lg bg-[red] text-[white]" danger onClick={handleDecline}>Decline</button>
-              <button className="py-3 px-8 rounded-lg bg-[blue] text-[white]" type="primary" onClick={handleVerify}>Click to verify</button>
-            </div>
-          )
-        }
+        <div className="flex space-x-4">
+          <button className="py-3 px-8 rounded-lg bg-[#ad0000] text-[white]" danger onClick={handleDecline}>Decline</button>
+          <button className="py-3 px-8 rounded-lg bg-[#003cac] text-[white]" type="primary" onClick={handleVerify}>Click to verify</button>
+        </div>
+
       </div>
       {/* <div className="flex space-x-4 mt-4 justify-end">
         <Button className="h-10 px-10" icon={<EyeOutlined />} onClick={handleViewFile}>View File</Button>

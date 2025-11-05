@@ -43,6 +43,12 @@ export const userApi = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        appRovedAndReject: builder.mutation({
+            query: ({ id, approvalStatus }) => ({
+                url: `/users/change-approval-status/?userId=${id}&approvalStatus=${approvalStatus}`,
+                method: 'PUT'
+            }),
+        }),
 
     })
 })
@@ -52,6 +58,7 @@ export const {
     useGetYourSpecialistQuery,
     useGetDoctorsQuery,
     useAssginSpecialistMutation,
-    useAssignDoctorMutation
+    useAssignDoctorMutation,
+    useAppRovedAndRejectMutation
 
 } = userApi
