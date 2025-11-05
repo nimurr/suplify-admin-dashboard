@@ -16,17 +16,19 @@ const EarningsDashboard = () => {
       {
         isLoading ? <div className='grid xl:grid-cols-4 lg:grid-cols-2 gap-3 grid-cols-1'>
           {
-            [...Array(4)].map((_, index) => (
+            [...Array(10)].map((_, index) => (
               <div class="mx-auto w-full max-w-sm rounded-md border border-[#8400ff2a]  p-4">
                 <div class="flex animate-pulse space-x-4">
                   <div class="size-10 rounded-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                   <div class="flex-1 space-y-6 py-1">
+                    <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                     <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                     <div class="space-y-3">
                       <div class="grid grid-cols-3 gap-4">
                         <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                         <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                       </div>
+                      <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                       <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
                     </div>
                   </div>
