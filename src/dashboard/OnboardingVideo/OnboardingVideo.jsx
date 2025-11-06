@@ -85,9 +85,6 @@ const OnboardingVideo = () => {
         return <div>Loading...</div>;
     }
 
-    if (error) {
-        return <div>Error fetching video data</div>;
-    }
 
     return (
         <div className=" mx-auto ">

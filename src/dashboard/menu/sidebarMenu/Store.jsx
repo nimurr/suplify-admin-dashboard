@@ -191,12 +191,17 @@ const StoreTable = () => {
         visible={isModalOpen}
         onCancel={toggleModal}
         footer={[
-          <button className='px-4 py-2 bg-[#ff0909d3] text-primaryBg rounded mr-2' key="cancel" onClick={toggleModal}>
-            Cancel
-          </button>,
-          <button className='px-4 py-2 bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg rounded' key="create" onClick={handleCreateProduct}>
-            Create New {isCreatingSuppliment && <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24"></svg>}
-          </button>,
+          <div className='flex justify-end gap-2'>
+            <button className='px-4 py-2 bg-[#ff0909d3] text-primaryBg rounded mr-2' key="cancel" onClick={toggleModal}>
+              Cancel
+            </button>
+            <button className='px-4 py-2 bg-gradient-to-br flex items-center justify-center gap-2 from-[#8400ff8e] to-[#ff09099f] text-primaryBg rounded' key="create" onClick={handleCreateProduct} >
+              Create New
+              {isCreatingSuppliment && <svg class="mr-3 size-5 animate-spin " viewBox="0 0 24 24">
+                <circle className='animate-spin ' class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              </svg>}
+            </button>
+          </div>
         ]}
       >
         <Form layout="vertical">
