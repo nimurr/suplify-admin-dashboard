@@ -77,20 +77,23 @@ const StoreTable = () => {
     }
   };
 
-  const [createSuppliment] = useCreateSupplimentMutation(); // Placeholder for the mutation hook
+  const [createSuppliment, { isLoading: isCreatingSuppliment }] = useCreateSupplimentMutation(); // Placeholder for the mutation hook
 
 
   // Handle form submit for creating a new product
   const handleCreateProduct = async () => {
+
+    console.log(formData);
+
     const formData2 = new FormData();
     formData2.append('name', formData.name);
     formData2.append('price', formData.price);
     formData2.append('description', formData.description);
-    if (formData.category == "labTest") {
-      formData2.append('category', formData.category);
+    formData2.append('category', formData.category);
+    if (formData.category != "labTest") {
+      formData2.append('stockQuantity', formData.stockQuantity);
     }
     formData2.append('attachments', formData.attachments);
-    formData2.append('stockQuantity', formData.stockQuantity);
 
 
     try {
@@ -188,12 +191,12 @@ const StoreTable = () => {
         visible={isModalOpen}
         onCancel={toggleModal}
         footer={[
-          <Button key="cancel" onClick={toggleModal}>
+          <button className='px-4 py-2 bg-[#ff0909d3] text-primaryBg rounded mr-2' key="cancel" onClick={toggleModal}>
             Cancel
-          </Button>,
-          <Button key="create" type="primary" onClick={handleCreateProduct}>
-            Create
-          </Button>,
+          </button>,
+          <button className='px-4 py-2 bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg rounded' key="create" onClick={handleCreateProduct}>
+            Create New {isCreatingSuppliment && <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24"></svg>}
+          </button>,
         ]}
       >
         <Form layout="vertical">
@@ -253,7 +256,7 @@ const StoreTable = () => {
               className='h-12'
             >
               {categories.map((category, idx) => (
-                <Select.Option key={idx} value={category}>
+                <Select.Option className='capitalize' key={idx} value={category}>
                   {category}
                 </Select.Option>
               ))}
@@ -280,7 +283,6 @@ const StoreTable = () => {
           <Form.Item
             label="Stock Quantity"
             name="stockQuantity"
-            rules={[{ required: true, message: 'Please input the stock quantity!' }]}
           >
             <InputNumber
               name="stockQuantity"
@@ -290,6 +292,7 @@ const StoreTable = () => {
               min={0}
               className='w-full py-2'
             />
+            <span className='mt-2 block text-[#c00]'>You Don't have add Stock Quantity For Labtest</span>
           </Form.Item>
         </Form>
       </Modal>

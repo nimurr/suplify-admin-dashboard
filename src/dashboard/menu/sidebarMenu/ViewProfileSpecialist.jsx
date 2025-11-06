@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Tabs, Card, Select, Space, message } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
-import { useAssginSpecialistMutation, useAssignDoctorMutation, useGetDoctorsQuery, useGetUserProfileQuery, useGetYourSpecialistQuery } from '../../../redux/features/users/users';
+import { useAssginSpecialistMutation, useAssignDoctorMutation, useGetAllAssigningDoctorsQuery, useGetAllAssigningSpacialistsQuery, useGetDoctorsQuery, useGetUserProfileQuery, useGetYourSpecialistQuery } from '../../../redux/features/users/users';
 import { useParams } from 'react-router-dom';
 import url from '../../../redux/api/baseUrl';
 
@@ -15,6 +15,7 @@ const ViewProfileSpecialist = () => {
     const [selectedSpecialistId, setSelectedSpecialistId] = useState(null);
     const [selectedDoctorId, setSelectedDoctorId] = useState(null);
     const { id } = useParams();
+
     const { data: userProfile } = useGetUserProfileQuery(id);
     const user = userProfile?.data?.attributes?.results[0];
 
@@ -22,9 +23,18 @@ const ViewProfileSpecialist = () => {
     const { data: specialistsData } = useGetYourSpecialistQuery(id);
     const userSpecialists = specialistsData?.data?.attributes?.results;
 
+
     console.log(userSpecialists);
     const { data: doctorsData } = useGetDoctorsQuery(id);
     const userDoctors = doctorsData?.data?.attributes?.results;
+
+    const { data: userDoctorsData } = useGetAllAssigningDoctorsQuery(id);
+    const userDoctorsList = userDoctorsData?.data?.attributes?.results;
+
+    const { data: userSpecialistsData } = useGetAllAssigningSpacialistsQuery(id);
+    const userSpecialistsList = userSpecialistsData?.data?.attributes;
+    console.log(userSpecialistsList);
+
 
     const handleAssignSpecialist = () => {
         setIsSpecialistModalVisible(true);
@@ -96,7 +106,11 @@ const ViewProfileSpecialist = () => {
         <div className='flex flex-row xl:flex-nowrap flex-wrap gap-5 items-start'>
             {/* Profile Section */}
             <div className='md:w-[500px] border order-1 xl:order-1 border-[#eee] rounded-xl p-3 relative'>
-                <span className='px-4 py-2 bg-[#d30808] absolute capitalize top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>{user?.subscriptionType}</span>
+                {
+                    user?.subscriptionType &&
+                    <span className='px-4 py-2 bg-[#d30808] absolute capitalize top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>{user?.subscriptionType}</span>
+                }
+
                 <img className='md:w-[500px] rounded-xl' src={user?.profileImage?.imageUrl.includes('amazonaws') ? user?.profileImage?.imageUrl : url + user?.profileImage?.imageUrl} alt="" />
                 <div className='p-2 text-center mt-2'>
                     <h2 className='font-semibold capitalize'>{user?.name}</h2>
@@ -178,9 +192,12 @@ const ViewProfileSpecialist = () => {
                         value={selectedSpecialistId}
                         className='w-full h-10 my-5'
                     >
-                        {userSpecialists?.map((specialist) => (
-                            <Select.Option key={specialist._id} value={specialist._id}>
-                                {specialist.specialistId?.name}
+                        {userSpecialistsList?.map((specialist) => (
+                            <Select.Option className='h-10' key={specialist._id} value={specialist._id}>
+                                <div className='flex items-center justify-between'>
+                                    <span>{specialist?.name}</span>
+                                    <span className='ml-5 capitalize'>{specialist?.profile?.approvalStatus}</span>
+                                </div>
                             </Select.Option>
                         ))}
                     </Select>
@@ -201,9 +218,12 @@ const ViewProfileSpecialist = () => {
                         value={selectedDoctorId}
                         className='w-full h-10 my-5'
                     >
-                        {userDoctors?.map((doctor) => (
-                            <Select.Option key={doctor._id} value={doctor._id}>
-                                {doctor?.doctorId?.name}
+                        {userDoctorsList?.map((doctor) => (
+                            <Select.Option className='h-10' key={doctor._id} value={doctor._id}>
+                                <div className='flex items-center justify-between'>
+                                    <span>{doctor?.name}</span>
+                                    <span className='ml-5 capitalize'>{doctor?.profile?.approvalStatus}</span>
+                                </div>
                             </Select.Option>
                         ))}
                     </Select>

@@ -27,6 +27,18 @@ export const userApi = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        getAllAssigningDoctors: builder.query({
+            query: (id) => ({
+                url: `/doctor-patients/doctor/${id}`,
+                method: 'GET',
+            }),
+        }),
+        getAllAssigningSpacialists: builder.query({
+            query: (id) => ({
+                url: `/specialist-patients/specialist/${id}`,
+                method: 'GET',
+            }),
+        }),
 
         assginSpecialist: builder.mutation({
             query: (data) => ({
@@ -57,6 +69,9 @@ export const {
     useGetUserProfileQuery,
     useGetYourSpecialistQuery,
     useGetDoctorsQuery,
+    useGetAllAssigningDoctorsQuery,
+    useGetAllAssigningSpacialistsQuery,
+
     useAssginSpecialistMutation,
     useAssignDoctorMutation,
     useAppRovedAndRejectMutation
