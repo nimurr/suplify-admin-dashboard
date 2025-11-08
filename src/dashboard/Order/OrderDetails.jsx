@@ -72,7 +72,7 @@ const OrderDetails = () => {
                 </div>
 
                 {/* Billing Address */}
-                <div className="bg-white mt-5 rounded-lg flex items-center justify-between">
+                <div className="bg-white mt-5 rounded-lg flex items-start justify-between">
                     <div className="space-y-2">
                         <h3 className="text-lg font-semibold text-gray-700 mb-4">Billing Address</h3>
                         <p className="text-sm text-gray-600">Address: {fullData?.orderInfo?.shippingAddress?.address || "--"}</p>
@@ -82,9 +82,12 @@ const OrderDetails = () => {
                     </div>
 
                     <div className="mt-6 bg-[#c508082a]  p-4 rounded-lg text-sm text-orange-600 flex items-start">
-                        <div>
+                        <div className='text-xl font-semibold space-y-3'>
                             <p className="font-semibold">Tnx Id: {fullData?.orderInfo?.paymentTransactionId}</p>
                             <p>User Id: {fullData?.orderInfo?.userId._id}</p>
+                            <p>Sub Total Amount: {fullData?.orderInfo?.subTotal}$</p>
+                            <p>Discounted Amount Amount: {fullData?.orderInfo?.discount?.discountedAmount}$</p>
+                            <p>Discounted Value: {fullData?.orderInfo?.discount?.value}%</p>
                             <p>Final Amount: {fullData?.orderInfo?.finalAmount}$</p>
                             <p className='capitalize'>Payment Status: {fullData?.orderInfo?.paymentStatus}</p>
                             <br />
