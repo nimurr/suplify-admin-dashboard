@@ -93,7 +93,7 @@ const Header = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const { data } = useGetProfileQuery({ id: user?._id });
   const profile = data?.data?.attributes;
-  console.log(profile);
+
 
   const handleMenuVisibility = (visible) => {
     setMenuVisible(visible);
@@ -131,7 +131,10 @@ const Header = () => {
         <h1 className="text-whiteText capitalize text-xl font-semibold text-[#535353]">{profile?.name}</h1>
       </div>
 
-      <div className="flex gap-5">
+      <div className="flex  gap-5">
+        <Link to="/dashboard/notification" className="bg-gradient-to-br cursor-pointer from-[#8400ff8e] to-[#ff09099f] text-primaryBg h-[52px] w-[52px] rounded-lg flex items-center justify-center">
+          <IoIosNotificationsOutline className="text-3xl text-white" />
+        </Link>
         <div className="border border-[#ccc] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg px-2 py-1 rounded-lg">
           <Dropdown className="px-2" overlay={menu} trigger={['click']} onVisibleChange={handleMenuVisibility}>
             <a className="flex items-center text-white cursor-pointer text-whiteText">
