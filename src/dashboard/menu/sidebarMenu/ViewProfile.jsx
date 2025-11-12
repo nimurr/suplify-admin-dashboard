@@ -17,6 +17,7 @@ export default function ViewProfile() {
   const { id } = useParams();
   const { data, isLoading } = useGetUserProfileQuery(id);
   const fullUserData = data?.data?.attributes?.results[0] || {};
+  console.log(fullUserData);
 
 
   const [VerifyUser] = useAppRovedAndRejectMutation();
