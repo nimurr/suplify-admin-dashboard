@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../home/Home";
-import ForgotPassword from "../auth/forgotpassword";
+// import ForgotPassword from "../auth/forgotpassword";
+import ForgotPassword from "../auth/ForgotPassword";
 import VerifyOtp from "../auth/VerifyOtp";
 import UpdatePassword from "../auth/UpdatePassword";
 import Main from "../layout/Main";
