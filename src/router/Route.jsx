@@ -35,7 +35,7 @@ import ViewProfileSpecialist from "../dashboard/menu/sidebarMenu/ViewProfileSpec
 import Subscription from "../dashboard/Subscription/Subscription";
 
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
     {
         path: "/",
         element: <Home></Home>,
@@ -157,3 +157,5 @@ export const router = createBrowserRouter([
         ]
     }
 ])
+
+export default router
