@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://newsheakh6731.sobhoy.com/api/v1",
+    baseUrl: "http://34.203.0.252:4173/api/v1",
     prepareHeaders: (headers, { getState }) => {
 
       let token = null;
