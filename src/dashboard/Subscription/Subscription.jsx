@@ -107,6 +107,8 @@ const Subscription = () => {
 
                         {/* Delete Button */}
                         <button
+                            // disabled 
+                            disabled
                             onClick={() => handleDeleteSubscription(subscription)}
                             className="absolute top-2 right-2 text-red-500 p-2 hover:bg-red-200 rounded-full"
                         >
