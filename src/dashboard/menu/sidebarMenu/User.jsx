@@ -252,7 +252,7 @@ const UserManagement = () => {
                   <td className="px-4 py-2">
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <img
-                        src={url + record.profileImage?.imageUrl}
+                        src={record.profileImage?.imageUrl.includes('amazonaws') ? record.profileImage?.imageUrl : url + record.profileImage?.imageUrl}
                         alt="Avatar"
                         className="w-8 h-8 rounded-full mr-2"
                       />
