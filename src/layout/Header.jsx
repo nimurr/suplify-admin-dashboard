@@ -21,6 +21,8 @@ import url from "../redux/api/baseUrl";
 
 const Header = () => {
 
+  const time = new Date().getHours();
+
 
   const navigate = useNavigate();
 
@@ -120,10 +122,18 @@ const Header = () => {
       <Toaster />
       <div className="text-white">
         <div className="flex items-center gap-2">
-          <p className="gradient-text">
-            Welcome
-          </p>
-          <span className="text-3xl">👋</span>
+          <h1 className="text-3xl px-0 font-medium flex items-center gap-1"> Good {time < 12 ? <div className="flex items-center gap-2">
+            Morning
+            <img className="w-10 h-10" src="https://img.icons8.com/?size=48&id=tMl3iJECqyRx&format=png" alt="" />
+          </div> : time < 18 ? <div className="flex items-center gap-2">
+            Afternoon
+            <img className="w-10 h-10" src="https://img.icons8.com/?size=48&id=xctFOOIVorz0&format=png" alt="" />
+          </div> :
+            <div className="flex items-center gap-2">
+              Evening
+              <img className="w-10 h-10" src="https://img.icons8.com/?size=80&id=Ah2dOwUOsH7N&format=png" alt="" />
+            </div>
+          }  </h1>
         </div>
 
 
@@ -138,7 +148,7 @@ const Header = () => {
         <div className="border border-[#ccc] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg px-2 py-1 rounded-lg">
           <Dropdown className="px-2" overlay={menu} trigger={['click']} onVisibleChange={handleMenuVisibility}>
             <a className="flex items-center text-white cursor-pointer text-whiteText">
-              <Avatar src={profile?.profileImage?.imageUrl?.includes('amazonaws') ? profile?.profileImage?.imageUrl : url + profile?.profileImage?.imageUrl} className="mr-2 h-[52px] w-[52px]" />
+              <Avatar src={profile?.profileImage?.imageUrl?.includes('amazonaws') ? profile?.profileImage?.imageUrl : url + profile?.profileImage?.imageUrl} className="mr-2 h-[42px] w-[42px]" />
               {profile?.name} <DownOutlined className="ml-1" />
             </a>
           </Dropdown>
