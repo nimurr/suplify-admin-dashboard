@@ -1,3 +1,3 @@
 
-const url = "http://34.203.0.252:6731"
+const url = "https://api.suplify.life"
 export default url
