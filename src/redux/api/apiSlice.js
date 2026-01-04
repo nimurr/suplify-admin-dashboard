@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.suplify.life/api/v1",
+    baseUrl: "http://172.26.89.58:6731/api/v1",
     prepareHeaders: (headers, { getState }) => {
 
       let token = null;
