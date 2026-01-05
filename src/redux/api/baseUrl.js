@@ -1,3 +1,3 @@
 
-const url = "http://172.26.89.58:6731"
+const url = "https://newsheakh6731.sobhoy.com"
 export default url
