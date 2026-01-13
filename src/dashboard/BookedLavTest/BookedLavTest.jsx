@@ -183,6 +183,23 @@ const BookedLavTest = () => {
                                     <strong>Transaction ID:</strong> {selectedTest.paymentTransactionId}
                                 </p>
                             </div>
+                            <hr />
+                            {
+                                selectedTest.isResultUploaded &&
+                                <div>
+                                    <div>
+                                        <p className="flex items-center gap-2 justify-between">
+                                            <strong>Result Uploaded:</strong> {selectedTest.isResultUploaded ? 'Uploaded' : 'Not Uploaded'}
+                                        </p>
+                                        <p className="">
+                                            <strong>Uploaded Image:</strong>
+                                            <img className='h-[500px] object-cover w-full mt-5' src={selectedTest.uploadedResults[0]?.attachment} alt="" />
+                                        </p>
+
+                                    </div>
+                                    <hr />
+                                </div>
+                            }
 
                             <div className="flex items-start justify-between flex-wrap gap-5">
                                 <h2><strong>Status</strong></h2>
@@ -197,6 +214,13 @@ const BookedLavTest = () => {
                                     <option value="Canceled">Canceled</option>
                                 </select>
                             </div>
+
+                            <div>
+                                <input type="file" name="image" id="" />
+                                <br />
+                                <button className='mt-2 bg-[#e88c31] text-primaryBg px-5 py-2 rounded-lg'>Upload</button>
+                            </div>
+
                         </div>
                     </div>
                 )}
