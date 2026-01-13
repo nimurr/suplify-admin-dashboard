@@ -79,6 +79,7 @@ const BookedLavTest = () => {
                             <th className="py-3 px-4 text-sm font-semibold">#Latest Booking id</th>
                             <th className="py-3 px-4 text-sm font-semibold">Test Name</th>
                             <th className="py-3 px-4 text-sm font-semibold">Appointment Date</th>
+                            <th className="py-3 px-4 text-sm font-semibold">Result Uploaded</th>
                             <th className="py-3 px-4 text-sm font-semibold">Address</th>
                             <th className="py-3 px-4 text-sm font-semibold">Transaction Id</th>
                             <th className="py-3 px-4 text-sm font-semibold">Payment Status</th>
@@ -92,6 +93,7 @@ const BookedLavTest = () => {
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test._LabTestBookingId}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test.category}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{moment(test.appointmentDate).format('dddd, MMMM Do YYYY')}</td>
+                                <td className="py-3 px-4 text-gray-700 text-sm">{test.uploadedResults[0]?.attachment ? 'Uploaded ' : 'Not Uploaded'}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test.address}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test.paymentTransactionId}</td>
                                 <td className="py-3 px-4 text-gray-700 text-sm">{test.paymentStatus}</td>
