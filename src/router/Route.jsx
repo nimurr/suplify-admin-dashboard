@@ -33,6 +33,7 @@ import BookedLavTest from "../dashboard/BookedLavTest/BookedLavTest";
 import OnboardingVideo from "../dashboard/OnboardingVideo/OnboardingVideo";
 import ViewProfileSpecialist from "../dashboard/menu/sidebarMenu/ViewProfileSpecialist";
 import Subscription from "../dashboard/Subscription/Subscription";
+import SuplifyHotspot from "../dashboard/SuplifyHotspot/SuplifyHotspot";
 
 
 const router = createBrowserRouter([
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
             {
                 path: "booked-lab-test",
                 element: <BookedLavTest />
+            },
+            {
+                path: "suplify-hotspot",
+                element: <SuplifyHotspot />
             },
 
 
