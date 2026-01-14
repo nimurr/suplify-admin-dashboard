@@ -2,6 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import { FaCalendarCheck, FaCogs, FaBoxOpen, FaUser, FaMoneyCheckAlt, FaHeartbeat, FaCreditCard, FaUserPlus, FaExclamationTriangle } from 'react-icons/fa';
 import { useGetNotificationQuery } from '../../../redux/features/notificaiton/notification';
+import moment from 'moment';
 
 const Notifications = ({ notification }) => {
      // Dynamic styles and icons based on notification type
@@ -36,8 +37,11 @@ const Notifications = ({ notification }) => {
      return (
           <div className={`border-l-4 p-4 mb-3 rounded-lg flex justify-between items-center ${style}`}>
                <div className="flex items-center gap-3">
-                    <div className="text-2xl">{icon}</div>
-                    <p>{notification?.title}</p>
+                    <div className="text-2xl md:text-3xl">{icon}</div>
+                    <div>
+                         <p>{notification?.title}</p>
+                         <span className='text-xs font-semibold'>{moment(notification?.createdAt).format('lll')}</span>
+                    </div>
                </div>
           </div>
      );
