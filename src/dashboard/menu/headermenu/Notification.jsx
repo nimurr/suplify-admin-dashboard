@@ -29,7 +29,6 @@ const Notifications = ({ notification }) => {
                default:
                     return { style: 'bg-[#f1f1f1] border-[#9e9e9e] text-[#616161]', icon: <FaExclamationTriangle /> };
           }
-
      };
 
      const { style, icon } = getNotificationStyle(notification?.type);
