@@ -17,6 +17,13 @@ const BookedLavTest = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["BookedLavTest"],
         }),
+        updateImageLabTest: builder.mutation({
+            query: ({ data, id }) => ({
+                url: `/labTest-bookings/v2/${id}`,
+                method: "PUT",
+                body: data,
+            })
+        }),
         deleteBookedLavTest: builder.mutation({
             query: ({ data }) => ({
                 url: `/products/softDelete/${data.id}`,
@@ -27,4 +34,4 @@ const BookedLavTest = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetBookedLavTestQuery, useUpdateBookedLavTestMutation  , useDeleteBookedLavTestMutation} = BookedLavTest;
+export const { useGetBookedLavTestQuery, useUpdateBookedLavTestMutation, useUpdateImageLabTestMutation, useDeleteBookedLavTestMutation } = BookedLavTest;

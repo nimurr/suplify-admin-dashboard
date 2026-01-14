@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { IoEyeOutline } from 'react-icons/io5';
-import { Modal, Button } from 'antd';
-import { useGetBookedLavTestQuery, useUpdateBookedLavTestMutation } from '../../redux/features/BookedLavTest/BookedLavTest';
+import { Modal, Button, Image } from 'antd';
+import { useGetBookedLavTestQuery, useUpdateBookedLavTestMutation, useUpdateImageLabTestMutation } from '../../redux/features/BookedLavTest/BookedLavTest';
 import moment from 'moment';
 import toast, { Toaster } from 'react-hot-toast';
+import url from '../../redux/api/baseUrl';
 
 const BookedLavTest = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -15,7 +16,7 @@ const BookedLavTest = () => {
     });
 
     // Fetching data from the API
-    const { data, isLoading } = useGetBookedLavTestQuery();
+    const { data, isLoading, refetch } = useGetBookedLavTestQuery();
     const fullData = data?.data?.attributes?.results; // Assuming data structure from your response
 
     const [updateStatus] = useUpdateBookedLavTestMutation();
@@ -66,6 +67,41 @@ const BookedLavTest = () => {
             };
         });
     };
+    const [inputImage, setInputImage] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setInputImage(file);
+        }
+    };
+    const [updateLabtestImage] = useUpdateImageLabTestMutation();
+
+    const submitImage = async (id) => {
+        const formData = new FormData();
+        if (!inputImage) return toast.error('Please select an image');
+
+        formData.append('uploadedResults', inputImage);
+        console.log(inputImage)
+
+        try {
+            const res = await updateLabtestImage({ data: formData, id: id }).unwrap();
+            console.log(res)
+            if (res?.code == 200) {
+                toast.success(res?.message);
+                refetch();
+                setIsModalVisible(false);
+            }
+            else {
+                toast.error(res?.message);
+            }
+        } catch (error) {
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
+
+
+
+    }
 
     return (
         <div>
@@ -190,16 +226,31 @@ const BookedLavTest = () => {
                                 </p>
                             </div>
                             <hr />
+                            <div>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Patient name:</strong> {selectedTest.patientId?.name}
+                                </p>
+                                <p className="flex items-center gap-2 justify-between">
+                                    <strong>Patient Image:</strong> <img src={selectedTest.patientId?.profileImage?.imageUrl.includes('amazonaws') ? selectedTest.patientId?.profileImage?.imageUrl : (url + selectedTest.patientId?.profileImage?.imageUrl)} className={"w-10 rounded-full h-10"} alt="" />
+                                </p>
+
+                            </div>
+                            <hr />
                             {
                                 selectedTest.isResultUploaded &&
                                 <div>
                                     <div>
                                         <p className="flex items-center gap-2 justify-between">
-                                            <strong>Result Uploaded:</strong> {selectedTest.isResultUploaded ? 'Uploaded' : 'Not Uploaded'}
+                                            <strong>Result Uploaded:</strong>
+                                            <span className={
+                                                `py-3 px-4 text-gray-700 text-center text-sm font-semibold 
+                                            ${selectedTest.isResultUploaded && 'text-[green] bg-[#14ec143b] rounded-md'
+                                                || selectedTest.isResultUploaded && 'text-[red] '}`
+                                            }>{selectedTest.uploadedResults[0]?.attachment ? 'Uploaded ' : 'Not Uploaded'}</span>
                                         </p>
                                         <p className="">
                                             <strong>Uploaded Image:</strong>
-                                            <img className='h-[500px] object-cover w-full mt-5' src={selectedTest.uploadedResults[0]?.attachment} alt="" />
+                                            <Image className='h-[320px] object-cover w-full mt-5' src={selectedTest.uploadedResults[0]?.attachment} alt="" />
                                         </p>
 
                                     </div>
@@ -222,9 +273,9 @@ const BookedLavTest = () => {
                             </div>
 
                             <div>
-                                <input type="file" name="image" id="" />
+                                <input onChange={handleImageChange} type="file" name="image" id="" />
                                 <br />
-                                <button className='mt-2 bg-[#e88c31] text-primaryBg px-5 py-2 rounded-lg'>Upload</button>
+                                <button onClick={() => submitImage(selectedTest?._LabTestBookingId)} className='mt-2 bg-[#e88c31] text-primaryBg px-5 py-2 rounded-lg'>Upload</button>
                             </div>
 
                         </div>
