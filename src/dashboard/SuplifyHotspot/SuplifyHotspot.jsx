@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Modal, message } from 'antd';
 import {
+    useCreateSuplifyHotspotMutation,
     useGetSuplifyHotspotQuery,
-    // useCreateSuplifyHotspotMutation,
-    // useUpdateSuplifyHotspotMutation,
-    // useDeleteSuplifyHotspotMutation
 } from '../../redux/features/SuplifyHotspot/SuplifyHotspot';
 import url from '../../redux/api/baseUrl';
+import toast from 'react-hot-toast';
 
 const SuplifyHotspot = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
+
+    const { data, isLoading, refetch } = useGetSuplifyHotspotQuery({ page, limit });
+    const [createSuplifyHotspot] = useCreateSuplifyHotspotMutation();
+
 
     /* ------------------ MODAL STATES ------------------ */
     const [createOpen, setCreateOpen] = useState(false);
@@ -25,8 +28,6 @@ const SuplifyHotspot = () => {
         attachments: null,
     });
 
-    const { data, isLoading } = useGetSuplifyHotspotQuery({ page, limit });
-
     const totalPage = data?.data?.attributes?.totalPages || 1;
     const totalResult = data?.data?.attributes?.totalResults || 0;
     const results = data?.data?.attributes?.results || [];
@@ -37,18 +38,33 @@ const SuplifyHotspot = () => {
         setForm({ name: '', address: '', attachments: null });
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         const formData = new FormData();
         formData.append('name', form.name);
         formData.append('address', form.address);
         formData.append('attachments', form.attachments);
+        if (!form.attachments) {
+            toast.error('Please upload an image');
+        }
 
-        // createSuplifyHotspot(formData)
-        console.log('CREATE:', [...formData.entries()]);
+        try {
+            const res = await createSuplifyHotspot(formData).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                toast.success(res?.message);
+                setCreateOpen(false);
+                resetForm();
+                refetch();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message);
+        }
 
-        message.success('Hotspot created');
-        setCreateOpen(false);
-        resetForm();
+
+        // message.success('Hotspot created');
+        // setCreateOpen(false);
+        // resetForm();
     };
 
     const openEditModal = (item) => {
@@ -69,8 +85,7 @@ const SuplifyHotspot = () => {
             formData.append('attachments', form.attachments);
         }
 
-        // updateSuplifyHotspot({ id: selectedItem.id, data: formData })
-        console.log('EDIT:', selectedItem.id, [...formData.entries()]);
+
 
         message.success('Hotspot updated');
         setEditOpen(false);

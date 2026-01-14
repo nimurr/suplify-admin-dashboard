@@ -3,7 +3,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from '../../public/image/logod.png'
 // import logo from '../../public/image/logo.png'
-import { FaDollarSign, FaPersonRunning, FaSackDollar, FaUser, FaUsers, FaUsersLine } from "react-icons/fa6";
+import { FaDollarSign, FaHireAHelper, FaPersonRunning, FaSackDollar, FaUser, FaUsers, FaUsersLine } from "react-icons/fa6";
 import { MdCategory, MdOutlineMedicalServices, MdOutlineStorefront, MdSubscriptions } from "react-icons/md";
 import { BiMenu, BiSolidDashboard } from "react-icons/bi";
 import { HiLogout } from "react-icons/hi";
@@ -12,7 +12,7 @@ import { PiGitPullRequestDuotone } from "react-icons/pi";
 import { RiSecurePaymentFill, RiVideoDownloadLine } from "react-icons/ri";
 import { CiCreditCard1, CiSettings } from "react-icons/ci";
 import Swal from "sweetalert2";
-import { SiMagento } from "react-icons/si";
+import { SiMagento, SiOpenaigym } from "react-icons/si";
 import { BsExclude } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
@@ -126,8 +126,19 @@ const Sidebar = () => {
                   : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
               }
             >
-              <IoBookmarkOutline className="h-7 w-7 lg:h-5 lg:w-5" />
+              <SiOpenaigym className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 md:block">Suplify Hotspot</span>
+            </NavLink>
+            <NavLink
+              to="hire-specialist-requests"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
+              }
+            >
+              <FaHireAHelper className="h-7 w-7 lg:h-5 lg:w-5" />
+              <span className="hidden ml-2 md:block"> Hire Specialist Requests</span>
             </NavLink>
 
             <NavLink

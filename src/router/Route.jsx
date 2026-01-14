@@ -34,6 +34,7 @@ import OnboardingVideo from "../dashboard/OnboardingVideo/OnboardingVideo";
 import ViewProfileSpecialist from "../dashboard/menu/sidebarMenu/ViewProfileSpecialist";
 import Subscription from "../dashboard/Subscription/Subscription";
 import SuplifyHotspot from "../dashboard/SuplifyHotspot/SuplifyHotspot";
+import HireSpecialistRequests from "../dashboard/HireSpecialistRequests/HireSpecialistRequests";
 
 
 const router = createBrowserRouter([
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
             {
                 path: "suplify-hotspot",
                 element: <SuplifyHotspot />
+            },
+            {
+                path: "hire-specialist-requests",
+                element: <HireSpecialistRequests />
             },
 
 

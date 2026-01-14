@@ -10,7 +10,14 @@ export const SuplifyHotspot = apiSlice.injectEndpoints({
                 }
             },
         }),
+        createSuplifyHotspot: builder.mutation({
+            query: (data) => ({
+                url: `/hotspot`,
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 })
 
-export const { useGetSuplifyHotspotQuery } = SuplifyHotspot
+export const { useGetSuplifyHotspotQuery, useCreateSuplifyHotspotMutation  } = SuplifyHotspot;
