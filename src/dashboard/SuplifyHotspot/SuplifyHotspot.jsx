@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, message } from 'antd';
 import {
     useCreateSuplifyHotspotMutation,
+    useDeleteSuplifyHotspotMutation,
     useGetSuplifyHotspotQuery,
     useUpdateSuplifyHotspotMutation
 } from '../../redux/features/SuplifyHotspot/SuplifyHotspot';
@@ -15,6 +16,7 @@ const SuplifyHotspot = () => {
     const { data, isLoading, refetch } = useGetSuplifyHotspotQuery({ page, limit });
     const [createSuplifyHotspot] = useCreateSuplifyHotspotMutation();
     const [updateSuplifyHotspot] = useUpdateSuplifyHotspotMutation();
+    const [deleteSuplifyHotspot] = useDeleteSuplifyHotspotMutation();
 
 
     /* ------------------ MODAL STATES ------------------ */
@@ -106,17 +108,23 @@ const SuplifyHotspot = () => {
         // resetForm();
     };
 
-    const handleDelete = () => {
-        // deleteSuplifyHotspot(selectedItem.id)
-        console.log('DELETE:', selectedItem.id);
+    const handleDelete = async () => {
 
-        message.success('Hotspot deleted');
-        setDeleteOpen(false);
+        try {
+            const res = await deleteSuplifyHotspot({ id: selectedItem._SuplifyHotspotId }).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                refetch();
+                toast.success(res?.message);
+                setDeleteOpen(false);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message);
+        }
+
     };
 
-    if (isLoading) {
-        return <p className="text-center py-10">Loading...</p>;
-    }
 
     return (
         <div className="space-y-8">
@@ -133,6 +141,58 @@ const SuplifyHotspot = () => {
                     Create
                 </button>
             </div>
+
+            {
+                isLoading &&
+                <div className='grid xl:grid-cols-4 lg:grid-cols-2 gap-3 grid-cols-1'>
+                    {
+                        [...Array(4)].map((_, index) => (
+                            <div class="mx-auto w-full max-w-sm rounded-md border border-[#8400ff2a]  p-4">
+                                <div class="flex animate-pulse space-x-4">
+                                    <div class="size-10 rounded-full bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                    <div class="flex-1 space-y-6 py-1">
+                                        <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                        <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                        <div class="space-y-3">
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                                <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            </div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                        </div>
+                                        <div class="space-y-3">
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                                <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            </div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                        </div>
+                                        <div class="space-y-3">
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                                <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            </div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                        </div>
+                                        <div class="space-y-3">
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div class="col-span-2 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                                <div class="col-span-1 h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            </div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                            <div class="h-2 rounded bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            }
+
 
             {/* Cards */}
             <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-5">
@@ -157,7 +217,7 @@ const SuplifyHotspot = () => {
                         <div className="flex justify-center gap-2 mt-3">
                             <button
                                 onClick={() => openEditModal(item)}
-                                className="px-4 py-1 rounded bg-[#3232f8] text-[white] text-sm"
+                                className="px-8 py-3 rounded bg-[#4040df] text-[white] text-sm"
                             >
                                 Edit
                             </button>
@@ -166,7 +226,7 @@ const SuplifyHotspot = () => {
                                     setSelectedItem(item);
                                     setDeleteOpen(true);
                                 }}
-                                className="px-4 py-1 rounded bg-[#df3838] text-[white] text-sm"
+                                className="px-8 py-3 rounded bg-[#df3838] text-[white] text-sm"
                             >
                                 Delete
                             </button>

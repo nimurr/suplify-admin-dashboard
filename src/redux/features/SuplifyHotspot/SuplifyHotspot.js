@@ -24,7 +24,13 @@ export const SuplifyHotspot = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        deleteSuplifyHotspot: builder.mutation({
+            query: ({ id }) => ({
+                url: `/hotspot/${id}`,
+                method: "DELETE",
+            }),
+        }),
     }),
 })
 
-export const { useGetSuplifyHotspotQuery, useCreateSuplifyHotspotMutation , useUpdateSuplifyHotspotMutation } = SuplifyHotspot;
+export const { useGetSuplifyHotspotQuery, useCreateSuplifyHotspotMutation, useUpdateSuplifyHotspotMutation , useDeleteSuplifyHotspotMutation } = SuplifyHotspot;
