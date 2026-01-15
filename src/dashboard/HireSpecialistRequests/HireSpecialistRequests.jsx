@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import {
     useGetAllHireSpecialistRequestsQuery,
+    useUpdateHireSpeccialistStatusMutation,
 } from '../../redux/features/HireSpecialistRequests/HireSpecialistRequests';
 import { CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons';
 import url from '../../redux/api/baseUrl';
+import moment from 'moment';
+import toast from 'react-hot-toast';
 
 const HireSpecialistRequests = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
 
-    const { data, isLoading } = useGetAllHireSpecialistRequestsQuery({ page, limit });
+    const { data, isLoading, refetch } = useGetAllHireSpecialistRequestsQuery({ page, limit });
+    const [updateStatus] = useUpdateHireSpeccialistStatusMutation();
 
     const totalPages = data?.data?.attributes?.totalPages || 1;
     const totalResults = data?.data?.attributes?.totalResults || 0;
@@ -19,6 +23,46 @@ const HireSpecialistRequests = () => {
     if (isLoading) {
         return <p className="text-center py-10">Loading...</p>;
     }
+
+    const handleAccept = async (id) => {
+
+        const data = {
+            status: 'approved'
+        }
+
+        try {
+            const res = await updateStatus({ data, id }).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                toast.success(res?.message || 'Status Updated Successfully');
+                refetch();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
+    };
+
+    const handleDecline = async (id) => {
+
+        const data = {
+            status: 'rejected'
+        }
+
+        try {
+            const res = await updateStatus({ data, id }).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                toast.success(res?.message || 'Status Updated Successfully');
+                refetch();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
+    }
+
+
 
     return (
         <div className="space-y-6">
@@ -31,6 +75,7 @@ const HireSpecialistRequests = () => {
                         <tr>
                             <th className="px-4 py-3 text-left text-sm font-semibold">Patient</th>
                             <th className="px-4 py-3 text-left text-sm font-semibold">Specialist</th>
+                            <th className="px-4 py-3 text-left text-sm font-semibold">Date</th>
                             <th className="px-4 py-3 text-center text-sm font-semibold">Status</th>
                             <th className="px-4 py-3 text-center text-sm font-semibold">Actions</th>
                         </tr>
@@ -69,15 +114,18 @@ const HireSpecialistRequests = () => {
                                         </div>
                                     </div>
                                 </td>
+                                <td>
+                                    {moment(item.createdAt).format('lll')}
+                                </td>
 
                                 {/* Status */}
                                 <td className="px-4 py-3 text-center">
                                     <span
-                                        className={`px-3 py-1 rounded-full text-xs font-semibold
+                                        className={`px-3 py-1 rounded-full capitalize text-xs font-semibold
                                             ${item.status === 'approved'
-                                                ? 'bg-green-100 text-green-700'
+                                                ? 'bg-green-100 text-[green]'
                                                 : item.status === 'rejected'
-                                                    ? 'bg-red-100 text-red-700'
+                                                    ? 'bg-red-100 text-[red]'
                                                     : 'bg-yellow-100 text-yellow-700'
                                             }`}
                                     >
@@ -93,7 +141,7 @@ const HireSpecialistRequests = () => {
                                             title="Accept"
                                             className="p-2 rounded bg-green-500 text-white hover:bg-green-600"
                                             onClick={() =>
-                                                console.log('ACCEPT', item._HireSpecialistRequestToAdminId)
+                                                handleAccept(item._HireSpecialistRequestToAdminId)
                                             }
                                         >
                                             <CheckOutlined />
@@ -104,22 +152,12 @@ const HireSpecialistRequests = () => {
                                             title="Reject"
                                             className="p-2 rounded bg-yellow-500 text-white hover:bg-yellow-600"
                                             onClick={() =>
-                                                console.log('REJECT', item._HireSpecialistRequestToAdminId)
+                                                handleDecline(item._HireSpecialistRequestToAdminId)
                                             }
                                         >
                                             <CloseOutlined />
                                         </button>
 
-                                        {/* Remove */}
-                                        <button
-                                            title="Remove"
-                                            className="p-2 rounded bg-red-500 text-white hover:bg-red-600"
-                                            onClick={() =>
-                                                console.log('DELETE', item._HireSpecialistRequestToAdminId)
-                                            }
-                                        >
-                                            <DeleteOutlined />
-                                        </button>
                                     </div>
                                 </td>
                             </tr>

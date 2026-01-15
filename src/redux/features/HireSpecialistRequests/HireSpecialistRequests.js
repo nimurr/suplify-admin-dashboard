@@ -9,8 +9,15 @@ export const HireSpecialistRequest = apiSlice.injectEndpoints({
                     method: "GET",
                 }
             },
+        }),
+        updateHireSpeccialistStatus: builder.mutation({
+            query: ({ data, id }) => ({
+                url: `/hire-specialist/change-status/${id}`,
+                method: "PUT",
+                body: data
+            })
         })
     }),
 })
 
-export const { useGetAllHireSpecialistRequestsQuery } = HireSpecialistRequest;
+export const { useGetAllHireSpecialistRequestsQuery, useUpdateHireSpeccialistStatusMutation } = HireSpecialistRequest;
