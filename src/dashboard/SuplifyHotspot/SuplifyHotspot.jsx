@@ -3,6 +3,7 @@ import { Modal, message } from 'antd';
 import {
     useCreateSuplifyHotspotMutation,
     useGetSuplifyHotspotQuery,
+    useUpdateSuplifyHotspotMutation
 } from '../../redux/features/SuplifyHotspot/SuplifyHotspot';
 import url from '../../redux/api/baseUrl';
 import toast from 'react-hot-toast';
@@ -13,6 +14,7 @@ const SuplifyHotspot = () => {
 
     const { data, isLoading, refetch } = useGetSuplifyHotspotQuery({ page, limit });
     const [createSuplifyHotspot] = useCreateSuplifyHotspotMutation();
+    const [updateSuplifyHotspot] = useUpdateSuplifyHotspotMutation();
 
 
     /* ------------------ MODAL STATES ------------------ */
@@ -77,7 +79,7 @@ const SuplifyHotspot = () => {
         setEditOpen(true);
     };
 
-    const handleEdit = () => {
+    const handleEdit = async () => {
         const formData = new FormData();
         formData.append('name', form.name);
         formData.append('address', form.address);
@@ -85,11 +87,23 @@ const SuplifyHotspot = () => {
             formData.append('attachments', form.attachments);
         }
 
+        try {
+            const res = await updateSuplifyHotspot({ data: formData, id: selectedItem._SuplifyHotspotId }).unwrap();
+            console.log(res);
+            if (res?.code == 200) {
+                refetch();
+                toast.success(res?.message);
+                setEditOpen(false);
+                resetForm();
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message);
+        }
 
-
-        message.success('Hotspot updated');
-        setEditOpen(false);
-        resetForm();
+        // message.success('Hotspot updated');
+        // setEditOpen(false);
+        // resetForm();
     };
 
     const handleDelete = () => {
