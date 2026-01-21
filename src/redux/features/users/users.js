@@ -3,7 +3,7 @@ import { apiSlice } from "../../api/apiSlice";
 export const userApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
-            query: ({ status, subStatus, role }) => ({
+            query: ({ status, subStatus, role , page , limit }) => ({
                 url: `/users/paginate?approvalStatus=${status}&subscriptionType=${subStatus}&role=${role}`,
                 method: 'GET',
             }),
@@ -56,9 +56,10 @@ export const userApi = apiSlice.injectEndpoints({
             }),
         }),
         appRovedAndReject: builder.mutation({
-            query: ({ id, approvalStatus }) => ({
+            query: ({ id, approvalStatus, emailBody }) => ({
                 url: `/users/change-approval-status/?userId=${id}&approvalStatus=${approvalStatus}`,
-                method: 'PUT'
+                method: 'PUT',
+                body: { emailBody },
             }),
         }),
 

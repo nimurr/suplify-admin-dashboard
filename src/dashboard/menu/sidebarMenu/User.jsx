@@ -7,10 +7,14 @@ const UserManagement = () => {
   const [status, setStatus] = useState('');  // State for filtering by status
   const [subStatus, setSubStatus] = useState('');  // State for filtering by status
   const [role, setRoleStatus] = useState('');  // State for filtering by status
+  const [page, setPage] = useState(1);  // State for filtering by status
+  const [limit, setLimit] = useState(15);
 
-  const { data: users, isLoading } = useGetAllUsersQuery({ status, subStatus, role });
+  const { data: users, isLoading } = useGetAllUsersQuery({ status, subStatus, role , page , limit });
   const fullData = users?.data?.attributes || [];
-  console.log(fullData);
+  const totalPages = fullData?.totalPages;
+  const totalResults = fullData?.totalResults;
+ 
 
   const [data, setData] = useState(fullData?.results);
   const [pagination, setPagination] = useState({
