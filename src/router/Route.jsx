@@ -35,6 +35,7 @@ import ViewProfileSpecialist from "../dashboard/menu/sidebarMenu/ViewProfileSpec
 import Subscription from "../dashboard/Subscription/Subscription";
 import SuplifyHotspot from "../dashboard/SuplifyHotspot/SuplifyHotspot";
 import HireSpecialistRequests from "../dashboard/HireSpecialistRequests/HireSpecialistRequests";
+import ViseSubRequest from "../dashboard/Subscription/ViseSubRequest";
 
 
 const router = createBrowserRouter([
@@ -134,6 +135,10 @@ const router = createBrowserRouter([
             {
                 path: "subscription",
                 element: <Subscription />
+            },
+            {
+                path: "vise-requests",
+                element: <ViseSubRequest />
             },
 
             {
