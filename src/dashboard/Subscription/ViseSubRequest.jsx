@@ -2,58 +2,63 @@ import React, { useState } from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import toast from 'react-hot-toast';
-
-const demoResults = [
-    {
-        patientId: {
-            name: 'odvut 4 patient',
-            email: 'odvut4@yopmail.com',
-            profileImage: {
-                imageUrl: '/uploads/users/user.png',
-            },
-            subscriptionType: 'standard',
-        },
-        status: 'pending',
-        createdAt: '2026-01-27T11:36:59.051Z',
-        _RequestForViseSubscriptionToAdminId: '6978a35b388c765109d02065',
-    },
-    // you can duplicate this object to test pagination
-];
+import url from '../../redux/api/baseUrl';
+import {
+    useAcceptAndRejectViseMutation,
+    useViseSubRequestQuery,
+} from '../../redux/features/subscription/subscription';
 
 const ViseSubRequest = () => {
-    const [results, setResults] = useState(demoResults);
     const [page, setPage] = useState(1);
-    const limit = 5;
+    const [limit] = useState(10);
 
-    const totalResults = results.length;
-    const totalPages = Math.ceil(totalResults / limit);
+    // Fetch data
+    const { data, isLoading, refetch } = useViseSubRequestQuery({ page, limit });
+    const [updateStatus] = useAcceptAndRejectViseMutation();
 
-    const paginatedResults = results.slice(
-        (page - 1) * limit,
-        page * limit
-    );
+    // Extract backend pagination data
+    const attributes = data?.data?.attributes;
+    const allViseSubRequest = attributes?.results || [];
+    const totalPages = Number(attributes?.totalPages || 1);
+    const totalResults = Number(attributes?.totalResults || 0);
 
-    const handleAccept = (id) => {
-        setResults(prev =>
-            prev.map(item =>
-                item._RequestForViseSubscriptionToAdminId === id
-                    ? { ...item, status: 'approved' }
-                    : item
-            )
-        );
-        toast.success('Subscription Approved');
+    // Accept handler
+    const handleAccept = async (id) => {
+        try {
+            const res = await updateStatus({
+                id,
+                data: { status: 'approved' },
+            }).unwrap();
+
+            if (res?.code === 200) {
+                toast.success(res?.message || 'Subscription Approved');
+                refetch();
+            }
+        } catch (error) {
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
     };
 
-    const handleDecline = (id) => {
-        setResults(prev =>
-            prev.map(item =>
-                item._RequestForViseSubscriptionToAdminId === id
-                    ? { ...item, status: 'rejected' }
-                    : item
-            )
-        );
-        toast.success('Subscription Rejected');
+    // Reject handler
+    const handleDecline = async (id) => {
+        try {
+            const res = await updateStatus({
+                id,
+                data: { status: 'rejected' },
+            }).unwrap();
+
+            if (res?.code === 200) {
+                toast.success(res?.message || 'Subscription Rejected');
+                refetch();
+            }
+        } catch (error) {
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
     };
+
+    if (isLoading) {
+        return <p className="text-center py-10">Loading...</p>;
+    }
 
     return (
         <div className="space-y-6">
@@ -85,7 +90,7 @@ const ViseSubRequest = () => {
                     </thead>
 
                     <tbody>
-                        {paginatedResults.length === 0 && (
+                        {allViseSubRequest.length === 0 && (
                             <tr>
                                 <td
                                     colSpan={5}
@@ -96,7 +101,7 @@ const ViseSubRequest = () => {
                             </tr>
                         )}
 
-                        {paginatedResults.map(item => (
+                        {allViseSubRequest.map((item) => (
                             <tr
                                 key={item._RequestForViseSubscriptionToAdminId}
                                 className="border-t hover:bg-gray-50"
@@ -104,23 +109,30 @@ const ViseSubRequest = () => {
                                 {/* Patient */}
                                 <td className="px-4 py-3 flex items-center gap-2">
                                     <img
-                                        src={item.patientId.profileImage.imageUrl}
+                                        src={
+                                            item.patientId?.profileImage?.imageUrl?.includes(
+                                                'amazonaws'
+                                            )
+                                                ? item.patientId.profileImage.imageUrl
+                                                : url +
+                                                item.patientId.profileImage.imageUrl
+                                        }
                                         alt=""
                                         className="w-12 h-12 rounded-full"
                                     />
                                     <div>
                                         <p className="font-medium">
-                                            {item.patientId.name}
+                                            {item.patientId?.name}
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            {item.patientId.email}
+                                            {item.patientId?.email}
                                         </p>
                                     </div>
                                 </td>
 
                                 {/* Subscription */}
                                 <td className="px-4 py-3 capitalize">
-                                    {item.patientId.subscriptionType}
+                                    {item.patientId?.subscriptionType}
                                 </td>
 
                                 {/* Date */}
@@ -132,10 +144,9 @@ const ViseSubRequest = () => {
                                 <td className="px-4 py-3 text-center">
                                     <span
                                         className={`px-3 py-1 rounded-full capitalize text-xs font-semibold
-                                            ${
-                                                item.status === 'approved'
-                                                    ? 'bg-green-100 text-[green]'
-                                                    : item.status === 'rejected'
+                                            ${item.status === 'approved'
+                                                ? 'bg-green-100 text-[green]'
+                                                : item.status === 'rejected'
                                                     ? 'bg-red-100 text-[red]'
                                                     : 'bg-yellow-100 text-yellow-700'
                                             }`}
@@ -180,63 +191,59 @@ const ViseSubRequest = () => {
                 </table>
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-                <div className="flex items-center justify-between flex-wrap gap-4">
-                    <p className="text-sm text-gray-600">
-                        Page {page} of {totalPages} • {totalResults} results
-                    </p>
 
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setPage(page - 1)}
-                            disabled={page === 1}
-                            className={`px-4 py-2 border rounded
-                                ${
-                                    page === 1
-                                        ? 'bg-gray-100 text-[gray] cursor-not-allowed'
-                                        : 'hover:bg-gray-100'
-                                }
+            <div className="flex items-center justify-between flex-wrap gap-4">
+                <p className="text-sm text-gray-600">
+                    Page {page} of {totalPages} • {totalResults} results
+                </p>
+
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => setPage(page - 1)}
+                        disabled={page === 1}
+                        className={`px-4 py-2 border rounded
+                                ${page === 1
+                                ? 'bg-gray-100 text-[gray] cursor-not-allowed'
+                                : 'hover:bg-gray-100'
+                            }
                             `}
-                        >
-                            Prev
-                        </button>
+                    >
+                        Prev
+                    </button>
 
-                        {[...Array(totalPages)].map((_, index) => {
-                            const pageNumber = index + 1;
-                            return (
-                                <button
-                                    key={pageNumber}
-                                    onClick={() => setPage(pageNumber)}
-                                    className={`px-4 py-2 border rounded
-                                        ${
-                                            page === pageNumber
-                                                ? 'bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg'
-                                                : 'hover:bg-gray-100'
-                                        }
+                    {[...Array(totalPages)].map((_, index) => {
+                        const pageNumber = index + 1;
+                        return (
+                            <button
+                                key={pageNumber}
+                                onClick={() => setPage(pageNumber)}
+                                className={`px-4 py-2 border rounded
+                                        ${page === pageNumber
+                                        ? 'bg-gradient-to-br from-[#8400ffe5] to-[#ff0909d3] text-primaryBg'
+                                        : 'hover:bg-gray-100'
+                                    }
                                     `}
-                                >
-                                    {pageNumber}
-                                </button>
-                            );
-                        })}
+                            >
+                                {pageNumber}
+                            </button>
+                        );
+                    })}
 
-                        <button
-                            onClick={() => setPage(page + 1)}
-                            disabled={page === totalPages}
-                            className={`px-4 py-2 border rounded
-                                ${
-                                    page === totalPages
-                                        ? 'bg-gray-100 text-[gray] cursor-not-allowed'
-                                        : 'hover:bg-gray-100'
-                                }
+                    <button
+                        onClick={() => setPage(page + 1)}
+                        disabled={page === totalPages}
+                        className={`px-4 py-2 border rounded
+                                ${page === totalPages
+                                ? 'bg-gray-100 text-[gray] cursor-not-allowed'
+                                : 'hover:bg-gray-100'
+                            }
                             `}
-                        >
-                            Next
-                        </button>
-                    </div>
+                    >
+                        Next
+                    </button>
                 </div>
-            )}
+            </div>
+
         </div>
     );
 };
