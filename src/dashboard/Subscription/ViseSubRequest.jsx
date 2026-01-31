@@ -5,16 +5,20 @@ import toast from 'react-hot-toast';
 import url from '../../redux/api/baseUrl';
 import {
     useAcceptAndRejectViseMutation,
+    useCancelViseRequestMutation,
     useViseSubRequestQuery,
 } from '../../redux/features/subscription/subscription';
 
 const ViseSubRequest = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
+    const [status, setStatus] = useState('');
 
     // Fetch data
-    const { data, isLoading, refetch } = useViseSubRequestQuery({ page, limit });
+    const { data, isLoading, refetch } = useViseSubRequestQuery({ page, limit, status });
+
     const [updateStatus] = useAcceptAndRejectViseMutation();
+    const [cancelViseRequest] = useCancelViseRequestMutation();
 
     // Extract backend pagination data
     const attributes = data?.data?.attributes;
@@ -56,15 +60,38 @@ const ViseSubRequest = () => {
         }
     };
 
+    const handleCancelViseRequesst = async (id) => {
+
+        try {
+            const res = await cancelViseRequest({ id }).unwrap();
+            console.log(res)
+            if (res?.code === 200) {
+                toast.success(res?.message || 'Vise Request Cancelled');
+                refetch();
+            }
+        } catch (error) {
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
+
+    }
+
+
     if (isLoading) {
         return <p className="text-center py-10">Loading...</p>;
     }
 
     return (
         <div className="space-y-6">
-            <h3 className="text-2xl font-semibold">
-                Vise Subscription Requests
-            </h3>
+            <div className='flex items-center justify-between'>
+                <h3 className="text-2xl font-semibold">
+                    Vise Subscription Requests
+                </h3>
+                <select className='border rounded-lg border-[#bbb] py-2 px-10 ' onChange={(e) => setStatus(e.target.value)} defaultValue={'pending'} name="" id="">
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
 
             {/* Table */}
             <div className="overflow-x-auto border border-[#eee] rounded-lg">
@@ -160,7 +187,7 @@ const ViseSubRequest = () => {
                                     <div className="flex justify-center gap-2">
                                         <button
                                             title="Accept"
-                                            className="p-2 rounded bg-green-500 text-white hover:bg-green-600"
+                                            className="py-2 px-3 rounded bg-[#089920] cursor-pointer text-[#fff] hover:bg-green-600"
                                             disabled={item.status !== 'pending'}
                                             onClick={() =>
                                                 handleAccept(
@@ -173,7 +200,7 @@ const ViseSubRequest = () => {
 
                                         <button
                                             title="Reject"
-                                            className="p-2 rounded bg-yellow-500 text-white hover:bg-yellow-600"
+                                            className="py-2 px-3 rounded bg-[#FFC107] cursor-pointer text-[#fff] hover:bg-yellow-600"
                                             disabled={item.status !== 'pending'}
                                             onClick={() =>
                                                 handleDecline(
@@ -183,6 +210,10 @@ const ViseSubRequest = () => {
                                         >
                                             <CloseOutlined />
                                         </button>
+                                        {
+                                            item.status === 'approved' &&
+                                            <button className="py-2 px-5 rounded bg-[#e91f1f] text-[#fff]  " onClick={() => handleCancelViseRequesst(item._RequestForViseSubscriptionToAdminId)}>Cancel</button>
+                                        }
                                     </div>
                                 </td>
                             </tr>

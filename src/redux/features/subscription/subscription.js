@@ -26,8 +26,8 @@ export const subscriptionApi = apiSlice.injectEndpoints({
             invalidatesTags: ["Subscription"]
         }),
         viseSubRequest: builder.query({
-            query: ({ page, limit }) => ({
-                url: `/vise-subscription-request/paginate?page=${page}&limit=${limit}`,
+            query: ({ page, limit, status }) => ({
+                url: `/vise-subscription-request/paginate?page=${page}&limit=${limit}&status=${status}`,
                 method: "GET"
             }),
             providesTags: ["ViseSubRequest"]
@@ -39,9 +39,17 @@ export const subscriptionApi = apiSlice.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ["ViseSubRequest"]
-        })
+        }),
+        cancelViseRequest: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/vise-subscription-request/cancel-vise/${id}`,
+                method: "PUT",
+                body: data
+            }),
+            invalidatesTags: ["ViseSubRequest"]
+        }),
     })
 
 })
 
-export const { useGetSubscriptionQuery, useAddSubscriptionMutation, useDeleteSubscriptionMutation, useViseSubRequestQuery  , useAcceptAndRejectViseMutation} = subscriptionApi
+export const { useGetSubscriptionQuery, useAddSubscriptionMutation, useDeleteSubscriptionMutation, useViseSubRequestQuery, useAcceptAndRejectViseMutation, useCancelViseRequestMutation } = subscriptionApi
