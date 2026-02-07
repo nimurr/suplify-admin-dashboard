@@ -21,7 +21,11 @@ const questionsApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Questions']
         }),
+        getMyQsAns: builder.query({
+            query: ({ id }) => `/assessment-answers/paginate?userId=${id}&limit=50`,
+            providesTags: ['MyQsAns']
+        })
     })
 })
 
-export const { useGetQuestionsQuery, useCreateQuestionMutation , useDeleteQuestionMutation } = questionsApi;
+export const { useGetQuestionsQuery, useCreateQuestionMutation, useDeleteQuestionMutation , useGetMyQsAnsQuery } = questionsApi;

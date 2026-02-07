@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Tabs, Card, Select, Space, message } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
 import { useAssginSpecialistMutation, useAssignDoctorMutation, useGetAllAssigningDoctorsQuery, useGetAllAssigningSpacialistsQuery, useGetDoctorsQuery, useGetUserProfileQuery, useGetYourSpecialistQuery } from '../../../redux/features/users/users';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import url from '../../../redux/api/baseUrl';
 
 const { TabPane } = Tabs;
@@ -105,17 +105,20 @@ const ViewProfileSpecialist = () => {
     return (
         <div className='flex flex-row xl:flex-nowrap flex-wrap gap-5 items-start'>
             {/* Profile Section */}
-            <div className='md:w-[500px] border order-1 xl:order-1 border-[#eee] rounded-xl p-3 relative'>
-                {
-                    user?.subscriptionType &&
-                    <span className='px-4 py-2 bg-[#d30808] absolute capitalize top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>{user?.subscriptionType}</span>
-                }
+            <div className='md:w-[500px]  order-1 xl:order-1 '>
+                <div className='border border-[#eee]  rounded-xl p-3 relative'>
+                    {
+                        user?.subscriptionType &&
+                        <span className='px-4 py-2 bg-[#d30808] absolute capitalize top-5 rounded-lg text-primaryBg font-semibold right-5 text-white'>{user?.subscriptionType}</span>
+                    }
 
-                <img className='md:w-[500px] rounded-xl' src={user?.profileImage?.imageUrl.includes('amazonaws') ? user?.profileImage?.imageUrl : url + user?.profileImage?.imageUrl} alt="" />
-                <div className='p-2 text-center mt-2'>
-                    <h2 className='font-semibold capitalize'>{user?.name}</h2>
-                    <p>{user?.email}</p>
+                    <img className='md:w-[500px] rounded-xl' src={user?.profileImage?.imageUrl.includes('amazonaws') ? user?.profileImage?.imageUrl : url + user?.profileImage?.imageUrl} alt="" />
+                    <div className='p-2 text-center mt-2'>
+                        <h2 className='font-semibold capitalize'>{user?.name}</h2>
+                        <p>{user?.email}</p>
+                    </div>
                 </div>
+                <Link to={`/dashboard/user/patiant/questions/${id}`} className='px-8 mt-2 py-3 text-center block w-full bg-gradient-to-br from-[#be70f8] to-[#f76776] text-primaryBg rounded'>Question Answers</Link>
             </div>
 
             {/* Tabs for Specialists and Doctors */}

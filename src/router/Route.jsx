@@ -37,6 +37,7 @@ import SuplifyHotspot from "../dashboard/SuplifyHotspot/SuplifyHotspot";
 import HireSpecialistRequests from "../dashboard/HireSpecialistRequests/HireSpecialistRequests";
 import ViseSubRequest from "../dashboard/Subscription/ViseSubRequest";
 import Questions from "../dashboard/Questions/Questions";
+import ViewAllQuestionsAnswer from "../dashboard/menu/sidebarMenu/ViewAllQuestionsAnswer";
 
 
 const router = createBrowserRouter([
@@ -103,7 +104,6 @@ const router = createBrowserRouter([
                 element: <HireSpecialistRequests />
             },
 
-
             {
                 path: "store",
                 element: <Store />
@@ -127,6 +127,10 @@ const router = createBrowserRouter([
             {
                 path: "user/specialist/:id",
                 element: <ViewProfileSpecialist />
+            },
+            {
+                path: "user/patiant/questions/:id",
+                element: <ViewAllQuestionsAnswer />
             },
 
             {
