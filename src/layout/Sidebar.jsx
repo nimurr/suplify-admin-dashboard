@@ -19,6 +19,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { GiChessQueen } from "react-icons/gi";
 import { GoGitPullRequest } from "react-icons/go";
+import { SlQuestion } from "react-icons/sl";
 
 const Sidebar = () => {
 
@@ -186,6 +187,18 @@ const Sidebar = () => {
             >
               <GoGitPullRequest className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 md:block">Vise Requests</span>
+            </NavLink>
+
+            <NavLink
+              to="questions"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex cursor-pointer items-center text-[15px] font-medium p-[10px] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg m-[6px] rounded-lg"
+                  : "flex   cursor-pointer justify-start items-center text-[15px] font-medium p-[10px] bg-[#f5f5f5] m-[6px] rounded-lg"
+              }
+            >
+              <SlQuestion className="h-7 w-7 lg:h-5 lg:w-5" />
+              <span className="hidden ml-2 md:block">Questions </span>
             </NavLink>
 
             <NavLink

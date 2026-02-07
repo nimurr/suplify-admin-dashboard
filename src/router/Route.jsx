@@ -36,6 +36,7 @@ import Subscription from "../dashboard/Subscription/Subscription";
 import SuplifyHotspot from "../dashboard/SuplifyHotspot/SuplifyHotspot";
 import HireSpecialistRequests from "../dashboard/HireSpecialistRequests/HireSpecialistRequests";
 import ViseSubRequest from "../dashboard/Subscription/ViseSubRequest";
+import Questions from "../dashboard/Questions/Questions";
 
 
 const router = createBrowserRouter([
@@ -139,6 +140,10 @@ const router = createBrowserRouter([
             {
                 path: "vise-requests",
                 element: <ViseSubRequest />
+            },
+            {
+                path: "questions",
+                element: <Questions />
             },
 
             {
