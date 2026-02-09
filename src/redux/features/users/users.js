@@ -3,7 +3,7 @@ import { apiSlice } from "../../api/apiSlice";
 export const userApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
-            query: ({ status, subStatus, role , page , limit }) => ({
+            query: ({ status, subStatus, role, page, limit }) => ({
                 url: `/users/paginate?approvalStatus=${status}&subscriptionType=${subStatus}&role=${role}`,
                 method: 'GET',
             }),
@@ -11,6 +11,12 @@ export const userApi = apiSlice.injectEndpoints({
         getUserProfile: builder.query({
             query: (userId) => ({
                 url: `/users/profile/for-admin?_id=${userId}`,
+                method: 'GET',
+            }),
+        }),
+        getAdminProfile: builder.query({
+            query: (userId) => ({
+                url: `/users/profile/custom/admin`,
                 method: 'GET',
             }),
         }),
@@ -67,6 +73,7 @@ export const userApi = apiSlice.injectEndpoints({
 })
 export const {
     useGetAllUsersQuery,
+    useGetAdminProfileQuery,
     useGetUserProfileQuery,
     useGetYourSpecialistQuery,
     useGetDoctorsQuery,

@@ -14,6 +14,7 @@ import { useChangePasswordMutation } from "../redux/features/auth/changePassword
 import toast, { Toaster } from "react-hot-toast";
 import url from "../redux/api/baseUrl";
 import { getSocket } from "../utils/socket-io";
+import { useGetAdminProfileQuery } from "../redux/features/users/users";
 
 
 
@@ -21,6 +22,10 @@ import { getSocket } from "../utils/socket-io";
 
 
 const Header = () => {
+
+  const { data: adminProfileData, refetch } = useGetAdminProfileQuery();
+  const hasnotifydata = adminProfileData?.data?.additionalResponse?.hasUnviewedNotification
+
 
   const time = new Date().getHours();
   const socket = getSocket()
@@ -36,15 +41,18 @@ const Header = () => {
 
   const [notifyunseenCount, setNotifyunseenCount] = useState(false);
 
+  console.log(hasnotifydata)
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.id || user?._id || user?._userId;
     if (!userId) return;
 
     setTimeout(() => {
-      const eventName = `notification::${userId}`;
+      const eventName = `notification::admin`;
       const handler = (data) => {
         console.log('Notification Socket Real Time Data :' + data)
+        refetch();
         setNotifyunseenCount(true);
       };
 
@@ -130,6 +138,12 @@ const Header = () => {
     setMenuVisible(visible);
   };
 
+  
+  const handleNotifyCountRemove = () => {
+    refetch();
+    setNotifyunseenCount(false);
+  }
+
   const menu = (
     <Menu className={`transition ease-in-out duration-300 transform ${menuVisible ? 'custom-dropdown-menu-visible' : 'custom-dropdown-menu'}`}>
       <Menu.Item className=" hover:!bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] hover:text-[white]" key="1">
@@ -171,11 +185,12 @@ const Header = () => {
       </div>
 
       <div className="flex  gap-5">
-        <Link to="/dashboard/notification" className="bg-gradient-to-br cursor-pointer from-[#8400ff8e] to-[#ff09099f] text-primaryBg h-[52px] w-[52px] relative rounded-lg flex items-center justify-center">
+        <Link onClick={handleNotifyCountRemove} to="/dashboard/notification" className="bg-gradient-to-br cursor-pointer from-[#8400ff8e] to-[#ff09099f] text-primaryBg h-[52px] w-[52px] relative rounded-lg flex items-center justify-center">
           <IoIosNotificationsOutline className="text-3xl text-white" />
-          {
-            notifyunseenCount && <span className="absolute top-1 right-1 bg-[#273ae6] text-white rounded-full w-2 h-2 flex items-center justify-center text-xs">{notifyunseenCount}</span>
-          }
+          {(hasnotifydata || notifyunseenCount) && (
+            <span className="absolute top-1 right-1 bg-[#ffffff] rounded-full w-3 h-3"></span>
+          )}
+
         </Link>
         <div className="border border-[#ccc] bg-gradient-to-br from-[#8400ff8e] to-[#ff09099f] text-primaryBg px-2 py-1 rounded-lg">
           <Dropdown className="px-2" overlay={menu} trigger={['click']} onVisibleChange={handleMenuVisibility}>
