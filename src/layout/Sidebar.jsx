@@ -131,7 +131,7 @@ const Sidebar = () => {
               <SiOpenaigym className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 md:block">Suplify Hotspot</span>
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="hire-specialist-requests"
               className={({ isActive }) =>
                 isActive
@@ -141,7 +141,7 @@ const Sidebar = () => {
             >
               <FaHireAHelper className="h-7 w-7 lg:h-5 lg:w-5" />
               <span className="hidden ml-2 md:block"> Hire Specialist Requests</span>
-            </NavLink>
+            </NavLink> */}
 
             <NavLink
               to="store"
