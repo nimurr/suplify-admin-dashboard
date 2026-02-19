@@ -8,11 +8,12 @@ import {
     useCancelViseRequestMutation,
     useViseSubRequestQuery,
 } from '../../redux/features/subscription/subscription';
+import { Link } from 'react-router-dom';
 
 const ViseSubRequest = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('pending');
 
     // Fetch data
     const { data, isLoading, refetch } = useViseSubRequestQuery({ page, limit, status });
@@ -131,7 +132,7 @@ const ViseSubRequest = () => {
                         {allViseSubRequest.map((item) => (
                             <tr
                                 key={item._RequestForViseSubscriptionToAdminId}
-                                className="border-t hover:bg-gray-50"
+                                className="border-t border-[#eee] hover:bg-gray-50"
                             >
                                 {/* Patient */}
                                 <td className="px-4 py-3 flex items-center gap-2">
@@ -214,6 +215,7 @@ const ViseSubRequest = () => {
                                             item.status === 'approved' &&
                                             <button className="py-2 px-5 rounded bg-[#e91f1f] text-[#fff]  " onClick={() => handleCancelViseRequesst(item._RequestForViseSubscriptionToAdminId)}>Cancel</button>
                                         }
+                                        <Link  to={`/dashboard/user/specialist/${item.patientId?._userId}`} className="py-2 px-3 rounded bg-[#006fca] cursor-pointer text-[#fff] hover:bg-yellow-600">View</Link>
                                     </div>
                                 </td>
                             </tr>

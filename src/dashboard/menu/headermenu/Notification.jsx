@@ -3,6 +3,7 @@ import React from 'react';
 import { FaCalendarCheck, FaCogs, FaBoxOpen, FaUser, FaMoneyCheckAlt, FaHeartbeat, FaCreditCard, FaUserPlus, FaExclamationTriangle } from 'react-icons/fa';
 import { useGetNotificationQuery } from '../../../redux/features/notificaiton/notification';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const Notifications = ({ notification }) => {
      // Dynamic styles and icons based on notification type
@@ -33,8 +34,10 @@ const Notifications = ({ notification }) => {
 
      const { style, icon } = getNotificationStyle(notification?.type);
 
+     console.log("dashboard", notification?.type)
+
      return (
-          <div className={`border-l-4 p-4 mb-3 rounded-lg flex justify-between items-center ${style}`}>
+          <Link to={`${notification?.type == "viseRequest" ? "/dashboard/vise-requests" : "/dashboard/notification"}`} className={`border-l-4 p-4 mb-3 rounded-lg flex justify-between items-center ${style}`}>
                <div className="flex items-center gap-3">
                     <div className="text-2xl md:text-3xl">{icon}</div>
                     <div>
@@ -42,7 +45,7 @@ const Notifications = ({ notification }) => {
                          <span className='text-xs font-semibold'>{moment(notification?.createdAt).format('lll')}</span>
                     </div>
                </div>
-          </div>
+          </Link>
      );
 };
 
@@ -54,6 +57,8 @@ const Notification = () => {
 
      const subscription = data?.data?.attributes?.results || [];
      const totalPages = data?.data?.attributes?.totalPages || 1;
+
+     console.log(subscription)
 
      // Handle the 'Next' and 'Previous' page changes
      const handleNextPage = () => {
