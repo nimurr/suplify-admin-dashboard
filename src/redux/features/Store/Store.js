@@ -7,7 +7,7 @@ export const storeApi = apiSlice.injectEndpoints({
             providesTags: ['StoreItems']
         }),
         getAllSuppliments: builder.query({
-            query: (category) => `/products/paginate?category=${category}`,
+            query: ({ category , page , limit}) => `/products/paginate?category=${category}&page=${page}&limit=${limit}`,
             providesTags: ['AllSuppliments']
         }),
         createSuppliment: builder.mutation({

@@ -215,7 +215,7 @@ const ViseSubRequest = () => {
                                             item.status === 'approved' &&
                                             <button className="py-2 px-5 rounded bg-[#e91f1f] text-[#fff]  " onClick={() => handleCancelViseRequesst(item._RequestForViseSubscriptionToAdminId)}>Cancel</button>
                                         }
-                                        <Link  to={`/dashboard/user/specialist/${item.patientId?._userId}`} className="py-2 px-3 rounded bg-[#006fca] cursor-pointer text-[#fff] hover:bg-yellow-600">View</Link>
+                                        <Link to={`/dashboard/user/specialist/${item.patientId?._userId}`} className="py-2 px-3 rounded bg-[#006fca] cursor-pointer text-[#fff] hover:bg-yellow-600">View</Link>
                                     </div>
                                 </td>
                             </tr>
