@@ -116,7 +116,7 @@ export default function ViewStore() {
   const fullData = data?.data?.attributes?.results || [];
   const totalPages = data?.data?.attributes?.totalPages || 1;
 
-  const [deleteBooklabItem] = useDeleteBookedLavTestMutation(); 
+  const [deleteBooklabItem] = useDeleteBookedLavTestMutation();
 
   const handleDeleteItem = async (product) => {
     const data = { id: product._ProductId };
@@ -159,6 +159,8 @@ export default function ViewStore() {
             ? product.description.slice(0, 100) + "  learn more..."
             : product.description}
         </p>
+        <br />
+        <p className='font-semibold text-[#07d17d]'>Stock Qty: {product?.stockQuantity || 0}</p>
       </div>
     </div>
   );
