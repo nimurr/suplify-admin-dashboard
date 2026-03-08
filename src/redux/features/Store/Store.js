@@ -7,7 +7,7 @@ export const storeApi = apiSlice.injectEndpoints({
             providesTags: ['StoreItems']
         }),
         getAllSuppliments: builder.query({
-            query: ({ category , page , limit}) => `/products/paginate?category=${category}&page=${page}&limit=${limit}`,
+            query: ({ category, page, limit }) => `/products/paginate?category=${category}&page=${page}&limit=${limit}`,
             providesTags: ['AllSuppliments']
         }),
         createSuppliment: builder.mutation({
@@ -18,6 +18,14 @@ export const storeApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['AllSuppliments', 'StoreItems']
         }),
+        updateSupplimentItem: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/products/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['AllSuppliments', 'StoreItems']
+        })
     }),
 });
 

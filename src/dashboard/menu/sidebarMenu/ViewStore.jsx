@@ -105,6 +105,7 @@ import { MdOutlineDeleteForever } from 'react-icons/md';
 import toast, { Toaster } from 'react-hot-toast';
 import { useGetAllSupplimentsQuery } from '../../../redux/features/Store/Store';
 import { useDeleteBookedLavTestMutation } from '../../../redux/features/BookedLavTest/BookedLavTest';
+import { FaRegEdit } from 'react-icons/fa';
 
 export default function ViewStore() {
   const navigate = useNavigate();
@@ -133,15 +134,24 @@ export default function ViewStore() {
       toast.error(error?.data?.message || "Failed to delete product");
     }
   };
+  const handleEditItem = (product) => {
+    navigate(`/dashboard/store/view-store/edit/${product._ProductId}?category=${id}`);
+  };
 
   // Product card component
   const ProductCard = ({ product }) => (
     <div className="border border-[#eee] relative rounded-lg ">
       <div
         onClick={() => handleDeleteItem(product)}
-        className="bg-primaryBg h-8 w-8 absolute top-1 right-1 flex cursor-pointer border border-[red] items-center justify-center rounded-full"
+        className="bg-primaryBg h-8 w-8 absolute top-2 right-12 flex cursor-pointer border border-[red] items-center justify-center rounded-full"
       >
         <MdOutlineDeleteForever className="text-[red] text-2xl" />
+      </div>
+      <div
+        onClick={() => handleEditItem(product)}
+        className="bg-primaryBg h-8 w-8 absolute top-2 right-1 flex cursor-pointer border border-[green] items-center justify-center rounded-full"
+      >
+        <FaRegEdit className="text-[green] text-xl" />
       </div>
 
       <img className="w-full h-60" src={product.attachments[0]?.attachment} alt="" />

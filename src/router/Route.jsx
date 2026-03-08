@@ -38,6 +38,7 @@ import HireSpecialistRequests from "../dashboard/HireSpecialistRequests/HireSpec
 import ViseSubRequest from "../dashboard/Subscription/ViseSubRequest";
 import Questions from "../dashboard/Questions/Questions";
 import ViewAllQuestionsAnswer from "../dashboard/menu/sidebarMenu/ViewAllQuestionsAnswer";
+import SupplementUpdateForm from "../dashboard/menu/sidebarMenu/SupplementUpdateForm";
 
 
 const router = createBrowserRouter([
@@ -115,6 +116,10 @@ const router = createBrowserRouter([
             {
                 path: "store/view-store/create-suppliment",
                 element: <SupplementCreateForm />
+            },
+            {
+                path: "store/view-store/edit/:id",
+                element: <SupplementUpdateForm />
             },
             {
                 path: "user",
