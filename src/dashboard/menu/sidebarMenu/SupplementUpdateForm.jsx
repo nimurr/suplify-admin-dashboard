@@ -1,13 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Upload } from 'lucide-react';
 import { FaArrowLeft } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { useCreateSupplimentMutation } from '../../../redux/features/Store/Store';
+import { useCreateSupplimentMutation, useSingleGetSupplimentQuery, useUpdateSupplimentItemMutation } from '../../../redux/features/Store/Store';
 
 export default function SupplementUpdateForm() {
     const { category } = Object.fromEntries(new URLSearchParams(window.location.search)); // Extract the `id` from URL params
     const navigate = useNavigate();
+    const { id } = useParams();
+
+
+
+    const { data } = useSingleGetSupplimentQuery(id)
+    const fullProduct = data?.data?.attributes;
+    console.log(fullProduct)
+
 
     const [formData, setFormData] = useState({
         name: '',
@@ -17,6 +25,17 @@ export default function SupplementUpdateForm() {
         category: category || '', // Use the `id` from URL or set an empty string if not available
         stockQuantity: '', // Set initial value as empty string
     });
+
+    useEffect(() => {
+        setFormData({
+            name: fullProduct?.name,
+            attachments: '', // For storing file path or file object
+            price: fullProduct?.price, // Set initial value as empty string
+            description: fullProduct?.description,
+            category: category || '', // Use the `id` from URL or set an empty string if not available
+            stockQuantity: fullProduct?.stockQuantity, // Set initial value as empty string
+        });
+    }, [])
 
     const [photoPreview, setPhotoPreview] = useState(null);
 
@@ -47,47 +66,52 @@ export default function SupplementUpdateForm() {
         }
     };
 
-    const [createSuppliment] = useCreateSupplimentMutation(); // Placeholder for the mutation hook
+    const [updateSupplimentItem] = useUpdateSupplimentItemMutation(); // Placeholder for the mutation hook
 
-    // Handle form submission
     const handleSubmit = async () => {
-        console.log(formData);
 
         const formData2 = new FormData();
+
         formData2.append('name', formData.name);
         formData2.append('price', formData.price);
         formData2.append('description', formData.description);
         formData2.append('category', formData.category);
-        formData2.append('attachments', formData.attachments);
-        formData2.append('stockQuantity', formData.stockQuantity);
+
+        if (formData.attachments) {
+            formData2.append('attachments', formData.attachments);
+        }
+
+        if (category !== "labTest") {
+            formData2.append('stockQuantity', formData.stockQuantity);
+        }
 
         try {
-            const res = await createSuppliment(formData2).unwrap();
-            console.log(res);
+
+            const res = await updateSupplimentItem({
+                id: id,
+                data: formData2
+            }).unwrap();
+
+            console.log(res)
+
             if (res.code === 200) {
-                toast.success('Supplement created successfully!');
-                // navigate(`/dashboard/store/view-store?id=${formData.category}`);
-                formData.name = '';
-                formData.price = '';
-                formData.description = '';
-                formData.attachments = '';
-                formData.stockQuantity = '';
+                toast.success('Supplement Updated Successfully!');
+                navigate(`/dashboard/store/view-store?id=${category}`);
             }
+
         } catch (error) {
-            console.error('Error submitting form:', error);
-            toast.error('Failed to create supplement. Please try again.');
+            console.error(error);
+            toast.error('Failed to update supplement');
         }
     };
 
-
-    console.log(category , "category");
 
     return (
         <div className="max-w-2xl mx-auto bg-white px-8 py-5 rounded-lg shadow-sm">
             <Toaster />
             <h1 className="text-xl capitalize font-medium mb-10 flex items-center gap-2">
                 <FaArrowLeft onClick={() => navigate(`/dashboard/store/view-store?id=${category}`)} className="text-[28px] cursor-pointer" />
-                Update  
+                Update
             </h1>
 
             <div className="border border-[#eee] p-3 rounded-lg">
@@ -134,9 +158,10 @@ export default function SupplementUpdateForm() {
                     <input
                         type="text"
                         id="name"
+                        // defaultValue={fullProduct?.name}
                         name="name"
                         placeholder="Type Name"
-                        value={formData.name}
+                        value={formData.name || fullProduct?.name}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />

@@ -25,7 +25,11 @@ export const storeApi = apiSlice.injectEndpoints({
                 body: data,
             }),
             invalidatesTags: ['AllSuppliments', 'StoreItems']
-        })
+        }),
+        singleGetSuppliment: builder.query({
+            query: (id) => `/products/${id}`,
+            providesTags: ['SingleSuppliment']
+        }),
     }),
 });
 
@@ -33,5 +37,7 @@ export const storeApi = apiSlice.injectEndpoints({
 export const {
     useGetStoreItemsQuery,
     useGetAllSupplimentsQuery,
-    useCreateSupplimentMutation
+    useCreateSupplimentMutation,
+    useUpdateSupplimentItemMutation,
+    useSingleGetSupplimentQuery
 } = storeApi;
