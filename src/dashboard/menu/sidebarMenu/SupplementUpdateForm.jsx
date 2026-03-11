@@ -29,7 +29,7 @@ export default function SupplementUpdateForm() {
     useEffect(() => {
         setFormData({
             name: fullProduct?.name,
-            attachments: '', // For storing file path or file object
+            attachments: fullProduct?.attachments[0].attachment, // For storing file path or file object
             price: fullProduct?.price, // Set initial value as empty string
             description: fullProduct?.description,
             category: category || '', // Use the `id` from URL or set an empty string if not available
@@ -123,8 +123,8 @@ export default function SupplementUpdateForm() {
                         <div className="mr-4">
                             <label className="cursor-pointer">
                                 <div className="w-40 h-40 border border-dashed border-[#cfcfcf] rounded flex flex-col items-center justify-center bg-gray-50">
-                                    {photoPreview ? (
-                                        <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                                    {formData?.attachments ? (
+                                        <img src={formData?.attachments} alt="Preview" className="w-full h-full object-cover" />
                                     ) : (
                                         <Upload className="text-gray-400 mb-2" size={24} />
                                     )}
@@ -161,7 +161,7 @@ export default function SupplementUpdateForm() {
                         // defaultValue={fullProduct?.name}
                         name="name"
                         placeholder="Type Name"
-                        value={formData.name || fullProduct?.name}
+                        defaultValue={formData.name || fullProduct?.name}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
@@ -177,7 +177,7 @@ export default function SupplementUpdateForm() {
                         id="price"
                         name="price"
                         placeholder="$ 250"
-                        value={formData.price}
+                        defaultValue={formData.price}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
@@ -194,7 +194,7 @@ export default function SupplementUpdateForm() {
                             id="stockQuantity"
                             name="stockQuantity"
                             placeholder="Type Stock Quantity"
-                            value={formData.stockQuantity}
+                            defaultValue={formData.stockQuantity}
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
@@ -211,7 +211,7 @@ export default function SupplementUpdateForm() {
                         name="description"
                         placeholder='Enter Your Description Here...'
                         rows="4"
-                        value={formData.description}
+                        defaultValue={formData.description}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-[#eee] rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                     ></textarea>
