@@ -154,7 +154,7 @@ export default function ViewStore() {
         <FaRegEdit className="text-[green] text-xl" />
       </div>
 
-      <img className="w-full h-60" src={product.attachments[0]?.attachment} alt="" />
+      <img className="w-full h-72" src={product.attachments[0]?.attachment} alt="" />
 
       <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-sm font-semibold capitalize text-gray-600 mb-1">{product.name}</h3>

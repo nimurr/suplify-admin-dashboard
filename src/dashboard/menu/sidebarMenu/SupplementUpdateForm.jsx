@@ -63,8 +63,8 @@ export default function SupplementUpdateForm() {
         formData2.append('description', formData.description);
         formData2.append('category', formData.category);
 
-        console.log(formData.attachments)
-        return
+        console.log("my send fils :-", formData.attachments)
+
 
         // ✅ Only send if it's a newly selected File, not the existing URL string
         if (formData.attachments instanceof File) {
