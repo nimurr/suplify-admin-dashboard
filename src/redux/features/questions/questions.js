@@ -3,7 +3,7 @@ import { apiSlice } from "../../api/apiSlice";
 const questionsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getQuestions: builder.query({
-            query: () => '/questions/question-ans',
+            query: () => '/questions/question-ans?limit=80',
             providesTags: ['Questions']
         }),
         createQuestion: builder.mutation({
