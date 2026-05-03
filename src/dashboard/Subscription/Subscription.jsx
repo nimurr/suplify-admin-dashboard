@@ -152,9 +152,10 @@ const Subscription = () => {
                         className='w-full h-12'
                         onChange={(value) => setNewSubscription({ ...newSubscription, subscriptionType: value })}
                     >
+                        <Select.Option disabled value="">Select Subscription Type</Select.Option>
                         <Select.Option value="standard">Standard</Select.Option>
                         <Select.Option value="standardPlus">Standard Plus</Select.Option>
-                        <Select.Option value="vise">Vise</Select.Option>
+                        {/* <Select.Option value="vise">Vise</Select.Option> */}
                     </Select>
                 </Space>
             </Modal>
