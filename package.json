@@ -1,10 +1,10 @@
 {
-  "name": "Daily ai Dash",
+  "name": "Suplify website",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite --port 8000",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
