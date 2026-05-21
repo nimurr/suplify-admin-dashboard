@@ -23,6 +23,8 @@ const Transaction = () => {
   const totalPages = Math.ceil(fullData.length / itemsPerPage);
 
   const handleView = (transaction) => {
+    console.log(transaction);
+
     setSelectedTransaction(transaction);
     setIsModalOpen(true);
   };
@@ -40,7 +42,8 @@ const Transaction = () => {
             <th className="py-4 px-4 border-b border-[#eee] text-left">#Transaction ID</th>
             <th className="py-4 px-4 border-b border-[#eee] text-left">Amount</th>
             <th className="py-4 px-4 border-b border-[#eee] text-left">Currency</th>
-            <th className="py-4 px-4 border-b border-[#eee] text-left">Payment Gateway</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">User Name</th>
+            <th className="py-4 px-4 border-b border-[#eee] text-left">Reference For</th>
             <th className="py-4 px-4 border-b border-[#eee] text-left">Payment Status</th>
             <th className="py-4 px-4 border-b border-[#eee] text-left">Action</th>
           </tr>
@@ -51,7 +54,8 @@ const Transaction = () => {
               <td className="py-3 px-4 border-b border-[#eee]">{record._paymentTransactionId}</td>
               <td className="py-3 px-4 border-b border-[#eee]">{record.amount}</td>
               <td className="py-3 px-4 border-b border-[#eee]">{record.currency}</td>
-              <td className="py-3 px-4 border-b border-[#eee]">{record.paymentGateway}</td>
+              <td className="py-3 px-4 border-b border-[#eee]">{record?.userId?.name || 'N/A'}</td>
+              <td className="py-3 px-4 border-b border-[#eee]">{record.referenceFor}</td>
               <td className="py-3 px-4 border-b border-[#eee]">{record.paymentStatus}</td>
               <td className="py-3 px-4 border-b border-[#eee] text-center">
                 <BsInfoCircle
@@ -102,6 +106,10 @@ const Transaction = () => {
               <p>{selectedTransaction.currency}</p>
             </div>
             <div className="flex justify-between border-b border-[#eee] py-[16px]">
+              <p>User Name:</p>
+              <p>{selectedTransaction?.userId?.name || 'N/A'}</p>
+            </div>
+            <div className="flex justify-between border-b border-[#eee] py-[16px]">
               <p>Payment Gateway:</p>
               <p>{selectedTransaction.paymentGateway}</p>
             </div>
@@ -119,7 +127,7 @@ const Transaction = () => {
             </div>
             <div className="flex justify-between border-b border-[#eee] py-[16px]">
               <p>User ID:</p>
-              <p>{selectedTransaction.userId}</p>
+              <p>{selectedTransaction.userId?._userId || 'N/A'}</p>
             </div>
           </div>
         )}
